@@ -1,137 +1,98 @@
-export interface Battle {
-  round: number;
-  experience: number;
-  winner: 'hero' | 'monster';
-  finished: boolean;
+import { Component } from 'vue';
+import KnightVue from '../components/cards/heroes/Knight.vue';
+import SnakeVue from '../components/cards/monsters/Snake.vue';
+
+export interface IWeaponCard {
+  id: number;
+  name: string;
+  type: string;
+  attack: number;
 }
 
-interface HeroSkills {
-  sword: number;
-  axe: number;
-  club: number;
-  fist: number;
-  distance: number;
-  shielding: number;
-  magic: number;
+const weapons: IWeaponCard[] = [
+  { id: 1, name: 'Knife', type: 'sword', attack: 5 },
+  { id: 2, name: 'Katana', type: 'sword', attack: 15 },
+];
+
+export interface IAttackCard {
+  id: number;
+  name: string;
+  type: string;
+  min: number;
+  max: number;
+  chance: number;
 }
 
-export interface HeroCard {
-  healthPoints: number;
-  manaPoints: number;
-  experience: number;
-  level: number;
-  skills: HeroSkills;
-}
+const monsterAttacks: IAttackCard[] = [
+  { id: 2, name: 'Bite', type: 'meelee', min: 5, max: 10, chance: 90 },
+];
 
-const heroCard = {
-  healthPoints: 10,
-  manaPoints: 10,
-  experience: 0,
-  skills: {
-    sword: 0,
-    axe: 0,
-    club: 0,
-    shielding: 0,
-    fist: 0,
-    distance: 0,
-    magic: 0,
-  },
-};
-
-//"Knight", "Archer", "Sorcerer", "Druid", "Fighter"
-
-const knightTypes = [
+const heroAttacks: IAttackCard[] = [
   {
     id: 1,
-    weapon: 'Sword',
-    skillBoost: ['sword', 'shielding'],
-    name: 'Sword Knight',
-    special: false,
+    name: 'Simple',
+    type: 'sword',
+    min: 1,
+    max: 9,
+    chance: 100,
   },
-  {
-    id: 2,
-    weapon: 'Axe',
-    skillBoost: ['axe', 'shielding'],
-    name: 'Axe Knight',
-    special: false,
-  },
-  {
-    id: 3,
-    weapon: 'Club',
-    skillBoost: ['club', 'shielding'],
-    name: 'Club Knight',
-    special: false,
-  },
+  { id: 3, name: 'Strong', type: 'sword', min: 10, max: 10, chance: 5 },
   {
     id: 4,
-    weapon: 'All',
-    skillBoost: ['sword', 'axe', 'club', 'shielding'],
-    name: 'Elite Knight',
-    special: true,
+    name: 'Super',
+    type: 'sword',
+    min: 10,
+    max: 10,
+    chance: 100,
   },
 ];
 
-const archerTypes = [
-  {
-    id: 6,
-    weapon: 'Bow and Crossbow',
-    skillBoost: ['distance'],
-    name: 'Bow/Crossbow Archer',
-    special: false,
-  },
-  {
-    id: 7,
-    weapon: 'Spear',
-    skillBoost: ['distance', 'shielding'],
-    name: 'Spear Archer',
-    special: false,
-  },
-  {
-    id: 8,
-    weapon: 'All distance weapons',
-    skillBoost: ['distance', 'shielding'],
-    name: 'Royal Archer',
-    special: true,
-  },
-];
+export interface IHeroCard {
+  id: number;
+  weaponType: string;
+  name: string;
+  type: string;
+  class: string;
+  healthPoints: number;
+  level: number;
+  experience: number;
+  attacks: IAttackCard[];
+  equipedWeapon: IWeaponCard | null;
+  component: Component;
+}
 
-const wizardTypes = [
-  {
-    id: 9,
-    weapon: 'Wand, Spells and Runes',
-    skillBoost: ['magic'],
-    name: 'Sorcerer',
-    special: false,
-  },
-  {
-    id: 10,
-    weapon: 'Rod, Spells and Runes',
-    skillBoost: ['magic'],
-    name: 'Druid',
-    special: false,
-  },
-  {
-    id: 11,
-    weapon: 'Wand, Rod, All Spells and Runes',
-    skillBoost: ['magic'],
-    name: 'Master Sorcerer',
-    special: true,
-  },
-];
+export const heroCard = {
+  id: 1,
+  weaponType: 'sword',
+  name: 'Knight',
+  type: 'Hero',
+  class: 'warrior',
+  healthPoints: 100,
+  level: 1,
+  experience: 0,
+  equipedWeapon: weapons[0],
+  attacks: heroAttacks,
+  component: KnightVue,
+};
 
-const fighterTypes = [
-  {
-    id: 12,
-    weapon: 'Fist and Glooves',
-    skillBoost: ['fist'],
-    name: 'Fighter',
-    special: false,
-  },
-];
+export interface MonsterCard {
+  id: number;
+  name: string;
+  healthPoints: number;
+  component: Component;
+  attacks: IAttackCard[];
+  experience: number;
+  attack: number;
+}
 
-export const categories = [
-  { id: 1, name: 'Knight', types: knightTypes },
-  { id: 2, name: 'Archer', types: archerTypes },
-  { id: 3, name: 'Wizard', types: wizardTypes },
-  { id: 4, name: 'Fighter', types: fighterTypes },
-];
+export const monsterCard: MonsterCard = {
+  id: 1,
+  name: 'Snake',
+  healthPoints: 10,
+  component: SnakeVue,
+  attacks: monsterAttacks,
+  experience: 10,
+  attack: 10,
+};
+
+export const categories = [{ id: 1, name: 'Knight', cards: [heroCard] }];
