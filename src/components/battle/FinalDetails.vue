@@ -20,18 +20,20 @@ defineEmits(['restart', 'quit']);
         </div>
       </div>
 
-      <button
-        class="px-4 py-2 bg-gray-400 hover:bg-gray-300 transition-all rounded shadow"
-        @click="$emit('restart')"
-      >
-        PLAY AGAIN
-      </button>
-      <button
-        class="px-4 py-2 bg-gray-400 hover:bg-gray-300 transition-all rounded shadow"
-        @click="$emit('quit')"
-      >
-        QUIT
-      </button>
+      <div class="flex w-full justify-around">
+        <button
+          class="px-4 py-2 bg-gray-400 hover:bg-gray-300 transition-all rounded shadow"
+          @click="$emit('restart')"
+        >
+          PLAY AGAIN
+        </button>
+        <button
+          class="px-4 py-2 bg-gray-400 hover:bg-gray-300 transition-all rounded shadow"
+          @click="$emit('quit')"
+        >
+          QUIT
+        </button>
+      </div>
     </div>
     <div class="overlay bg-black opacity-70 w-full h-full absolute z-40"></div>
   </div>
