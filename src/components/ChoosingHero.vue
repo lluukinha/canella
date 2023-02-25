@@ -41,17 +41,7 @@ defineEmits(['startBattle']);
           </div>
           <div>
             <h2 class="text-sm font-semibold">Weapons</h2>
-            <span class="text-md">{{ t.weapon }}</span>
-          </div>
-          <div>
-            <h2 class="text-sm font-semibold">Skill boost</h2>
-            <div class="skills flex gap-1 flex-wrap">
-              <span
-                v-for="skill in t.skillBoost"
-                class="px-2 py-0 bg-blue-800 shadow rounded flex justify-center items-center text-xs font-bold"
-                >{{ skill }}</span
-              >
-            </div>
+            <span class="text-md">{{ t.weaponType }}</span>
           </div>
         </div>
       </div>

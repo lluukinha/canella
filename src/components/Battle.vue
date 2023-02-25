@@ -20,16 +20,17 @@ const enemyHp = ref<number>(monsterCard.healthPoints);
 const heroHp = ref<number>(heroCard.healthPoints);
 
 const restartGame = () => {
-  turnCounter.value = counter;
-  myTurn.value = true;
-  canAttack.value = true;
-  canUseItems.value = true;
-  showTurnMessage.value = true;
-  enemyHp.value = monsterCard.healthPoints;
-  heroHp.value = heroCard.healthPoints;
   gameOver.value = false;
-
-  showMessage();
+  setTimeout(() => {
+    turnCounter.value = counter;
+    myTurn.value = true;
+    canAttack.value = true;
+    canUseItems.value = true;
+    showTurnMessage.value = true;
+    enemyHp.value = monsterCard.healthPoints;
+    heroHp.value = heroCard.healthPoints;
+    showMessage();
+  }, 1200);
 };
 
 const attack = (damage: number) => {
@@ -295,10 +296,10 @@ body {
 }
 
 .bounce-enter-active {
-  animation: bounce-in 1s;
+  animation: bounce-in 0.5s;
 }
 .bounce-leave-active {
-  animation: bounce-in 1s reverse;
+  animation: bounce-in 0.5s reverse;
 }
 @keyframes bounce-in {
   0% {
