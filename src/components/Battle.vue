@@ -12,7 +12,7 @@ import FinalDetails from './battle/FinalDetails.vue';
 
 const monsterCard = monsterCards[0];
 const weaponCard = weaponCards[0];
-const heroAttackCards = attackCards;
+const heroAttackCards = [attackCards[0]];
 const counter = 100;
 const showDamage = ref<boolean>(false);
 const currentDamage = ref<number>(0);
