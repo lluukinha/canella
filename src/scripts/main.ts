@@ -2,7 +2,7 @@ import { Component } from 'vue';
 import KnightVue from '../components/cards/heroes/Knight.vue';
 import SnakeVue from '../components/cards/monsters/Snake.vue';
 
-enum CardTypes {
+export enum CardTypes {
   Hero = 'Hero',
   Monster = 'Monster',
   Weapon = 'Weapon',
@@ -51,6 +51,7 @@ export interface ICard {
   name: string;
   type: CardTypes;
   component: Component | null;
+  attributes: IHeroCardAttributes | IMonsterCardAttributes | IAttackCardAttributes | IWeaponCardAttributes;
 }
 
 export const weaponCards: IWeaponCard[] = [
