@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { monsterCard, heroCard } from '../scripts/main';
+import {
+  monsterCards,
+  heroCard,
+  weaponCards,
+  attackCards,
+} from '../scripts/main';
 import AttackCard from './cards/AttackCard.vue';
 import HpBar from './battle/HpBar.vue';
 import FinalDetails from './battle/FinalDetails.vue';
 
+const monsterCard = monsterCards[0];
+const weaponCard = weaponCards[0];
+const heroAttackCards = attackCards;
 const counter = 100;
 const showDamage = ref<boolean>(false);
 const currentDamage = ref<number>(0);
@@ -16,8 +24,8 @@ const showTurnMessage = ref<boolean>(false);
 const showTurnTip = ref<boolean>(false);
 const showFailed = ref<boolean>(false);
 const gameOver = ref<boolean>(false);
-const enemyHp = ref<number>(monsterCard.healthPoints);
-const heroHp = ref<number>(heroCard.healthPoints);
+const enemyHp = ref<number>(monsterCard.attributes.healthPoints);
+const heroHp = ref<number>(heroCard.attributes.healthPoints);
 
 const restartGame = () => {
   gameOver.value = false;
@@ -27,8 +35,8 @@ const restartGame = () => {
     canAttack.value = true;
     canUseItems.value = true;
     showTurnMessage.value = true;
-    enemyHp.value = monsterCard.healthPoints;
-    heroHp.value = heroCard.healthPoints;
+    enemyHp.value = monsterCard.attributes.healthPoints;
+    heroHp.value = heroCard.attributes.healthPoints;
     showMessage();
   }, 1200);
 };
@@ -62,18 +70,20 @@ const showFailedMessage = () => {
 const attackHero = () => {
   if (myTurn.value || gameOver.value) return;
 
-  const randomIndex = Math.floor(Math.random() * monsterCard.attacks.length);
-  const chosenAttack = monsterCard.attacks[randomIndex];
+  const randomIndex = Math.floor(
+    Math.random() * monsterCard.attributes.attackCards.length
+  );
+  const chosenAttack = monsterCard.attributes.attackCards[randomIndex];
 
-  const successProbability = chosenAttack.chance / 100;
+  const successProbability = chosenAttack.attributes.chance / 100;
   if (Math.random() >= successProbability) {
     showFailedMessage();
     return;
   }
 
-  const { min, max } = chosenAttack;
+  const { min, max } = chosenAttack.attributes;
   const damage = Math.floor(Math.random() * (max - min + 1)) + min;
-  const enemyDamage = damage + monsterCard.attack;
+  const enemyDamage = damage + monsterCard.attributes.attack;
 
   currentDamage.value = enemyDamage;
   showDamage.value = true;
@@ -86,11 +96,11 @@ const attackHero = () => {
 };
 
 const overlayHeight = computed(() =>
-  Math.floor((1 - enemyHp.value / monsterCard.healthPoints) * 100)
+  Math.floor((1 - enemyHp.value / monsterCard.attributes.healthPoints) * 100)
 );
 
 const overlayHeroHeight = computed(() =>
-  Math.floor((1 - heroHp.value / heroCard.healthPoints) * 100)
+  Math.floor((1 - heroHp.value / heroCard.attributes.healthPoints) * 100)
 );
 
 const turnMessage = computed(() => (myTurn.value ? 'YOUR TURN' : 'ENEMY TURN'));
@@ -126,7 +136,9 @@ const recovery = (qtd: number) => {
   if (suppliesBlocked.value) return;
   const nextHeroHp = heroHp.value + qtd;
   heroHp.value =
-    nextHeroHp > heroCard.healthPoints ? heroCard.healthPoints : nextHeroHp;
+    nextHeroHp > heroCard.attributes.healthPoints
+      ? heroCard.attributes.healthPoints
+      : nextHeroHp;
   canUseItems.value = false;
 };
 
@@ -139,7 +151,7 @@ const showMessage = () => {
 const suppliesBlocked = computed(
   () =>
     !canUseItems.value ||
-    heroHp.value === heroCard.healthPoints ||
+    heroHp.value === heroCard.attributes.healthPoints ||
     gameOver.value
 );
 
@@ -166,21 +178,21 @@ defineEmits(['quit']);
 </script>
 
 <template>
-  <Transition name="bounce">
-    <FinalDetails
-      :enemy="monsterCard"
-      :enemyHp="enemyHp"
-      @restart="restartGame"
-      @quit="$emit('quit')"
-      v-if="gameOver"
-    />
-  </Transition>
   <div
-    class="h-screen w-screen flex flex-col justify-center select-none bg-yellow-100"
+    class="flex flex-col justify-center select-none bg-yellow-100 w-full h-full text-black"
   >
+    <Transition name="bounce">
+      <FinalDetails
+        :enemy="monsterCard"
+        :enemyHp="enemyHp"
+        @restart="restartGame"
+        @quit="$emit('quit')"
+        v-if="gameOver"
+      />
+    </Transition>
     <div class="w-full h-full flex justify-center items-center">
       <div class="cards flex flex-col gap-1">
-        <HpBar :hp="monsterCard.healthPoints" :remaining="enemyHp" />
+        <HpBar :hp="monsterCard.attributes.healthPoints" :remaining="enemyHp" />
         <div class="card-holder flex relative">
           <div
             class="snake card w-52 h-64 bg-blue-600 flex items-center justify-center border border-black p-4"
@@ -200,14 +212,14 @@ defineEmits(['quit']);
         </div>
         <div class="card-info flex justify-between">
           <div class="info-slot p-1 border border-black">
-            ATK {{ monsterCard.attack }}
+            ATK {{ monsterCard.attributes.attack }}
           </div>
         </div>
       </div>
     </div>
     <div class="w-full h-full flex items-center justify-center gap-5">
       <div class="hero-card flex flex-col gap-1">
-        <HpBar :hp="heroCard.healthPoints" :remaining="heroHp" />
+        <HpBar :hp="heroCard.attributes.healthPoints" :remaining="heroHp" />
         <div class="card-holder flex relative">
           <div
             class="card w-52 h-64 bg-red-600 flex items-center justify-center border border-black p-4"
@@ -227,14 +239,14 @@ defineEmits(['quit']);
         </div>
         <div class="card-info flex justify-between">
           <div class="info-slot p-1 border border-black">
-            ATK {{ heroCard.equipedWeapon.attack }}
+            ATK {{ weaponCard.attributes.attack }}
           </div>
         </div>
       </div>
       <AttackCard
-        v-for="atk in heroCard.attacks"
+        v-for="atk in heroAttackCards"
         :card="atk"
-        :hero="heroCard"
+        :weapon="weaponCard"
         :canAttack="canAttack && myTurn"
         @attack="attack"
       />
@@ -249,43 +261,43 @@ defineEmits(['quit']);
         POTION
       </div>
     </div>
-  </div>
-  <div class="floating-buttons absolute top-10 right-10 flex gap-5">
-    <button
-      class="py-2 px-4 rounded bg-blue-600 text-white shadow hover:bg-blue-500 disabled:hover:bg-blue-600 disabled:opacity-70"
-      :disabled="!myTurn || gameOver"
-      @click="endTurn()"
-    >
-      END TURN
-    </button>
-    <button
-      class="py-2 px-4 rounded bg-blue-600 text-white shadow hover:bg-blue-500 disabled:hover:bg-blue-600 disabled:opacity-70"
-      @click="$emit('quit')"
-    >
-      RUN AWAY
-    </button>
-  </div>
-  <div
-    class="text-8xl absolute flex w-full h-full justify-center items-center top-0 drop-shadow-2xl animate-ping"
-    v-if="showTurnMessage"
-  >
-    {{ turnMessage }}
-  </div>
-  <div
-    class="text-8xl absolute flex w-full h-full justify-center items-center top-0 drop-shadow-2xl animate-ping"
-    v-if="showFailed"
-  >
-    FAILED
-  </div>
-  <div
-    class="counter absolute top-5 left-10 text-5xl bg-white p-4 rounded-full w-24 h-24 flex justify-center items-center"
-  >
-    {{ turnCounter }}
+    <div class="floating-buttons absolute top-10 right-10 flex gap-5">
+      <button
+        class="py-2 px-4 rounded bg-blue-600 text-white shadow hover:bg-blue-500 disabled:hover:bg-blue-600 disabled:opacity-70"
+        :disabled="!myTurn || gameOver"
+        @click="endTurn()"
+      >
+        END TURN
+      </button>
+      <button
+        class="py-2 px-4 rounded bg-blue-600 text-white shadow hover:bg-blue-500 disabled:hover:bg-blue-600 disabled:opacity-70"
+        @click="$emit('quit')"
+      >
+        RUN AWAY
+      </button>
+    </div>
     <div
-      class="absolute animate-ping text-sm bottom-0"
-      v-if="showTurnTip && !gameOver"
+      class="text-8xl absolute flex w-full h-full justify-center items-center top-0 drop-shadow-2xl animate-ping"
+      v-if="showTurnMessage"
     >
       {{ turnMessage }}
+    </div>
+    <div
+      class="text-8xl absolute flex w-full h-full justify-center items-center top-0 drop-shadow-2xl animate-ping"
+      v-if="showFailed"
+    >
+      FAILED
+    </div>
+    <div
+      class="counter absolute top-5 left-10 text-5xl bg-white p-4 rounded-full w-24 h-24 flex justify-center items-center"
+    >
+      {{ turnCounter }}
+      <div
+        class="absolute animate-ping text-sm bottom-0"
+        v-if="showTurnTip && !gameOver"
+      >
+        {{ turnMessage }}
+      </div>
     </div>
   </div>
 </template>
@@ -293,23 +305,5 @@ defineEmits(['quit']);
 <style>
 body {
   overflow: hidden;
-}
-
-.bounce-enter-active {
-  animation: bounce-in 0.5s;
-}
-.bounce-leave-active {
-  animation: bounce-in 0.5s reverse;
-}
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.25);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 </style>

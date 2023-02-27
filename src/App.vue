@@ -1,14 +1,28 @@
 <script setup lang="ts">
-import Battle from './components/Battle.vue';
-import ChoosingHero from './components/ChoosingHero.vue';
 import { ref } from 'vue';
+import Game from './components/Game.vue';
+const mainScreen = ref(true);
 
-const isFighting = ref(false);
+document.addEventListener('contextmenu', (event) => {
+  event.preventDefault();
+});
 </script>
 
 <template>
-  <ChoosingHero @start-battle="isFighting = true" v-if="!isFighting" />
-  <Battle @quit="isFighting = false" v-else />
+  <div
+    class="flex justify-around items-center w-screen h-screen bg-gradient-to-tr from-slate-700 to-slate-900 text-white select-none"
+  >
+    <Transition name="fade" mode="out-in">
+      <div
+        class="w-screen h-screen flex justify-center items-center flex-col gap-10"
+        v-if="mainScreen"
+      >
+        LOGO
+        <button @click="mainScreen = false">new game</button>
+      </div>
+      <Game v-else />
+    </Transition>
+  </div>
 </template>
 
 <style scoped></style>

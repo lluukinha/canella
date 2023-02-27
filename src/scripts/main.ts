@@ -2,97 +2,211 @@ import { Component } from 'vue';
 import KnightVue from '../components/cards/heroes/Knight.vue';
 import SnakeVue from '../components/cards/monsters/Snake.vue';
 
-export interface IWeaponCard {
-  id: number;
-  name: string;
-  type: string;
+enum CardTypes {
+  Hero = 'Hero',
+  Monster = 'Monster',
+  Weapon = 'Weapon',
+  Attack = 'Attack',
+  Supply = 'Supply',
+}
+
+enum WeaponTypes {
+  Sword = 'Sword',
+  Axe = 'Axe',
+  Club = 'Club',
+  Bow = 'Bow',
+  Spear = 'Spear',
+  Crossbow = 'Crossbow',
+  Wand = 'Wand',
+}
+
+enum AttackTypes {
+  Fire = 'Fire',
+  Meelee = 'Meelee',
+  Ice = 'Ice',
+  Dark = 'Dark',
+  Water = 'Water',
+}
+
+export interface IWeaponCardAttributes {
+  type: WeaponTypes;
+  attackType: AttackTypes;
   attack: number;
 }
 
-const weapons: IWeaponCard[] = [
-  { id: 1, name: 'Knife', type: 'sword', attack: 5 },
-  { id: 2, name: 'Katana', type: 'sword', attack: 15 },
-];
+export interface IWeaponCard extends ICard {
+  type: CardTypes.Weapon;
+  attributes: IWeaponCardAttributes;
+}
 
-export interface IAttackCard {
-  id: number;
-  name: string;
-  type: string;
+export interface IAttackCardAttributes {
+  type: AttackTypes;
   min: number;
   max: number;
   chance: number;
 }
 
-const monsterAttacks: IAttackCard[] = [
-  { id: 2, name: 'Bite', type: 'meelee', min: 5, max: 10, chance: 90 },
+export interface ICard {
+  id: number;
+  name: string;
+  type: CardTypes;
+  component: Component | null;
+}
+
+export const weaponCards: IWeaponCard[] = [
+  {
+    id: 1,
+    name: 'Knife',
+    type: CardTypes.Weapon,
+    component: null,
+    attributes: {
+      type: WeaponTypes.Sword,
+      attackType: AttackTypes.Meelee,
+      attack: 5,
+    },
+  },
+  {
+    id: 2,
+    name: 'Katana',
+    type: CardTypes.Weapon,
+    component: null,
+    attributes: {
+      type: WeaponTypes.Sword,
+      attackType: AttackTypes.Meelee,
+      attack: 15,
+    },
+  },
 ];
 
-const heroAttacks: IAttackCard[] = [
+export interface IAttackCard extends ICard {
+  id: number;
+  name: string;
+  type: CardTypes.Attack;
+  attributes: IAttackCardAttributes;
+}
+
+export const attackCards: IAttackCard[] = [
   {
     id: 1,
     name: 'Simple',
-    type: 'sword',
-    min: 1,
-    max: 9,
-    chance: 100,
+    type: CardTypes.Attack,
+    component: null,
+    attributes: {
+      type: AttackTypes.Meelee,
+      min: 1,
+      max: 9,
+      chance: 100,
+    },
   },
-  { id: 3, name: 'Strong', type: 'sword', min: 10, max: 10, chance: 5 },
+  {
+    id: 2,
+    name: 'Bite',
+    type: CardTypes.Attack,
+    component: null,
+    attributes: {
+      type: AttackTypes.Meelee,
+      min: 5,
+      max: 10,
+      chance: 90,
+    },
+  },
+  {
+    id: 3,
+    name: 'Strong',
+    type: CardTypes.Attack,
+    component: null,
+    attributes: {
+      type: AttackTypes.Meelee,
+      min: 10,
+      max: 10,
+      chance: 5,
+    },
+  },
   {
     id: 4,
     name: 'Super',
-    type: 'sword',
-    min: 10,
-    max: 10,
-    chance: 100,
+    type: CardTypes.Attack,
+    component: null,
+    attributes: {
+      type: AttackTypes.Meelee,
+      min: 10,
+      max: 10,
+      chance: 100,
+    },
   },
 ];
 
-export interface IHeroCard {
-  id: number;
-  weaponType: string;
-  name: string;
-  type: string;
-  class: string;
-  healthPoints: number;
+export enum HeroTypes {
+  Knight = 'Knight',
+  Sorcerer = 'Sorcerer',
+  Druid = 'Druid',
+  Paladin = 'Paladin',
+}
+
+type KnightWeaponTypes = WeaponTypes.Axe | WeaponTypes.Sword | WeaponTypes.Club;
+const knightWeaponTypes: KnightWeaponTypes[] = [
+  WeaponTypes.Sword,
+  WeaponTypes.Axe,
+  WeaponTypes.Club,
+];
+
+export interface IHeroCardAttributes {
+  weaponTypes: KnightWeaponTypes[];
+  attackType: AttackTypes;
+  type: HeroTypes;
   level: number;
   experience: number;
-  attacks: IAttackCard[];
-  equipedWeapon: IWeaponCard | null;
-  component: Component;
+  healthPoints: number;
 }
 
-export const heroCard = {
+export interface IHeroCard extends ICard {
+  type: CardTypes.Hero;
+  attributes: IHeroCardAttributes;
+}
+
+export const heroCard: IHeroCard = {
   id: 1,
-  weaponType: 'sword',
   name: 'Knight',
-  type: 'Hero',
-  class: 'warrior',
-  healthPoints: 100,
-  level: 1,
-  experience: 0,
-  equipedWeapon: weapons[0],
-  attacks: heroAttacks,
+  type: CardTypes.Hero,
   component: KnightVue,
+  attributes: {
+    type: HeroTypes.Knight,
+    attackType: AttackTypes.Meelee,
+    weaponTypes: knightWeaponTypes,
+    level: 1,
+    experience: 0,
+    healthPoints: 50,
+  },
 };
 
-export interface MonsterCard {
-  id: number;
-  name: string;
+export interface IMonsterCardAttributes {
   healthPoints: number;
-  component: Component;
-  attacks: IAttackCard[];
   experience: number;
   attack: number;
+  attackCards: IAttackCard[];
 }
 
-export const monsterCard: MonsterCard = {
-  id: 1,
-  name: 'Snake',
-  healthPoints: 10,
-  component: SnakeVue,
-  attacks: monsterAttacks,
-  experience: 10,
-  attack: 10,
-};
+export interface IMonsterCard extends ICard {
+  type: CardTypes.Monster;
+  attributes: IMonsterCardAttributes;
+}
 
-export const categories = [{ id: 1, name: 'Knight', cards: [heroCard] }];
+export interface IMonster {
+  card: IMonsterCard;
+  attacks: IAttackCard[];
+}
+
+export const monsterCards: IMonsterCard[] = [
+  {
+    id: 1,
+    type: CardTypes.Monster,
+    name: 'Snake',
+    component: SnakeVue,
+    attributes: {
+      experience: 10,
+      attack: 10,
+      attackCards: [attackCards[1]],
+      healthPoints: 20,
+    },
+  },
+];

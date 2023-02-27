@@ -1,17 +1,30 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { categories } from '../scripts/main';
+import {
+  heroCard,
+  HeroTypes,
+  IHeroCard,
+  IWeaponCard,
+  weaponCards,
+} from '../scripts/main';
 
+const categories = [{ id: 1, name: 'Knight', cards: [heroCard] }];
 const cards = ref();
-const chosenCard = ref();
+const chosenCard = ref<IHeroCard>();
+const weaponCard = ref<IWeaponCard>();
+
+const chooseCard = (card: IHeroCard) => {
+  if (card.attributes.type === HeroTypes.Knight) {
+    weaponCard.value = weaponCards[0];
+  }
+  chosenCard.value = card;
+};
 
 defineEmits(['startBattle']);
 </script>
 
 <template>
-  <div
-    class="flex justify-around items-center w-screen h-screen bg-gradient-to-tr from-slate-700 to-slate-900 text-white"
-  >
+  <div class="flex justify-around items-center w-full h-full">
     <template v-if="!cards && !chosenCard">
       <div
         class="p-5 rounded ring w-56 h-64 bg-slate-800 text-white transition-all hover:scale-110 select-none"
@@ -27,21 +40,21 @@ defineEmits(['startBattle']);
     >
       <div class="flex w-full justify-around items-center">
         <div
-          class="flex flex-col gap-2 bg-slate-800 p-5 rounded ring h-64 w-56 text-white select-none"
-          :class="{
-            'transition-all hover:scale-110': !t.special,
-            'opacity-60': t.special,
-          }"
+          class="flex flex-col gap-2 bg-slate-800 p-5 rounded ring h-64 w-56 text-white select-none transition-all hover:scale-110"
           v-for="t in cards"
-          @click="chosenCard = t.special ? null : t"
+          @click="chooseCard(t)"
         >
           <div>
             <h2 class="text-sm font-semibold">Name</h2>
             <span class="text-md">{{ t.name }}</span>
           </div>
           <div>
-            <h2 class="text-sm font-semibold">Weapons</h2>
-            <span class="text-md">{{ t.weaponType }}</span>
+            <h2 class="text-sm font-semibold">Type</h2>
+            <span class="text-md">{{ t.type }}</span>
+          </div>
+          <div>
+            <h2 class="text-sm font-semibold">Attack Type</h2>
+            <span class="text-md">{{ t.attributes.attackType }}</span>
           </div>
         </div>
       </div>
@@ -53,6 +66,10 @@ defineEmits(['startBattle']);
         <div
           class="flex flex-col gap-2 bg-slate-800 p-5 rounded ring w-72 h-96 text-white select-none"
         >
+          <component
+            v-if="chosenCard.component"
+            :is="chosenCard.component"
+          ></component>
           <div>
             <h2 class="text-sm font-semibold">Type</h2>
             <span class="text-md">{{ chosenCard.type }}</span>
@@ -62,38 +79,46 @@ defineEmits(['startBattle']);
             <span class="text-md">{{ chosenCard.name }}</span>
           </div>
           <div>
-            <h2 class="text-sm font-semibold">Weapons</h2>
-            <span class="text-md">{{ chosenCard.weapon }}</span>
+            <h2 class="text-sm font-semibold">Attack Type</h2>
+            <span class="text-md">{{ chosenCard.attributes.attackType }}</span>
           </div>
           <div>
-            <h2 class="text-sm font-semibold">Skill boost</h2>
+            <h2 class="text-sm font-semibold">Weapon types</h2>
             <div class="skills flex gap-1 flex-wrap">
               <span
-                v-for="skill in chosenCard.skillBoost"
+                v-for="weapon in chosenCard.attributes.weaponTypes"
                 class="px-2 py-0 bg-blue-800 shadow rounded flex justify-center items-center text-xs font-bold"
-                >{{ skill }}</span
+                >{{ weapon }}</span
               >
             </div>
           </div>
         </div>
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2" v-if="weaponCard">
         <h1>Plus:</h1>
         <div
           class="flex flex-col gap-2 bg-slate-800 p-5 rounded ring w-72 h-96 text-white select-none"
         >
           <div>
             <h2 class="text-sm font-semibold">Type</h2>
-            <span class="text-md">{{ chosenCard.equipedWeapon.type }}</span>
+            <span class="text-md">{{ weaponCard.type }}</span>
           </div>
           <div>
             <h2 class="text-sm font-semibold">Name</h2>
-            <span class="text-md">{{ chosenCard.equipedWeapon.name }}</span>
+            <span class="text-md">{{ weaponCard.name }}</span>
+          </div>
+          <div>
+            <h2 class="text-sm font-semibold">Weapon type</h2>
+            <span class="text-md">{{ weaponCard.attributes.type }}</span>
+          </div>
+          <div>
+            <h2 class="text-sm font-semibold">Attack type</h2>
+            <span class="text-md">{{ weaponCard.attributes.attackType }}</span>
           </div>
           <div>
             <h2 class="text-sm font-semibold">Attack</h2>
-            <span class="text-md">{{ chosenCard.equipedWeapon.attack }}</span>
+            <span class="text-md">{{ weaponCard.attributes.attack }}</span>
           </div>
         </div>
       </div>
@@ -104,7 +129,7 @@ defineEmits(['startBattle']);
         </p>
         <div class="flex gap-5">
           <button @click="$emit('startBattle')">Yes!</button>
-          <button @click="chosenCard = null">No!</button>
+          <button @click="chosenCard = undefined">No!</button>
         </div>
       </div>
     </div>

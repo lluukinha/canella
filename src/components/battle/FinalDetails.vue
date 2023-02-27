@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { PropType } from 'vue';
-import { MonsterCard } from '../../scripts/main';
+import { IMonsterCard } from '../../scripts/main';
 
-defineProps({ enemyHp: Number, enemy: Object as PropType<MonsterCard> });
+defineProps({ enemyHp: Number, enemy: Object as PropType<IMonsterCard> });
 defineEmits(['restart', 'quit']);
 </script>
 
@@ -16,7 +16,7 @@ defineEmits(['restart', 'quit']);
         <template v-else>YOU LOSE!</template>
         <div class="flex justify-center text-sm gap-5">
           <component :is="enemy?.component" />
-          Experience earned: {{ enemy?.experience }}
+          Experience earned: {{ enemy?.attributes.experience }}
         </div>
       </div>
 
