@@ -51,7 +51,11 @@ export interface ICard {
   name: string;
   type: CardTypes;
   component: Component | null;
-  attributes: IHeroCardAttributes | IMonsterCardAttributes | IAttackCardAttributes | IWeaponCardAttributes;
+  attributes:
+    | IHeroCardAttributes
+    | IMonsterCardAttributes
+    | IAttackCardAttributes
+    | IWeaponCardAttributes;
 }
 
 export const weaponCards: IWeaponCard[] = [

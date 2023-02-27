@@ -23,7 +23,10 @@ const current = ref<string>('hero');
       <div class="flex w-full justify-around">
         <div
           class="w-32 h-32 rounded text-center flex justify-center items-center bg-red-500 flex-col transition-all hover:opacity-100"
-          :class="{ 'scale-125 opacity-100': current === 'hero', 'opacity-50': current != 'hero' }"
+          :class="{
+            'scale-125 opacity-100': current === 'hero',
+            'opacity-50': current != 'hero',
+          }"
         >
           <PersonIcon class="w-20 h-20" />
 
