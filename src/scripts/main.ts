@@ -1,6 +1,7 @@
 import { Component } from 'vue';
 import KnightVue from '../components/cards/heroes/Knight.vue';
 import SnakeVue from '../components/cards/monsters/Snake.vue';
+import ArcherVue from '../components/cards/heroes/Archer.vue';
 
 export enum CardTypes {
   Hero = 'Hero',
@@ -72,11 +73,11 @@ export const weaponCards: IWeaponCard[] = [
   },
   {
     id: 2,
-    name: 'Katana',
+    name: 'Wooden Bow',
     type: CardTypes.Weapon,
     component: null,
     attributes: {
-      type: WeaponTypes.Sword,
+      type: WeaponTypes.Bow,
       attackType: AttackTypes.Meelee,
       attack: 15,
     },
@@ -117,14 +118,14 @@ export const attackCards: IAttackCard[] = [
   },
   {
     id: 3,
-    name: 'Strong',
+    name: 'Throw Arrow',
     type: CardTypes.Attack,
     component: null,
     attributes: {
       type: AttackTypes.Meelee,
-      min: 10,
-      max: 10,
-      chance: 5,
+      min: 12,
+      max: 18,
+      chance: 50,
     },
   },
   {
@@ -148,15 +149,20 @@ export enum HeroTypes {
   Paladin = 'Paladin',
 }
 
-type KnightWeaponTypes = WeaponTypes.Axe | WeaponTypes.Sword | WeaponTypes.Club;
-const knightWeaponTypes: KnightWeaponTypes[] = [
+const knightWeaponTypes = [
   WeaponTypes.Sword,
   WeaponTypes.Axe,
   WeaponTypes.Club,
 ];
 
+const paladinWeaponTypes = [
+  WeaponTypes.Bow,
+  WeaponTypes.Crossbow,
+  WeaponTypes.Spear,
+];
+
 export interface IHeroCardAttributes {
-  weaponTypes: KnightWeaponTypes[];
+  weaponTypes: WeaponTypes[];
   attackType: AttackTypes;
   type: HeroTypes;
   level: number;
@@ -169,20 +175,36 @@ export interface IHeroCard extends ICard {
   attributes: IHeroCardAttributes;
 }
 
-export const heroCard: IHeroCard = {
-  id: 1,
-  name: 'Knight',
-  type: CardTypes.Hero,
-  component: KnightVue,
-  attributes: {
-    type: HeroTypes.Knight,
-    attackType: AttackTypes.Meelee,
-    weaponTypes: knightWeaponTypes,
-    level: 1,
-    experience: 0,
-    healthPoints: 50,
+export const heroCards: IHeroCard[] = [
+  {
+    id: 1,
+    name: 'Knight',
+    type: CardTypes.Hero,
+    component: KnightVue,
+    attributes: {
+      type: HeroTypes.Knight,
+      attackType: AttackTypes.Meelee,
+      weaponTypes: knightWeaponTypes,
+      level: 1,
+      experience: 0,
+      healthPoints: 50,
+    },
   },
-};
+  {
+    id: 2,
+    name: 'Paladin',
+    type: CardTypes.Hero,
+    component: ArcherVue,
+    attributes: {
+      type: HeroTypes.Paladin,
+      attackType: AttackTypes.Meelee,
+      weaponTypes: paladinWeaponTypes,
+      level: 1,
+      experience: 0,
+      healthPoints: 50,
+    },
+  },
+];
 
 export interface IMonsterCardAttributes {
   healthPoints: number;

@@ -9,10 +9,13 @@ import {
 import AttackCard from './cards/AttackCard.vue';
 import HpBar from './battle/HpBar.vue';
 import FinalDetails from './battle/FinalDetails.vue';
+import { playerStore } from '../scripts/store';
+
+const heroCard = playerStore.value.equipedCards.hero!;
+const weaponCard = playerStore.value.equipedCards.weapon!;
+const heroAttackCards = playerStore.value.equipedCards.attacks;
 
 const monsterCard = monsterCards[0];
-const weaponCard = weaponCards[0];
-const heroAttackCards = [attackCards[0]];
 const counter = 100;
 const showDamage = ref<boolean>(false);
 const currentDamage = ref<number>(0);
@@ -250,7 +253,7 @@ defineEmits(['quit']);
         :canAttack="canAttack && myTurn"
         @attack="attack"
       />
-      <div
+      <!-- <div
         class="card w-28 h-40 bg-black flex items-center text-center justify-center text-white cursor-pointer transition-all"
         :class="{
           'hover:scale-125': !suppliesBlocked,
@@ -259,7 +262,7 @@ defineEmits(['quit']);
         @click="recovery(5)"
       >
         POTION
-      </div>
+      </div> -->
     </div>
     <div class="floating-buttons absolute top-10 right-10 flex gap-5">
       <button

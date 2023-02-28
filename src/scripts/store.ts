@@ -5,8 +5,8 @@ export interface IPlayer {
   gold: number;
   cards: ICard[];
   equipedCards: {
-    hero: IHeroCard;
-    weapon: IWeaponCard;
+    hero: IHeroCard | null;
+    weapon: IWeaponCard | null;
     attacks: IAttackCard[];
     // supplies: ISupplyCard[]
   };
@@ -23,6 +23,4 @@ const player = {
   },
 };
 
-const playerStorage = ref(null);
-
-export default { playerStorage };
+export const playerStore = ref<IPlayer>(player);

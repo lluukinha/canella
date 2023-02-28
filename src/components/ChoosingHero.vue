@@ -1,81 +1,61 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { attackCards, heroCard, weaponCards } from '../scripts/main';
+import { attackCards, heroCards, weaponCards } from '../scripts/main';
+import { playerStore } from '../scripts/store';
 import Card from './cards/Card.vue';
 
 const categories = [
   {
     id: 1,
     name: 'Knight',
-    heroCard,
+    heroCard: heroCards[0],
     weaponCard: weaponCards[0],
     attackCard: attackCards[0],
   },
+  {
+    id: 1,
+    name: 'Paladin',
+    heroCard: heroCards[1],
+    weaponCard: weaponCards[1],
+    attackCard: attackCards[2],
+  },
 ];
-const chosenCategory = ref();
 
-const checkSelection = async (chosenCategory: any) => {
-  const result = confirm('Do you want to choose knight as your first hero?');
-  if (!!result) emit('startBattle');
+const selectCards = async (chosenCategory: any) => {
+  playerStore.value.equipedCards.hero = chosenCategory.heroCard;
+  playerStore.value.equipedCards.weapon = chosenCategory.weaponCard;
+  playerStore.value.equipedCards.attacks.push(chosenCategory.attackCard);
 };
-
-const emit = defineEmits(['startBattle']);
 </script>
 
 <template>
-  <div class="flex justify-around items-center w-full h-full">
-    <template v-if="!chosenCategory">
-      <div
-        class="p-5 rounded ring w-56 h-64 bg-slate-800 text-white transition-all hover:scale-110 select-none"
-        v-for="c in categories"
-        @click="chosenCategory = c"
-      >
-        {{ c.name }}<br />
-        +3 cards
+  <div class="flex justify-center w-full h-full">
+    <div class="flex flex-col gap-10 items-center">
+      <div class="text-center flex flex-col gap-2">
+        <h2 class="text-4xl">Welcome to Canella.</h2>
+        <h3 class="text-xl">Select your first deck to start.</h3>
+        <h4>
+          Every deck has 1 hero, 1 weapon and 1 attack card, both combined will
+          let you be able to start your journey.
+        </h4>
       </div>
-    </template>
-    <div class="w-full h-full" v-else>
-      <div>
-        <button @click="chosenCategory = undefined">go back</button>
-      </div>
-      <div class="flex w-full h-full">
-        <div class="w-1/2">
-          <div
-            class="w-full flex justify-center chosen-cards pt-5 cursor-pointer relative"
-            @click="checkSelection(chosenCategory)"
-          >
-            <Card
-              :card="chosenCategory.heroCard"
-              class="hero-card absolute transition-all z-30"
-            />
-            <Card
-              :card="chosenCategory.weaponCard"
-              class="weapon-card transition-all absolute z-20"
-            />
-            <Card
-              :card="chosenCategory.attackCard"
-              class="attack-card transition-all absolute z-10"
-            />
-          </div>
-        </div>
-        <div class="w-1/2">
-          <div
-            class="w-full flex justify-center chosen-cards pt-5 cursor-pointer relative"
-            @click="checkSelection(chosenCategory)"
-          >
-            <Card
-              :card="chosenCategory.heroCard"
-              class="hero-card absolute transition-all z-30"
-            />
-            <Card
-              :card="chosenCategory.weaponCard"
-              class="weapon-card transition-all absolute z-20"
-            />
-            <Card
-              :card="chosenCategory.attackCard"
-              class="attack-card transition-all absolute z-10"
-            />
-          </div>
+      <div class="flex w-full justify-between">
+        <div
+          v-for="c in categories"
+          @click="selectCards(c)"
+          class="chosen-cards cursor-pointer flex transition-all"
+        >
+          <Card
+            :card="c.heroCard"
+            class="hero-card transition-all z-30 top-0"
+          />
+          <Card
+            :card="c.weaponCard"
+            class="weapon-card transition-all top-0 z-20 -mx-56"
+          />
+          <Card
+            :card="c.attackCard"
+            class="attack-card transition-all top-0 z-10"
+          />
         </div>
       </div>
     </div>
@@ -84,10 +64,10 @@ const emit = defineEmits(['startBattle']);
 
 <style>
 .chosen-cards:hover > .weapon-card {
-  transform: translateX(-230px) rotate(-15deg) translateY(30px);
+  transform: translateX(220px) rotate(15deg) translateY(20px);
 }
 
 .chosen-cards:hover > .attack-card {
-  transform: translateX(230px) rotate(15deg) translateY(30px);
+  transform: translateX(-250px) rotate(-15deg) translateY(20px);
 }
 </style>
