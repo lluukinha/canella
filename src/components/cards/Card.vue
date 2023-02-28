@@ -22,13 +22,19 @@ defineProps({
     >,
     required: true,
   },
+  size: {
+    type: String as PropType<"small" | "medium" | "large">,
+    required: false,
+    default: "large"
+  }
 });
 </script>
 
 <template>
   <div>
     <div
-      class="flex flex-col gap-2 bg-slate-800 p-5 rounded ring w-60 h-72 text-white select-none relative"
+      class="flex flex-col gap-2 bg-slate-800 p-5 rounded ring text-white select-none relative"
+      :class="{ 'w-60 h-72' : size === 'large', 'w-40 h-52' : size === 'medium' }"
     >
       <div class="absolute top-3 right-3 px-4 bg-blue-500 rounded shadow">
         {{ card.type }}

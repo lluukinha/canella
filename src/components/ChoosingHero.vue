@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { attackCards, heroCards, weaponCards } from '../scripts/main';
-import { playerStore } from '../scripts/store';
-import Card from './cards/Card.vue';
+import { attackCards, heroCards, weaponCards } from "../scripts/main";
+import { playerStore } from "../scripts/store";
+import Card from "./cards/Card.vue";
 
 const categories = [
   {
     id: 1,
-    name: 'Knight',
+    name: "Knight",
     heroCard: heroCards[0],
     weaponCard: weaponCards[0],
     attackCard: attackCards[0],
   },
   {
     id: 1,
-    name: 'Paladin',
+    name: "Paladin",
     heroCard: heroCards[1],
     weaponCard: weaponCards[1],
     attackCard: attackCards[2],
@@ -28,8 +28,8 @@ const selectCards = async (chosenCategory: any) => {
 </script>
 
 <template>
-  <div class="flex justify-center w-full h-full">
-    <div class="flex flex-col gap-10 items-center">
+  <div class="flex justify-center items-center w-full h-full">
+    <div class="flex flex-col gap-20">
       <div class="text-center flex flex-col gap-2">
         <h2 class="text-4xl">Welcome to Canella.</h2>
         <h3 class="text-xl">Select your first deck to start.</h3>
