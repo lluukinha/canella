@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import {
-  monsterCards,
-  heroCard,
-  weaponCards,
-  attackCards,
-} from '../scripts/main';
+import { monsterCards } from '../scripts/main';
 import AttackCard from './cards/AttackCard.vue';
 import HpBar from './battle/HpBar.vue';
 import FinalDetails from './battle/FinalDetails.vue';
