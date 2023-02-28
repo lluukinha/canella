@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { PropType } from 'vue';
-import { IAttackCardAttributes } from '../../../scripts/main';
+import { PropType } from "vue";
+import { IAttackCardAttributes } from "../../../scripts/main";
 
 defineProps({
   attributes: {
@@ -11,22 +11,30 @@ defineProps({
 </script>
 
 <template>
-  <div>
-    <h2 class="text-sm font-semibold">Type</h2>
-    <span class="text-md">{{ attributes.type }}</span>
-  </div>
-  <div>
-    <h2 class="text-sm font-semibold">Chance (%)</h2>
-    <span class="text-md">{{ attributes.chance }}</span>
-  </div>
-  <div class="flex justify-between text-center">
-    <div>
-      <h2 class="text-sm font-semibold">Min Attack</h2>
-      <span class="text-md">{{ attributes.min }}</span>
+  <div class="flex flex-col gap-1">
+    <div
+      class="px-2 py-1 bg-gray-800 shadow rounded flex justify-around items-center font-bold text-xs gap-1"
+    >
+      <div class="flex items-center gap-1">
+        <span class="text-xs font-light">Type:</span>
+        <span class="text-md font-bold uppercase">{{ attributes.type }}</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <span class="text-xs font-light">Chance:</span>
+        <span class="text-md font-bold text-md">{{ attributes.chance }}%</span>
+      </div>
     </div>
-    <div>
-      <h2 class="text-sm font-semibold">Max Attack</h2>
-      <span class="text-md">{{ attributes.max }}</span>
+    <div
+      class="px-2 py-1 bg-gray-800 shadow rounded flex justify-center items-center font-bold text-xs gap-1 uppercase"
+    >
+      <div class="flex items-center gap-1">
+        <span class="text-xs font-light">min:</span>
+        <span class="text-md font-bold text-xl">{{ attributes.min }}</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <span class="text-xs font-light">max:</span>
+        <span class="text-md font-bold text-xl">{{ attributes.max }}</span>
+      </div>
     </div>
   </div>
 </template>

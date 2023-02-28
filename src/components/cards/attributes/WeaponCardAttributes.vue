@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { PropType } from 'vue';
-import { IWeaponCardAttributes } from '../../../scripts/main';
+import { PropType } from "vue";
+import { IWeaponCardAttributes } from "../../../scripts/main";
 
 defineProps({
   attributes: {
@@ -11,18 +11,18 @@ defineProps({
 </script>
 
 <template>
-  <div class="flex justify-between">
-    <div>
-      <h2 class="text-sm font-semibold">Weapon type</h2>
-      <span class="text-md">{{ attributes.type }}</span>
+  <div class="flex flex-col gap-1">
+    <div
+      class="px-2 py-1 bg-gray-800 shadow rounded flex justify-center items-center font-bold text-xs gap-1"
+    >
+      <span class="text-xs font-light">Type:</span>
+      <span class="text-md font-bold uppercase">{{ attributes.type }}</span>
     </div>
-    <div>
-      <h2 class="text-sm font-semibold">Attack type</h2>
-      <span class="text-md">{{ attributes.attackType }}</span>
+    <div
+      class="px-2 py-1 bg-gray-800 shadow rounded flex justify-center items-center font-bold text-xs gap-1"
+    >
+      <span class="text-xs font-light">Attack:</span>
+      <span class="text-xl font-bold uppercase">{{ attributes.attack }}</span>
     </div>
-  </div>
-  <div>
-    <h2 class="text-sm font-semibold">Attack</h2>
-    <span class="text-md">{{ attributes.attack }}</span>
   </div>
 </template>

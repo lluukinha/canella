@@ -46,3 +46,20 @@
     transform: translateY(0%);
   }
 }
+
+.slide-left-enter-active {
+  animation: slide-left-in 0.5s;
+}
+.slide-left-leave-active {
+  animation: slide-left-in 0.5s reverse;
+}
+@keyframes slide-left-in {
+  0% {
+    opacity: 0;
+    transform: translateX(300%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}

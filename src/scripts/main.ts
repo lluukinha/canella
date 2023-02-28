@@ -42,6 +42,7 @@ export interface IWeaponCard extends ICard {
 
 export interface IAttackCardAttributes {
   type: AttackTypes;
+  attackType: AttackTypes;
   min: number;
   max: number;
   chance: number;
@@ -99,6 +100,7 @@ export const attackCards: IAttackCard[] = [
     component: null,
     attributes: {
       type: AttackTypes.Meelee,
+      attackType: AttackTypes.Meelee,
       min: 1,
       max: 9,
       chance: 100,
@@ -111,6 +113,7 @@ export const attackCards: IAttackCard[] = [
     component: null,
     attributes: {
       type: AttackTypes.Meelee,
+      attackType: AttackTypes.Meelee,
       min: 5,
       max: 10,
       chance: 90,
@@ -123,6 +126,7 @@ export const attackCards: IAttackCard[] = [
     component: null,
     attributes: {
       type: AttackTypes.Meelee,
+      attackType: AttackTypes.Meelee,
       min: 12,
       max: 18,
       chance: 50,
@@ -135,6 +139,7 @@ export const attackCards: IAttackCard[] = [
     component: null,
     attributes: {
       type: AttackTypes.Meelee,
+      attackType: AttackTypes.Meelee,
       min: 10,
       max: 10,
       chance: 100,
