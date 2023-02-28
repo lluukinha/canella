@@ -215,6 +215,7 @@ export interface IMonsterCardAttributes {
   healthPoints: number;
   experience: number;
   attack: number;
+  attackType: AttackTypes,
   attackCards: IAttackCard[];
 }
 
@@ -235,6 +236,7 @@ export const monsterCards: IMonsterCard[] = [
     name: 'Snake',
     component: SnakeVue,
     attributes: {
+      attackType: AttackTypes.Meelee,
       experience: 10,
       attack: 10,
       attackCards: [attackCards[1]],
