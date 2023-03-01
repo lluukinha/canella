@@ -19,7 +19,7 @@ const attackTypes = computed(() =>
 </script>
 
 <template>
-  <div class="flip-card w-48 h-64">
+  <div class="flip-card w-48 h-64 drop-shadow-lg">
     <div class="flip-card-inner transition-all" :class="{ flip: !canFlip }">
       <div
         class="flip-card-front bg-gradient-to-t rounded-xl shadow-lg py-1 px-2 border-4 flex flex-col from-green-500 to-gray-900 border-green-700 text-white items-center justify-center gap-1"

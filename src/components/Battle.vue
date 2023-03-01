@@ -17,6 +17,8 @@ import EmptyAttackCardSpace from './battle/EmptyAttackCardSpace.vue';
 import Card from './cards/Card.vue';
 import BattleWeaponCard from './battle/BattleWeaponCard.vue';
 
+const imgUrl = new URL('../assets/forest.jpeg', import.meta.url).href;
+
 const heroCard = playerStore.value.equipedCards.hero!;
 const weaponCard = playerStore.value.equipedCards.weapon!;
 const heroAttackCards = playerStore.value.equipedCards.attacks;
@@ -203,7 +205,10 @@ defineEmits(['quit']);
 </script>
 
 <template>
-  <div class="select-none bg-yellow-100 w-full h-full text-black relative">
+  <div
+    class="select-none bg-yellow-100 w-full h-full text-black relative bg-cover"
+    :style="`background-image: url(${imgUrl})`"
+  >
     <Transition name="fade" mode="out-in">
       <div
         class="bg-black bg-opacity-70 w-full h-full z-50 flex justify-center items-center text-white gap-20"
@@ -217,10 +222,7 @@ defineEmits(['quit']);
           :flip-on-hover="false"
         />
       </div>
-      <div
-        class="flex flex-col justify-center bg-yellow-100 w-full h-full text-black"
-        v-else
-      >
+      <div class="flex flex-col justify-center w-full h-full text-black" v-else>
         <Transition name="bounce">
           <FinalDetails
             :enemy="monsterCard"

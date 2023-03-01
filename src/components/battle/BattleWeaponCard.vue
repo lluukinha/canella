@@ -12,7 +12,7 @@ defineProps({
 
 <template>
   <div
-    class="w-36 h-52 bg-gradient-to-t rounded-xl shadow-lg p-2 border-4 flex flex-col from-yellow-300 to-gray-900 border-yellow-300 text-white items-center justify-center gap-2"
+    class="w-36 h-52 bg-gradient-to-t rounded-xl shadow-lg p-2 border-4 flex flex-col from-yellow-300 to-gray-900 border-yellow-300 text-white items-center justify-center gap-2 drop-shadow-lg"
   >
     <div class="top flex justify-between items-center font-bold w-full text-xs">
       #{{ card.id }}

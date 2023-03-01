@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, PropType } from "vue";
-import { IAttackCard } from "../../scripts/main";
+import { computed, PropType } from 'vue';
+import { IAttackCard } from '../../scripts/main';
 
 const props = defineProps({
   card: { type: Object as PropType<IAttackCard>, required: true },
@@ -19,25 +19,25 @@ const max = computed(() => {
   return props.card.attributes.max + props.baseAttack;
 });
 
-const emit = defineEmits(["attack"]);
+const emit = defineEmits(['attack']);
 
 const attack = () => {
   const successProbability = props.card.attributes.chance / 100;
   let damage =
     Math.floor(Math.random() * (max.value - min.value + 1)) + min.value;
   if (Math.random() >= successProbability) damage = 0;
-  emit("attack", damage);
+  emit('attack', damage);
 };
 </script>
 
 <template>
-  <div class="flip-card w-32 h-40" @click="attack">
+  <div class="flip-card drop-shadow-lg w-32 h-40" @click="attack">
     <div
       class="flip-card-inner transition-all"
       :class="{ 'is-inactive': isFlipped }"
     >
       <div
-        class="flip-card-front bg-gradient-to-t rounded-xl shadow-lg py-2 px-5 border-4 flex flex-col justify-center gap-2 relative transition-all  from-red-700 to-gray-900 border-red-900 text-white"
+        class="flip-card-front bg-gradient-to-t rounded-xl shadow-lg py-2 px-5 border-4 flex flex-col justify-center gap-2 relative transition-all from-red-700 to-gray-900 border-red-900 text-white"
         :class="{ 'hover:scale-110': canAttack }"
       >
         <div
@@ -50,7 +50,9 @@ const attack = () => {
             {{ min }}~{{ max }}
           </div>
         </div>
-        <p class="text-center text-red-400 flex flex-col items-center justify-center">
+        <p
+          class="text-center text-red-400 flex flex-col items-center justify-center"
+        >
           <span class="text-xs">Chance</span>
           <span class="text-3xl">{{ card.attributes.chance }}%</span>
         </p>
@@ -68,7 +70,6 @@ const attack = () => {
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {
   background-color: transparent;
-  border: 1px solid #f1f1f1;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
 }
 
