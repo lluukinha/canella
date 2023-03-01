@@ -8,6 +8,7 @@ import { playerStore } from "../scripts/store";
 import BattleAttackCard from "./battle/BattleAttackCard.vue";
 import BattleHeroCard from "./battle/BattleHeroCard.vue";
 import BattleMonsterCard from "./battle/BattleMonsterCard.vue";
+import EmptyAttackCardSpace from "./battle/EmptyAttackCardSpace.vue";
 
 const heroCard = playerStore.value.equipedCards.hero!;
 const weaponCard = playerStore.value.equipedCards.weapon!;
@@ -175,7 +176,7 @@ const updateCounter = () => {
 
 const startBattle = () => {
   setTimeout(() => (isShowingMosterCard.value = true), 1200);
-  setTimeout(() => (battleStarted.value = true), 3200);
+  setTimeout(() => (battleStarted.value = true), 3500);
 
   setTimeout(() => {
     showMessage();
@@ -215,7 +216,7 @@ defineEmits(["quit"]);
           />
         </Transition>
         <div class="w-full h-full flex items-center justify-center gap-5 px-5">
-          <div class="flex flex-grow justify-center">
+          <div class="flex flex-grow justify-center gap-2">
             <BattleAttackCard
               v-for="atk in monsterCard.attributes.attackCards"
               :card="atk"
@@ -223,6 +224,7 @@ defineEmits(["quit"]);
               :canAttack="false"
               :isFlipped="myTurn"
             />
+            <EmptyAttackCardSpace v-for="_ in (4 - monsterCard.attributes.attackCards.length)" />
           </div>
           <div class="hero-card flex flex-col gap-1">
             <HpBar
@@ -261,7 +263,7 @@ defineEmits(["quit"]);
               />
             </div>
           </div>
-          <div class="flex flex-grow justify-center">
+          <div class="flex flex-grow justify-center gap-2">
             <BattleAttackCard
               v-for="atk in heroAttackCards"
               :card="atk"
@@ -271,6 +273,7 @@ defineEmits(["quit"]);
               @attack="attack"
               :class="{ 'opacity-50': !canAttack && myTurn }"
             />
+            <EmptyAttackCardSpace v-for="_ in (4 - heroAttackCards.length)" />
           </div>
           <!-- <div
         class="card w-28 h-40 bg-black flex items-center text-center justify-center text-white cursor-pointer transition-all"
