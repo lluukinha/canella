@@ -1,58 +1,100 @@
 <script setup lang="ts">
-import { onMounted, PropType } from "vue";
-import { experienceTable, IMonsterCard } from "../../scripts/main";
-import Card from "../cards/Card.vue";
+import { onMounted, PropType, ref } from 'vue';
+import {
+  experienceTable,
+  IMonsterCard,
+  delay,
+  upLevel,
+  downLevel,
+  ICard,
+  calculateAverage,
+  successProbability,
+} from '../../scripts/main';
+import Card from '../cards/Card.vue';
 
-import { playerStore } from "../../scripts/store";
-import HeroCardExperience from "../cards/attributes/HeroCardExperience.vue";
+import { playerStore } from '../../scripts/store';
 
 const props = defineProps({
-  enemyHp: Number,
+  enemyHp: {
+    type: Number,
+    required: true,
+  },
   enemy: {
     type: Object as PropType<IMonsterCard>,
     required: true,
   },
 });
-defineEmits(["restart", "quit"]);
+defineEmits(['continue']);
 
-const finishAnimation = (newExp: number) => {
+const finishAnimation = async (newExp: number) => {
   const heroCardAttributes = playerStore.value.equipedCards.hero!.attributes;
-  const nextLevel = heroCardAttributes.level + 1;
-  const expToNextLevel = experienceTable[nextLevel];
-  if (newExp >= expToNextLevel) {
-    setTimeout(upLevel, 1000);
-    const remainingExp = newExp - expToNextLevel;
-    setTimeout(() => {
-      finishAnimation(remainingExp);
-    }, 1500);
+  const futureExperience = heroCardAttributes.experience + newExp;
+  if (futureExperience >= experienceTable[heroCardAttributes.level].to) {
+    await upLevel(playerStore.value.equipedCards.hero!);
+    const remainingExp =
+      futureExperience - experienceTable[heroCardAttributes.level].from;
+    if (remainingExp > 0) finishAnimation(remainingExp);
+    showContinue.value = true;
     return;
   }
 
-  setTimeout(
-    () =>
-      (playerStore.value.equipedCards.hero!.attributes.experience += newExp),
-    1000
-  );
+  await delay(0.5);
+  playerStore.value.equipedCards.hero!.attributes.experience += newExp;
+  showContinue.value = true;
 };
 
-const upLevel = () => {
+const lostBattle = async (newExp: number) => {
   const heroCardAttributes = playerStore.value.equipedCards.hero!.attributes;
-  const nextLevel = heroCardAttributes.level + 1;
-  const expToNextLevel = experienceTable[nextLevel];
-  setTimeout(
-    () =>
-      (playerStore.value.equipedCards.hero!.attributes.experience +=
-        expToNextLevel),
-    500
-  );
-  setTimeout(
-    () => (playerStore.value.equipedCards.hero!.attributes.level += 1),
-    1000
-  );
+  const futureExperience = heroCardAttributes.experience - newExp;
+
+  if (
+    heroCardAttributes.level > 1 &&
+    futureExperience < experienceTable[heroCardAttributes.level].from
+  ) {
+    await downLevel(playerStore.value.equipedCards.hero!);
+    const remainingExp =
+      experienceTable[heroCardAttributes.level].to - futureExperience;
+    if (remainingExp > 0) lostBattle(remainingExp);
+    return;
+  }
+
+  removeExp(newExp);
+  showContinue.value = true;
 };
 
-onMounted(() => {
-  setTimeout(() => finishAnimation(props.enemy!.attributes.experience), 1000);
+const gold = ref<number>(0);
+const card = ref<ICard | null>(null);
+const showContinue = ref<boolean>(false);
+
+const calculateLoot = () => {
+  const { min, max } = props.enemy.attributes.loot.gold;
+  gold.value = calculateAverage(min, max);
+
+  const cardLoot = props.enemy.attributes.loot.card;
+
+  if (!!cardLoot && successProbability(cardLoot.chance)) {
+    card.value = cardLoot.card;
+    playerStore.value.cards.push(card.value);
+  }
+
+  playerStore.value.gold += gold.value;
+};
+
+const removeExp = (exp: number) => {
+  const heroExp = playerStore.value.equipedCards.hero!.attributes.experience;
+  const newExp = heroExp - exp < 0 ? 0 : exp;
+  playerStore.value.equipedCards.hero!.attributes.experience -= newExp;
+};
+
+onMounted(async () => {
+  if (props.enemyHp === 0) {
+    calculateLoot();
+    await delay(0.5);
+    finishAnimation(props.enemy.attributes.experience);
+  } else {
+    await delay(0.5);
+    lostBattle(props.enemy.attributes.experience);
+  }
 });
 </script>
 
@@ -61,40 +103,38 @@ onMounted(() => {
     class="w-full h-full absolute z-50 flex justify-center items-center select-none"
   >
     <div class="z-50 flex flex-col justify-center items-center gap-5 w-full">
-      <div
-        class="text-white drop-shadow-xl w-full flex justify-between px-10 gap-10"
-      >
-        <Card :card="enemy!" />
+      <div class="text-white w-full flex justify-center px-10 gap-20">
+        <Card :card="playerStore.equipedCards.hero!" />
         <div
-          class="text-center flex-grow flex justify-center flex-col items-center gap-5"
+          class="text-center flex justify-center flex-col items-center gap-5"
         >
-          <h1 class="text-5xl">ENEMY DEFEATED!</h1>
-          <div class="w-1/2">
-            <HeroCardExperience
-              :attributes="playerStore.equipedCards.hero!.attributes"
-            />
-          </div>
+          <template v-if="enemyHp === 0">
+            <h1 class="text-5xl">ENEMY DEFEATED!</h1>
+            <ul>
+              <li>Earned {{ enemy.attributes.experience }} exp</li>
+              <li v-if="gold > 0">{{ gold }} Gold</li>
+              <li class="flex gap-2" v-if="card">
+                <span class="drop-shadow text-yellow-400">NEW CARD:</span>
+                <span class="underline">{{ card.name }}</span>
+              </li>
+            </ul>
+          </template>
+          <template v-else>
+            <h1 class="text-5xl">YOU LOSE!</h1>
+            <ul>
+              <li>Lost {{ enemy.attributes.experience }} exp</li>
+            </ul>
+          </template>
         </div>
-        <!-- <template v-if="enemyHp === 0">ENEMY DEFEATED!</template>
-        <template v-else>YOU LOSE!</template>
-        <div class="flex justify-center text-sm gap-5">
-          <component :is="enemy?.component" />
-          Experience earned: {{ enemy?.attributes.experience }}
-        </div> -->
       </div>
 
       <div class="flex w-full justify-around">
         <button
-          class="px-4 py-2 bg-gray-400 hover:bg-gray-300 transition-all rounded shadow"
-          @click="$emit('restart')"
+          class="px-4 py-2 text-white text-4xl transition-all disabled:opacity-0"
+          @click="$emit('continue')"
+          :disabled="!showContinue"
         >
-          PLAY AGAIN
-        </button>
-        <button
-          class="px-4 py-2 bg-gray-400 hover:bg-gray-300 transition-all rounded shadow"
-          @click="$emit('quit')"
-        >
-          QUIT
+          CONTINUE
         </button>
       </div>
     </div>

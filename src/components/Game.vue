@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import Battle from "./Battle.vue";
-import ChoosingHero from "./ChoosingHero.vue";
-import BookIcon from "./icons/BookIcon.vue";
-import CardsIcon from "./icons/CardsIcon.vue";
-import PersonIcon from "./icons/PersonIcon.vue";
-import ShopIcon from "./icons/ShopIcon.vue";
-import GoldIcon from "./icons/GoldIcon.vue";
-import { playerStore } from "../scripts/store";
-import HeroDetails from "./main/hero/HeroDetails.vue";
+import { computed, ref } from 'vue';
+import Battle from './Battle.vue';
+import ChoosingHero from './ChoosingHero.vue';
+import BookIcon from './icons/BookIcon.vue';
+import CardsIcon from './icons/CardsIcon.vue';
+import PersonIcon from './icons/PersonIcon.vue';
+import ShopIcon from './icons/ShopIcon.vue';
+import GoldIcon from './icons/GoldIcon.vue';
+import { playerStore } from '../scripts/store';
+import HeroDetails from './main/hero/HeroDetails.vue';
 
 const playerHasNoCards = computed(
   () =>
@@ -17,19 +17,20 @@ const playerHasNoCards = computed(
 );
 
 enum MenuItems {
-  Hero = "hero",
-  Battle = "battle",
-  Cards = "cards",
-  Shop = "shop",
+  Hero = 'hero',
+  Battle = 'battle',
+  Cards = 'cards',
+  Shop = 'shop',
 }
 
+const isFighting = ref<boolean>(false);
 const current = ref<MenuItems>(MenuItems.Hero);
 </script>
 
 <template>
   <Transition name="bounce" mode="out-in">
     <ChoosingHero v-if="playerHasNoCards" />
-    <div class="w-full h-full flex" v-else>
+    <div class="w-full h-full flex" v-else-if="!isFighting">
       <div
         class="bg-gradient-to-br from-slate-800 to-black h-full w-64 flex flex-col"
       >
@@ -71,7 +72,7 @@ const current = ref<MenuItems>(MenuItems.Hero);
           <div class="flex gap-2 py-2 px-4 absolute bottom-5">
             <div class="flex gap-2">
               <GoldIcon class="w-6 h-6 text-yellow-400" />
-              0
+              {{ playerStore.gold }}
             </div>
           </div>
         </div>
@@ -83,10 +84,15 @@ const current = ref<MenuItems>(MenuItems.Hero);
               :card="playerStore.equipedCards.hero!"
               v-if="current === 'hero'"
             />
-            <Battle v-else-if="current === 'battle'" />
+            <div v-else-if="current === 'battle'">
+              <button @click="isFighting = true">
+                Click here to start battle
+              </button>
+            </div>
           </Transition>
         </div>
       </div>
     </div>
+    <Battle v-else-if="isFighting" @quit="isFighting = false" />
   </Transition>
 </template>

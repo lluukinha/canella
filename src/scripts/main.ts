@@ -3,13 +3,20 @@ import KnightVue from '../components/cards/heroes/Knight.vue';
 import SnakeVue from '../components/cards/monsters/Snake.vue';
 import ArcherVue from '../components/cards/heroes/Archer.vue';
 
-interface IExperienceTable { [key: number]: number; }
+interface ILevelIndicator {
+  from: number;
+  to: number;
+}
+
+interface IExperienceTable {
+  [key: number]: ILevelIndicator;
+}
 
 export const experienceTable: IExperienceTable = {
-  1: 0,
-  2: 100,
-  3: 200,
-  4: 400
+  1: { from: 0, to: 100 },
+  2: { from: 100, to: 200 },
+  3: { from: 200, to: 300 },
+  4: { from: 300, to: 400 },
 };
 
 export enum CardTypes {
@@ -220,12 +227,18 @@ export const heroCards: IHeroCard[] = [
   },
 ];
 
+export interface IMonsterLoot {
+  gold: { min: number; max: number };
+  card: { chance: number; card: ICard } | null;
+}
+
 export interface IMonsterCardAttributes {
   healthPoints: number;
   experience: number;
   attack: number;
-  attackType: AttackTypes,
+  attackType: AttackTypes;
   attackCards: IAttackCard[];
+  loot: IMonsterLoot;
 }
 
 export interface IMonsterCard extends ICard {
@@ -250,6 +263,36 @@ export const monsterCards: IMonsterCard[] = [
       attack: 10,
       attackCards: [attackCards[1]],
       healthPoints: 20,
+      loot: {
+        gold: { min: 0, max: 1 },
+        card: null,
+      },
     },
   },
 ];
+
+export const delay = (seconds: number) =>
+  new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+
+export const upLevel = async (hero: IHeroCard) => {
+  hero.attributes.experience = experienceTable[hero.attributes.level].to;
+  await delay(0.5);
+  hero.attributes.level += 1;
+  hero.attributes.healthPoints += 30;
+  return;
+};
+
+export const downLevel = async (hero: IHeroCard) => {
+  hero.attributes.experience = experienceTable[hero.attributes.level].from;
+  await delay(0.5);
+  hero.attributes.level -= 1;
+  hero.attributes.healthPoints -= 30;
+  return;
+};
+
+export const calculateAverage = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+export const successProbability = (chance: number): boolean =>
+  Math.random() >= chance / 100;

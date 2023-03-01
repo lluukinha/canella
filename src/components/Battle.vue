@@ -1,14 +1,20 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-import { monsterCards } from "../scripts/main";
-import HpBar from "./battle/HpBar.vue";
-import FinalDetails from "./battle/FinalDetails.vue";
-import { playerStore } from "../scripts/store";
+import { computed, onMounted, ref } from 'vue';
+import {
+  calculateAverage,
+  delay,
+  monsterCards,
+  successProbability,
+} from '../scripts/main';
+import HpBar from './battle/HpBar.vue';
+import FinalDetails from './battle/FinalDetails.vue';
+import { playerStore } from '../scripts/store';
 
-import BattleAttackCard from "./battle/BattleAttackCard.vue";
-import BattleHeroCard from "./battle/BattleHeroCard.vue";
-import BattleMonsterCard from "./battle/BattleMonsterCard.vue";
-import EmptyAttackCardSpace from "./battle/EmptyAttackCardSpace.vue";
+import BattleAttackCard from './battle/BattleAttackCard.vue';
+import BattleHeroCard from './battle/BattleHeroCard.vue';
+import BattleMonsterCard from './battle/BattleMonsterCard.vue';
+import EmptyAttackCardSpace from './battle/EmptyAttackCardSpace.vue';
+import Card from './cards/Card.vue';
 
 const heroCard = playerStore.value.equipedCards.hero!;
 const weaponCard = playerStore.value.equipedCards.weapon!;
@@ -31,47 +37,42 @@ const gameOver = ref<boolean>(false);
 const enemyHp = ref<number>(monsterCard.attributes.healthPoints);
 const heroHp = ref<number>(heroCard.attributes.healthPoints);
 
-const restartGame = () => {
-  gameOver.value = false;
-  setTimeout(() => {
-    turnCounter.value = counter;
-    myTurn.value = true;
-    canAttack.value = true;
-    canUseItems.value = true;
-    showTurnMessage.value = true;
-    enemyHp.value = monsterCard.attributes.healthPoints;
-    heroHp.value = heroCard.attributes.healthPoints;
-    showMessage();
-  }, 1200);
-};
-
-const attack = (damage: number) => {
+const attack = async (damage: number) => {
   if (!canAttack.value || gameOver.value) return;
 
   if (damage === 0) {
     showFailedMessage();
     canAttack.value = false;
-    if (suppliesBlocked.value) setTimeout(endTurn, 800);
+
+    // if (suppliesBlocked.value) setTimeout(endTurn, 800);
+    await delay(0.8);
+    endTurn();
     return;
   }
 
   currentDamage.value = damage;
   showDamage.value = true;
-  setTimeout(() => (showDamage.value = false), 800);
-
   const nextEnemyHp = enemyHp.value - damage;
   enemyHp.value = nextEnemyHp < 0 ? 0 : nextEnemyHp;
+
+  await delay(0.8);
+  showDamage.value = false;
+
   canAttack.value = false;
-  setTimeout(checkGameOver, 1200);
-  if (suppliesBlocked.value) setTimeout(endTurn, 1200);
+  await delay(0.4);
+  checkGameOver();
+
+  endTurn();
+  // if (suppliesBlocked.value) setTimeout(endTurn, 1200);
 };
 
-const showFailedMessage = () => {
+const showFailedMessage = async () => {
   showFailed.value = true;
-  setTimeout(() => (showFailed.value = false), 800);
+  await delay(0.8);
+  showFailed.value = false;
 };
 
-const attackHero = () => {
+const attackHero = async () => {
   if (myTurn.value || gameOver.value) return;
 
   const randomIndex = Math.floor(
@@ -79,24 +80,25 @@ const attackHero = () => {
   );
   const chosenAttack = monsterCard.attributes.attackCards[randomIndex];
 
-  const successProbability = chosenAttack.attributes.chance / 100;
-  if (Math.random() >= successProbability) {
+  if (successProbability(chosenAttack.attributes.chance)) {
     showFailedMessage();
     return;
   }
 
   const { min, max } = chosenAttack.attributes;
-  const damage = Math.floor(Math.random() * (max - min + 1)) + min;
+  const damage = calculateAverage(min, max);
   const enemyDamage = damage + monsterCard.attributes.attack;
 
   currentDamage.value = enemyDamage;
   showDamage.value = true;
-  setTimeout(() => (showDamage.value = false), 800);
-
   const nextHeroHp = heroHp.value - enemyDamage;
   heroHp.value = nextHeroHp < 0 ? 0 : nextHeroHp;
 
-  setTimeout(checkGameOver, 1000);
+  await delay(0.8);
+  showDamage.value = false;
+
+  await delay(0.2);
+  checkGameOver();
 };
 
 const overlayHeight = computed(() =>
@@ -107,11 +109,14 @@ const overlayHeroHeight = computed(() =>
   Math.floor((1 - heroHp.value / heroCard.attributes.healthPoints) * 100)
 );
 
-const turnMessage = computed(() => (myTurn.value ? "YOUR TURN" : "ENEMY TURN"));
+const turnMessage = computed(() => (myTurn.value ? 'YOUR TURN' : 'ENEMY TURN'));
 
 const simulateEnemyTurn = async () => {
-  setTimeout(attackHero, 1000);
-  setTimeout(endTurn, 3000);
+  await delay(1);
+  attackHero();
+
+  await delay(1);
+  endTurn();
 };
 
 const endTurn = () => {
@@ -136,20 +141,24 @@ const endTurn = () => {
   showMessage();
 };
 
-const recovery = (qtd: number) => {
-  if (suppliesBlocked.value) return;
-  const nextHeroHp = heroHp.value + qtd;
-  heroHp.value =
-    nextHeroHp > heroCard.attributes.healthPoints
-      ? heroCard.attributes.healthPoints
-      : nextHeroHp;
-  canUseItems.value = false;
-};
+// const recovery = (qtd: number) => {
+//   if (suppliesBlocked.value) return;
+//   const nextHeroHp = heroHp.value + qtd;
+//   heroHp.value =
+//     nextHeroHp > heroCard.attributes.healthPoints
+//       ? heroCard.attributes.healthPoints
+//       : nextHeroHp;
+//   canUseItems.value = false;
+// };
 
-const showMessage = () => {
+const showMessage = async () => {
   showTurnMessage.value = true;
-  setTimeout(() => (showTurnMessage.value = false), 800);
-  setTimeout(() => (showTurnTip.value = true), 1000);
+
+  await delay(0.8);
+  showTurnMessage.value = false;
+
+  await delay(0.2);
+  showTurnTip.value = true;
 };
 
 // const suppliesBlocked = computed(
@@ -158,48 +167,53 @@ const showMessage = () => {
 //     heroHp.value === heroCard.attributes.healthPoints ||
 //     gameOver.value
 // );
-const suppliesBlocked = computed(() => true);
+// const suppliesBlocked = computed(() => true);
 
 const checkGameOver = () => {
   gameOver.value = enemyHp.value === 0 || heroHp.value === 0;
 };
 
-const updateCounter = () => {
+const updateCounter = async () => {
   if (!gameOver.value) {
     if (turnCounter.value === 0) endTurn();
     turnCounter.value =
       turnCounter.value === 0 ? counter : turnCounter.value - 1;
   }
 
-  setTimeout(updateCounter, 1000);
+  await delay(1);
+  updateCounter();
 };
 
-const startBattle = () => {
-  setTimeout(() => (isShowingMosterCard.value = true), 1200);
-  setTimeout(() => (battleStarted.value = true), 3500);
+const startBattle = async () => {
+  await delay(1.2);
+  isShowingMosterCard.value = true;
 
-  setTimeout(() => {
-    showMessage();
-    updateCounter();
-  }, 4500);
+  await delay(2.3);
+  battleStarted.value = true;
+
+  await delay(1);
+  showMessage();
+  updateCounter();
 };
 
 onMounted(startBattle);
 
-defineEmits(["quit"]);
+defineEmits(['quit']);
 </script>
 
 <template>
   <div class="select-none bg-yellow-100 w-full h-full text-black relative">
     <Transition name="fade" mode="out-in">
       <div
+        class="bg-black bg-opacity-70 w-full h-full z-50 flex justify-center items-center text-white gap-20"
         v-if="!battleStarted"
-        class="bg-black bg-opacity-70 w-full h-full z-50 flex justify-center items-center"
       >
-        <BattleMonsterCard
+        <Card :card="heroCard" />
+        <div class="flex justify-center text-5xl">VS</div>
+        <Card
           :card="monsterCard"
           :can-flip="!isShowingMosterCard"
-          class="scale-150"
+          :flip-on-hover="false"
         />
       </div>
       <div
@@ -210,14 +224,15 @@ defineEmits(["quit"]);
           <FinalDetails
             :enemy="monsterCard"
             :enemyHp="enemyHp"
-            @restart="restartGame"
-            @quit="$emit('quit')"
+            @continue="$emit('quit')"
             v-if="gameOver"
           />
         </Transition>
         <div class="w-full h-full flex items-center justify-center gap-5 px-5">
           <div class="flex flex-grow justify-center gap-2">
-            <EmptyAttackCardSpace v-for="_ in (4 - monsterCard.attributes.attackCards.length)" />
+            <EmptyAttackCardSpace
+              v-for="_ in 4 - monsterCard.attributes.attackCards.length"
+            />
             <BattleAttackCard
               v-for="atk in monsterCard.attributes.attackCards"
               :card="atk"
@@ -234,7 +249,7 @@ defineEmits(["quit"]);
             <div class="card-holder flex relative">
               <BattleMonsterCard :card="monsterCard" />
               <div
-                class="absolute w-full h-full text-3xl flex justify-center items-center drop-shadow-2xl text-white animate-ping"
+                class="absolute w-full h-full text-5xl flex justify-center items-center drop-shadow-2xl text-white animate-ping"
                 v-if="showDamage && myTurn"
               >
                 -{{ currentDamage }}
@@ -252,7 +267,7 @@ defineEmits(["quit"]);
             <div class="card-holder flex relative">
               <BattleHeroCard :card="heroCard" />
               <div
-                class="absolute w-full h-full text-3xl flex justify-center items-center drop-shadow-2xl text-white animate-ping"
+                class="absolute w-full h-full text-5xl flex justify-center items-center drop-shadow-2xl text-white animate-ping"
                 v-if="showDamage && !myTurn"
               >
                 -{{ currentDamage }}
@@ -273,7 +288,7 @@ defineEmits(["quit"]);
               @attack="attack"
               :class="{ 'opacity-50': !canAttack && myTurn }"
             />
-            <EmptyAttackCardSpace v-for="_ in (4 - heroAttackCards.length)" />
+            <EmptyAttackCardSpace v-for="_ in 4 - heroAttackCards.length" />
           </div>
           <!-- <div
         class="card w-28 h-40 bg-black flex items-center text-center justify-center text-white cursor-pointer transition-all"

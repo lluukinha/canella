@@ -13,16 +13,28 @@ defineProps({
 
 <template>
   <div class="w-full h-full flex justify-between">
-    <div class="flex flex-col gap-5">
+    <div class="flex flex-col gap-2">
       <h1 class="text-3xl">Hero Settings</h1>
-      <h2 class="text-2xl">Type: {{ card.attributes.type }}</h2>
-      <h2 class="text-2xl">Level: {{ card.attributes.level }}</h2>
       <h2 class="text-2xl">
-        Health points:
+        <span class="font-extralight uppercase text-sm">Type:</span>
+        {{ card.attributes.type }}
+      </h2>
+      <h2 class="text-2xl">
+        <span class="font-extralight uppercase text-sm">Experiencee:</span>
+        {{ card.attributes.experience }}
+      </h2>
+      <h2 class="text-2xl">
+        <span class="font-extralight uppercase text-sm">Level:</span>
+        {{ card.attributes.level }}
+      </h2>
+      <h2 class="text-2xl">
+        <span class="font-extralight uppercase text-sm">Health points:</span>
         {{ card.attributes.healthPoints }}
       </h2>
       <div>
-        <h2 class="text-2xl">Weapon types:</h2>
+        <h2 class="text-2xl">
+          <span class="font-extralight uppercase text-sm">Weapon types:</span>
+        </h2>
         <div class="mt-3 flex gap-1 flex-wrap text-md">
           <span
             v-for="weapon in card.attributes.weaponTypes"
