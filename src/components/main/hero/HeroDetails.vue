@@ -20,7 +20,7 @@ defineProps({
         {{ card.attributes.type }}
       </h2>
       <h2 class="text-2xl">
-        <span class="font-extralight uppercase text-sm">Experiencee:</span>
+        <span class="font-extralight uppercase text-sm">Experience:</span>
         {{ card.attributes.experience }}
       </h2>
       <h2 class="text-2xl">

@@ -15,6 +15,7 @@ import BattleHeroCard from './battle/BattleHeroCard.vue';
 import BattleMonsterCard from './battle/BattleMonsterCard.vue';
 import EmptyAttackCardSpace from './battle/EmptyAttackCardSpace.vue';
 import Card from './cards/Card.vue';
+import BattleWeaponCard from './battle/BattleWeaponCard.vue';
 
 const heroCard = playerStore.value.equipedCards.hero!;
 const weaponCard = playerStore.value.equipedCards.weapon!;
@@ -261,7 +262,7 @@ defineEmits(['quit']);
             </div>
           </div>
         </div>
-        <div class="w-full h-full flex items-center justify-center gap-5 px-5">
+        <div class="w-full h-full flex items-center justify-center gap-2 px-5">
           <div class="hero-card flex flex-col gap-1">
             <HpBar :hp="heroCard.attributes.healthPoints" :remaining="heroHp" />
             <div class="card-holder flex relative">
@@ -278,6 +279,7 @@ defineEmits(['quit']);
               />
             </div>
           </div>
+          <BattleWeaponCard :card="weaponCard" />
           <div class="flex flex-grow justify-center gap-2">
             <BattleAttackCard
               v-for="atk in heroAttackCards"

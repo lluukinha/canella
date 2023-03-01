@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, PropType } from "vue";
-import { IMonsterCard } from "../../scripts/main";
+import { computed, PropType } from 'vue';
+import { IMonsterCard } from '../../scripts/main';
 
 const props = defineProps({
   card: {
@@ -19,42 +19,46 @@ const attackTypes = computed(() =>
 </script>
 
 <template>
-  <div class="flip-card w-40 h-56">
+  <div class="flip-card w-48 h-64">
     <div class="flip-card-inner transition-all" :class="{ flip: !canFlip }">
-  <div
-    class="flip-card-front bg-gradient-to-t rounded-xl shadow-lg py-1 px-2 border-4 flex flex-col from-green-500 to-gray-900 border-green-700 text-white items-center justify-between"
-  >
-    <div class="top flex justify-between items-center font-bold w-full text-xs">
-      #{{ card.id }}
-      <span class="uppercase">{{ card.type }}</span>
-    </div>
-    <div class="image border border-gray-700 rounded w-36 h-32 bg-gray-800 flex justify-center items-center">
-      <component :is="card.component" v-if="card.component" />
-    </div>
-    <div class="text-xs">
       <div
-        class="name w-36 px-2 py-1 flex justify-between border rounded-md rounded-b-none bg-gray-600 border-gray-700 uppercase"
+        class="flip-card-front bg-gradient-to-t rounded-xl shadow-lg py-1 px-2 border-4 flex flex-col from-green-500 to-gray-900 border-green-700 text-white items-center justify-center gap-1"
       >
-        {{ card.name }}
-        <span
-          class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold"
+        <div
+          class="top flex justify-between items-center font-bold w-full text-xs"
         >
-          {{ card.attributes.attackType }}
-        </span>
+          #{{ card.id }}
+          <span class="uppercase">{{ card.type }}</span>
+        </div>
+        <div
+          class="image border border-gray-700 rounded w-44 h-40 bg-gray-800 flex justify-center items-center relative"
+        >
+          <component :is="card.component" v-if="card.component" />
+          <span
+            class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold absolute bottom-1 right-1 text-xs"
+          >
+            {{ card.attributes.attackType }}
+          </span>
+        </div>
+        <div class="text-xs">
+          <div
+            class="name w-44 px-2 py-1 flex justify-between border rounded-md rounded-b-none bg-gray-600 border-gray-700 uppercase"
+          >
+            {{ card.name }}
+          </div>
+          <div
+            class="name w-44 px-2 py-1 flex justify-between border rounded-md rounded-t-none bg-gray-600 border-gray-700 uppercase"
+          >
+            Attack
+            <span
+              class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold"
+            >
+              {{ card.attributes.attack }}
+            </span>
+          </div>
+        </div>
       </div>
       <div
-        class="name w-36 px-2 py-1 flex justify-between border rounded-md rounded-t-none bg-gray-600 border-gray-700 uppercase"
-      >
-        Attack
-        <span
-          class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold"
-        >
-          {{ card.attributes.attack }}
-        </span>
-      </div>
-    </div>
-  </div>
-  <div
         class="flip-card-back bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-lg border-4 border-green-500 flex justify-center items-center text-gray-700 font-extrabold"
       >
         CANELLA
@@ -62,7 +66,6 @@ const attackTypes = computed(() =>
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .flip-card {
