@@ -84,44 +84,6 @@ defineProps({
       </div>
     </div>
   </div>
-  <!-- <div>
-    <div
-      class="flex flex-col gap-2 bg-gradient-to-br from-amber-100 to-green-500 p-5 rounded ring text-white select-none relative"
-      :class="{
-        'w-60 h-72' : size === 'large',
-        'w-40 h-52' : size === 'medium',
-        'ring-blue-600' : card.type === CardTypes.Hero,
-        'ring-yellow-400' : card.type === CardTypes.Weapon,
-        'ring-red-600' : card.type === CardTypes.Attack
-      }"
-    >
-      <div class="absolute top-3 right-3 px-4 rounded shadow" :class="{
-        'bg-blue-600' : card.type === CardTypes.Hero,
-        'bg-yellow-400' : card.type === CardTypes.Weapon,
-        'bg-red-600' : card.type === CardTypes.Attack
-      }">
-        {{ card.type }}
-      </div>
-
-      <component v-if="card.component" :is="card.component"></component>
-      <div>
-        <h2 class="text-sm font-semibold">Name</h2>
-        <span class="text-md">{{ card.name }}</span>
-      </div>
-      <HeroCardAttributes
-        :attributes="card.attributes as IHeroCardAttributes"
-        v-if="card.type === CardTypes.Hero"
-      />
-      <WeaponCardAttributes
-        :attributes="card.attributes as IWeaponCardAttributes"
-        v-if="card.type === CardTypes.Weapon"
-      />
-      <AttackCardAttributes
-        :attributes="card.attributes as IAttackCardAttributes"
-        v-if="card.type === CardTypes.Attack"
-      />
-    </div>
-  </div> -->
 </template>
 
 <style scoped>

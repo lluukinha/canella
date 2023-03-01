@@ -44,6 +44,9 @@ const selectCards = async (chosenCategory: any) => {
         </h4>
       </div>
       <div class="flex w-full justify-around">
+        <div class="flex justify-center w-full gap-10">
+        <button @click="changeDeckIndex">{{ '<<' }}</button>
+      </div>
         <Transition name="slide-left" mode="out-in">
           <div
             class="chosen-cards cursor-pointer flex transition-all duration-300 z-50"
@@ -84,9 +87,9 @@ const selectCards = async (chosenCategory: any) => {
             />
           </div>
         </Transition>
+        <div class="flex justify-center w-full gap-10">
+        <button @click="changeDeckIndex">{{ '>>' }}</button>
       </div>
-      <div class="flex justify-center w-full gap-10">
-        <button @click="changeDeckIndex">CHANGE</button>
       </div>
     </div>
   </div>

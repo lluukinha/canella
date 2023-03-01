@@ -37,8 +37,8 @@ const attack = () => {
       :class="{ 'is-inactive': isFlipped }"
     >
       <div
-        class="flip-card-front flex flex-col gap-2 bg-slate-800 p-5 rounded text-white select-none relative transition-all"
-        :class="{ 'hover:ring-2 ring-blue-200 hover:scale-110': canAttack }"
+        class="flip-card-front bg-gradient-to-t rounded-xl shadow-lg py-2 px-5 border-4 flex flex-col justify-center gap-2 relative transition-all  from-red-700 to-gray-900 border-red-900 text-white"
+        :class="{ 'hover:scale-110': canAttack }"
       >
         <div
           class="flex flex-col gap-1 w-full justify-center uppercase text-center font-bold"
@@ -46,18 +46,19 @@ const attack = () => {
           <div>{{ card.name }}</div>
 
           <div>
-            <span class="font-normal text-xs">ATK:</span>
+            <span class="font-normal text-xs">ATK</span>
             {{ min }}~{{ max }}
           </div>
         </div>
-        <p class="text-center text-3xl text-slate-600">
-          {{ card.attributes.chance }}%
+        <p class="text-center text-red-400 flex flex-col items-center justify-center">
+          <span class="text-xs">Chance</span>
+          <span class="text-3xl">{{ card.attributes.chance }}%</span>
         </p>
       </div>
       <div
-        class="flip-card-back flex flex-col gap-2 bg-slate-800 p-5 rounded text-white select-none relative transition-all"
+        class="flip-card-back bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-lg border-4 border-red-900 flex justify-center items-center text-gray-700 font-extrabold"
       >
-        back
+        CANELLA
       </div>
     </div>
   </div>
