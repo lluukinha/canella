@@ -3,6 +3,15 @@ import KnightVue from '../components/cards/heroes/Knight.vue';
 import SnakeVue from '../components/cards/monsters/Snake.vue';
 import ArcherVue from '../components/cards/heroes/Archer.vue';
 
+interface IExperienceTable { [key: number]: number; }
+
+export const experienceTable: IExperienceTable = {
+  1: 0,
+  2: 100,
+  3: 200,
+  4: 400
+};
+
 export enum CardTypes {
   Hero = 'Hero',
   Monster = 'Monster',

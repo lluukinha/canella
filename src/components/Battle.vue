@@ -217,6 +217,7 @@ defineEmits(["quit"]);
         </Transition>
         <div class="w-full h-full flex items-center justify-center gap-5 px-5">
           <div class="flex flex-grow justify-center gap-2">
+            <EmptyAttackCardSpace v-for="_ in (4 - monsterCard.attributes.attackCards.length)" />
             <BattleAttackCard
               v-for="atk in monsterCard.attributes.attackCards"
               :card="atk"
@@ -224,7 +225,6 @@ defineEmits(["quit"]);
               :canAttack="false"
               :isFlipped="myTurn"
             />
-            <EmptyAttackCardSpace v-for="_ in (4 - monsterCard.attributes.attackCards.length)" />
           </div>
           <div class="hero-card flex flex-col gap-1">
             <HpBar

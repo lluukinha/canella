@@ -10,9 +10,11 @@ import {
   IHeroCardAttributes,
   IWeaponCardAttributes,
   IAttackCardAttributes,
+IMonsterCardAttributes,
 } from "../../scripts/main";
 import AttackCardAttributes from "./attributes/AttackCardAttributes.vue";
 import HeroCardAttributes from "./attributes/HeroCardAttributes.vue";
+import MonsterCardAttributes from "./attributes/MonsterCardAttributes.vue";
 import WeaponCardAttributes from "./attributes/WeaponCardAttributes.vue";
 
 defineProps({
@@ -43,13 +45,14 @@ defineProps({
           'from-blue-700 to-gray-900 border-blue-900': card.type === CardTypes.Hero,
           'from-red-700 to-gray-900 border-red-900': card.type === CardTypes.Attack,
           'from-yellow-300 to-gray-900 border-yellow-300': card.type === CardTypes.Weapon,
+          'from-green-500 to-gray-900 border-green-700': card.type === CardTypes.Monster,
         }"
       >
         <div class="top flex justify-between items-center font-bold">
           #{{ card.id }}
           <span class="uppercase">{{ card.type }}</span>
         </div>
-        <div class="image border border-gray-700 rounded w-52 h-52 bg-gray-800">
+        <div class="image border border-gray-700 rounded w-52 h-52 bg-gray-800 flex justify-center items-center">
           <component :is="card.component" v-if="card.component" />
         </div>
         <div>
@@ -60,7 +63,7 @@ defineProps({
             <span class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold text-xs">{{ card.attributes.attackType }}</span>
           </div>
           <div
-            class="description border rounded-md rounded-t-none mt-1 h-20 border-gray-700 bg-gradient-to-b from-gray-600 to-gray-300 px-2 py-1"
+            class="description border rounded-md rounded-t-none mt-1 h-20 border-gray-700 bg-gradient-to-b from-gray-600 to-gray-300 px-2 py-1 flex justify-center items-center"
           >
             <HeroCardAttributes
               :attributes="card.attributes as IHeroCardAttributes"
@@ -73,6 +76,10 @@ defineProps({
             <AttackCardAttributes
               :attributes="card.attributes as IAttackCardAttributes"
               v-if="card.type === CardTypes.Attack"
+            />
+            <MonsterCardAttributes
+              :attributes="card.attributes as IMonsterCardAttributes"
+              v-if="card.type === CardTypes.Monster"
             />
           </div>
         </div>
