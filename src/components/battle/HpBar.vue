@@ -12,7 +12,9 @@ const heroHpWidth = computed(() =>
 </script>
 
 <template>
-  <div class="flex gap-2">
+  <div
+    class="flex gap-2 bg-gray-800 p-1 rounded-lg border-2 border-gray-600 text-white"
+  >
     <div class="w-full bg-black rounded relative">
       <div
         :style="`width: ${heroHpWidth}%`"
