@@ -3,6 +3,8 @@ import { ref } from "vue";
 import { attackCards, heroCards, weaponCards } from "../scripts/main";
 import { playerStore } from "../scripts/store";
 import Card from "./cards/Card.vue";
+import DoubleLeft from "./icons/DoubleLeft.vue";
+import DoubleRight from "./icons/DoubleRight.vue";
 
 const knight = {
   id: 1,
@@ -34,18 +36,15 @@ const selectCards = async (chosenCategory: any) => {
 
 <template>
   <div class="flex justify-center items-center w-full h-full">
-    <div class="flex flex-col gap-20 w-full">
+    <div class="flex flex-col gap-10 w-full">
       <div class="text-center flex flex-col gap-2">
-        <h2 class="text-4xl">Welcome to Canella.</h2>
         <h3 class="text-xl">Select your first deck to start.</h3>
-        <h4>
-          Every deck has 1 hero, 1 weapon and 1 attack card, all combined will
-          let you be able to start your journey.
-        </h4>
       </div>
       <div class="flex w-full justify-around">
         <div class="flex justify-center w-full gap-10">
-        <button @click="changeDeckIndex">{{ '<<' }}</button>
+        <button @click="changeDeckIndex">
+          <DoubleLeft />
+        </button>
       </div>
         <Transition name="slide-left" mode="out-in">
           <div
@@ -88,7 +87,9 @@ const selectCards = async (chosenCategory: any) => {
           </div>
         </Transition>
         <div class="flex justify-center w-full gap-10">
-        <button @click="changeDeckIndex">{{ '>>' }}</button>
+        <button @click="changeDeckIndex">
+          <DoubleRight />
+        </button>
       </div>
       </div>
     </div>

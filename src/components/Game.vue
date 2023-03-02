@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import Battle from './Battle.vue';
-import ChoosingHero from './ChoosingHero.vue';
-import BookIcon from './icons/BookIcon.vue';
-import CardsIcon from './icons/CardsIcon.vue';
-import PersonIcon from './icons/PersonIcon.vue';
-import ShopIcon from './icons/ShopIcon.vue';
-import GoldIcon from './icons/GoldIcon.vue';
-import { playerStore } from '../scripts/store';
-import HeroDetails from './main/hero/HeroDetails.vue';
+import { computed, ref } from "vue";
+import Battle from "./Battle.vue";
+import ChoosingHero from "./ChoosingHero.vue";
+import BookIcon from "./icons/BookIcon.vue";
+import CardsIcon from "./icons/CardsIcon.vue";
+import PersonIcon from "./icons/PersonIcon.vue";
+import ShopIcon from "./icons/ShopIcon.vue";
+import GoldIcon from "./icons/GoldIcon.vue";
+import { playerStore } from "../scripts/store";
+import Hero from "./main/hero/Hero.vue";
 
 const playerHasNoCards = computed(
   () =>
@@ -17,10 +17,10 @@ const playerHasNoCards = computed(
 );
 
 enum MenuItems {
-  Hero = 'hero',
-  Battle = 'battle',
-  Cards = 'cards',
-  Shop = 'shop',
+  Hero = "hero",
+  Battle = "battle",
+  Cards = "cards",
+  Shop = "shop",
 }
 
 const isFighting = ref<boolean>(false);
@@ -34,7 +34,7 @@ const current = ref<MenuItems>(MenuItems.Hero);
       <div
         class="bg-gradient-to-br from-slate-800 to-black h-full w-64 flex flex-col"
       >
-        <div class="flex flex-col gap-4 p-4">
+        <div class="flex flex-col gap-4 px-4 py-3">
           <div
             class="flex gap-2 py-2 px-4 rounded shadow hover:ring-1"
             :class="{ 'bg-slate-700 ring-1': current === MenuItems.Hero }"
@@ -77,20 +77,16 @@ const current = ref<MenuItems>(MenuItems.Hero);
           </div>
         </div>
       </div>
-      <div class="flex flex-col w-full h-full p-5 gap-10">
-        <div class="w-full h-full">
-          <Transition name="slide" mode="out-in">
-            <HeroDetails
-              :card="playerStore.equipedCards.hero!"
-              v-if="current === 'hero'"
-            />
-            <div v-else-if="current === 'battle'">
-              <button @click="isFighting = true">
-                Click here to start battle
-              </button>
-            </div>
-          </Transition>
-        </div>
+      <div class="flex flex-col w-full h-full gap-10">
+        <Transition name="slide" mode="out-in">
+          <Hero v-if="current === MenuItems.Hero" />
+          <div class="p-5" v-else-if="current === MenuItems.Battle">
+            <button @click="isFighting = true">
+              Click here to start battle
+            </button>
+          </div>
+          <div v-else>o que é isso</div>
+        </Transition>
       </div>
     </div>
     <Battle v-else-if="isFighting" @quit="isFighting = false" />

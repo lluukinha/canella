@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { IAttackCard, ICard, IHeroCard, IWeaponCard } from './main';
+import { IAttackCard, ICard, IHeroCard, IWeaponCard, heroCards } from './main';
 
 export interface IPlayer {
   gold: number;
