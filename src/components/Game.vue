@@ -30,11 +30,10 @@ const current = ref<MenuItems>(MenuItems.Hero);
 <template>
   <Transition name="bounce" mode="out-in">
     <ChoosingHero v-if="playerHasNoCards" />
-    <div class="w-full h-full flex" v-else-if="!isFighting">
+    <div class="w-full h-full flex flex-col" v-else-if="!isFighting">
       <div
-        class="bg-gradient-to-br from-slate-800 to-black h-full w-64 flex flex-col"
+        class="bg-gradient-to-br from-slate-800 to-black h-16 w-full flex justify-between p-4 items-center"
       >
-        <div class="flex flex-col gap-4 px-4 py-3">
           <div
             class="flex gap-2 py-2 px-4 rounded shadow hover:ring-1"
             :class="{ 'bg-slate-700 ring-1': current === MenuItems.Hero }"
@@ -69,13 +68,12 @@ const current = ref<MenuItems>(MenuItems.Hero);
 
             Shop
           </div>
-          <div class="flex gap-2 py-2 px-4 absolute bottom-5">
+          <div class="flex gap-2 py-2 px-4">
             <div class="flex gap-2">
               <GoldIcon class="w-6 h-6 text-yellow-400" />
               {{ playerStore.gold }}
             </div>
           </div>
-        </div>
       </div>
       <div class="flex flex-col w-full h-full gap-10">
         <Transition name="slide" mode="out-in">

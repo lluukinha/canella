@@ -25,8 +25,29 @@ document.addEventListener('contextmenu', (event) => {
   </div>
 </template>
 
-<style>
+<style lang="postcss">
 body {
   overflow: hidden;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-900;
+  border-radius: 5px;
+}
+
+/* Handle */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-700;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>

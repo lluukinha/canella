@@ -12,7 +12,7 @@ defineProps({
 
 <template>
   <div
-    class="w-64 h-96 border-4 border-double rounded-lg flex justify-center items-center font-semibold cursor-pointer placeholder"
+    class="w-64 h-96 border-4 border-double rounded-lg flex justify-center items-center font-semibold cursor-pointer placeholder relative"
     :class="{
       'border-blue-700': cardType === CardTypes.Hero,
       'border-red-600': cardType === CardTypes.Attack,
