@@ -12,7 +12,7 @@ const props = defineProps({
 const cardImageUrl = computed(() => {
   const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
   return new URL(`../../assets/cards/${card}`, import.meta.url).href;
-})
+});
 </script>
 
 <template>
@@ -24,13 +24,19 @@ const cardImageUrl = computed(() => {
       <span class="uppercase">{{ card.type }}</span>
     </div>
     <div
-      class="image border border-gray-700 rounded w-32 h-32 bg-gray-800 relative bg-cover bg-center" :style="`background-image: url(${cardImageUrl})`"
+      class="image border border-gray-700 rounded w-32 h-32 bg-gray-800 relative bg-cover bg-center"
+      :style="`background-image: url(${cardImageUrl})`"
     >
-      <span
-        class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold absolute bottom-1 right-1 text-xs"
+      <div
+        class="absolute w-full h-full flex justify-center items-end gap-1 bottom-1"
       >
-        {{ card.attributes.attackType }}
-      </span>
+        <span
+          class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold text-xs"
+          v-for="atk in card.attributes.attackTypes"
+        >
+          {{ atk }}
+        </span>
+      </div>
     </div>
     <div class="text-xs">
       <div

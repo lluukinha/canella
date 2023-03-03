@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { PropType } from "vue";
-import { IAttackCardAttributes } from "../../../scripts/main";
+import { PropType } from 'vue';
+import { IAttackCardAttributes } from '../../../scripts/main';
 
 defineProps({
   attributes: {
@@ -17,7 +17,9 @@ defineProps({
     >
       <div class="flex items-center gap-1">
         <span class="text-xs font-light">Type:</span>
-        <span class="text-md font-bold uppercase">{{ attributes.type }}</span>
+        <span class="text-md font-bold uppercase">{{
+          attributes.attackType
+        }}</span>
       </div>
       <div class="flex items-center gap-1">
         <span class="text-xs font-light">Chance:</span>

@@ -13,14 +13,10 @@ const props = defineProps({
   },
 });
 
-const attackTypes = computed(() =>
-  props.card.attributes.attackCards.map((a) => a.attributes.type)
-);
-
 const cardImageUrl = computed(() => {
   const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
   return new URL(`../../assets/cards/${card}`, import.meta.url).href;
-})
+});
 </script>
 
 <template>
@@ -36,7 +32,8 @@ const cardImageUrl = computed(() => {
           <span class="uppercase">{{ card.type }}</span>
         </div>
         <div
-          class="image border border-gray-700 rounded w-44 h-40 bg-gray-800 flex justify-center items-center relative bg-cover bg-center" :style="`background-image: url(${cardImageUrl})`"
+          class="image border border-gray-700 rounded w-44 h-40 bg-gray-800 flex justify-center items-center relative bg-cover bg-center"
+          :style="`background-image: url(${cardImageUrl})`"
         >
           <span
             class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold absolute bottom-1 right-1 text-xs"
@@ -72,39 +69,8 @@ const cardImageUrl = computed(() => {
 </template>
 
 <style scoped>
-.flip-card {
-  background-color: transparent;
-  perspective: 1000px; /* Remove this if you don't want the 3D effect */
-  position: relative;
-}
-
-/* This container is needed to position the front and back side */
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-}
-
 /* Do an horizontal flip when you move the mouse over the flip box container */
 .flip {
-  transform: rotateY(180deg);
-}
-
-/* Position the front and back side */
-.flip-card-front,
-.flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden; /* Safari */
-  backface-visibility: hidden;
-}
-
-/* Style the back side */
-.flip-card-front {
   transform: rotateY(180deg);
 }
 </style>

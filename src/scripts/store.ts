@@ -1,5 +1,12 @@
 import { ref } from 'vue';
-import { IAttackCard, ICard, IHeroCard, IWeaponCard, heroCards, weaponCards, attackCards, CardTypes, IWeaponCardAttributes } from './main';
+import {
+  IAttackCard,
+  ICard,
+  IHeroCard,
+  IWeaponCard,
+  CardTypes,
+  IWeaponCardAttributes,
+} from './main';
 
 export interface IPlayer {
   gold: number;
@@ -13,10 +20,10 @@ export interface IPlayer {
   };
 }
 
-const player : IPlayer = {
+const player: IPlayer = {
   gold: 0,
   cards: [],
-  escapes: 3,
+  escapes: 1,
   equipedCards: {
     hero: null,
     weapon: null,
@@ -45,7 +52,7 @@ export const removeAttack = (card: IAttackCard) => {
   );
   playerStore.value.equipedCards.attacks.splice(index, 1);
   playerStore.value.cards.push(card);
-}
+};
 
 export const removeCardFromDeck = (cardId: number) => {
   const index = playerStore.value.cards.findIndex((c) => c.id === cardId);
@@ -77,12 +84,14 @@ export const equipNewCard = (card: ICard) => {
 
   if (card.type === CardTypes.Weapon) {
     const equipedAttackCards = playerStore.value.equipedCards.attacks;
-    const notAllowed = equipedAttackCards.filter(
-      (c) =>
-        !c.attributes.weaponTypes.includes(
-          (card.attributes as IWeaponCardAttributes).type
-        )
-    );
+    const notAllowed = equipedAttackCards.filter((c) => {
+      const attr = card.attributes as IWeaponCardAttributes;
+      const isWeaponAllowed = c.attributes.weaponTypes.includes(attr.type);
+      const isAttackAllowed = attr.attackTypes.includes(
+        c.attributes.attackType
+      );
+      return !isWeaponAllowed || !isAttackAllowed;
+    });
     notAllowed.forEach((card) => {
       const index = playerStore.value.equipedCards.attacks.findIndex(
         (c) => c.id === card.id
@@ -91,4 +100,4 @@ export const equipNewCard = (card: ICard) => {
       playerStore.value.cards.push(card);
     });
   }
-}
+};

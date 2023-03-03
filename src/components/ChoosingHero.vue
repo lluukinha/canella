@@ -1,36 +1,37 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { attackCards, heroCards, weaponCards } from "../scripts/main";
-import { playerStore } from "../scripts/store";
-import Card from "./cards/Card.vue";
-import DoubleLeft from "./icons/DoubleLeft.vue";
-import DoubleRight from "./icons/DoubleRight.vue";
+import { ref } from 'vue';
+import { attackCards, heroCards, weaponCards } from '../scripts/main';
+import { playerStore } from '../scripts/store';
+import Card from './cards/Card.vue';
+import DoubleLeft from './icons/DoubleLeft.vue';
+import DoubleRight from './icons/DoubleRight.vue';
 
 const knight = {
   id: 1,
-  name: "Knight",
+  name: 'Knight',
   heroCard: heroCards[0],
   weaponCard: weaponCards[0],
   attackCard: attackCards[0],
 };
 const paladin = {
   id: 1,
-  name: "Paladin",
+  name: 'Paladin',
   heroCard: heroCards[1],
   weaponCard: weaponCards[1],
   attackCard: attackCards[2],
 };
 
-const chosenDeck = ref<"knight" | "paladin">("knight");
+const chosenDeck = ref<'knight' | 'paladin'>('knight');
 
 const changeDeckIndex = () => {
-  chosenDeck.value = chosenDeck.value === "knight" ? "paladin" : "knight";
+  chosenDeck.value = chosenDeck.value === 'knight' ? 'paladin' : 'knight';
 };
 
 const selectCards = async (chosenCategory: any) => {
   playerStore.value.equipedCards.hero = chosenCategory.heroCard;
   playerStore.value.equipedCards.weapon = chosenCategory.weaponCard;
   playerStore.value.equipedCards.attacks.push(chosenCategory.attackCard);
+  playerStore.value.cards.push(attackCards[4], weaponCards[2]);
 };
 </script>
 
@@ -42,10 +43,10 @@ const selectCards = async (chosenCategory: any) => {
       </div>
       <div class="flex w-full justify-around">
         <div class="flex justify-center w-full gap-10">
-        <button @click="changeDeckIndex">
-          <DoubleLeft />
-        </button>
-      </div>
+          <button @click="changeDeckIndex">
+            <DoubleLeft />
+          </button>
+        </div>
         <Transition name="slide-left" mode="out-in">
           <div
             class="chosen-cards cursor-pointer flex transition-all duration-300 z-50"
@@ -87,10 +88,10 @@ const selectCards = async (chosenCategory: any) => {
           </div>
         </Transition>
         <div class="flex justify-center w-full gap-10">
-        <button @click="changeDeckIndex">
-          <DoubleRight />
-        </button>
-      </div>
+          <button @click="changeDeckIndex">
+            <DoubleRight />
+          </button>
+        </div>
       </div>
     </div>
   </div>

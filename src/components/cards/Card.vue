@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, PropType } from "vue";
+import { computed, PropType } from 'vue';
 import {
   IHeroCard,
   IAttackCard,
@@ -11,14 +11,14 @@ import {
   IWeaponCardAttributes,
   IAttackCardAttributes,
   IMonsterCardAttributes,
-} from "../../scripts/main";
-import AttackCardAttributes from "./attributes/AttackCardAttributes.vue";
-import HeroCardAttributes from "./attributes/HeroCardAttributes.vue";
-import MonsterCardAttributes from "./attributes/MonsterCardAttributes.vue";
-import WeaponCardAttributes from "./attributes/WeaponCardAttributes.vue";
+} from '../../scripts/main';
+import AttackCardAttributes from './attributes/AttackCardAttributes.vue';
+import HeroCardAttributes from './attributes/HeroCardAttributes.vue';
+import MonsterCardAttributes from './attributes/MonsterCardAttributes.vue';
+import WeaponCardAttributes from './attributes/WeaponCardAttributes.vue';
 
 const cardImageUrl = computed(() => {
-  const card = props.card.image.length > 0 ? props.card.image : "empty.jpg";
+  const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
   return new URL(`../../assets/cards/${card}`, import.meta.url).href;
 });
 
@@ -30,9 +30,9 @@ const props = defineProps({
     required: true,
   },
   size: {
-    type: String as PropType<"small" | "medium" | "large">,
+    type: String as PropType<'small' | 'medium' | 'large'>,
     required: false,
-    default: "large",
+    default: 'large',
   },
   canFlip: {
     type: Boolean,
@@ -84,12 +84,14 @@ const props = defineProps({
                 {{ weapon }}
               </span>
             </template>
-            <span
-              class="px-2 bg-gray-900 shadow rounded font-bold uppercase text-sm"
-              v-else
-            >
-              {{ card.attributes.attackType }}
-            </span>
+            <template v-else-if="card.type === CardTypes.Weapon">
+              <span
+                v-for="atk in (card.attributes as IWeaponCardAttributes).attackTypes"
+                class="text-xs px-2 rounded bg-gray-900 bg-opacity-30 font-bold uppercase shadow"
+              >
+                {{ atk }}
+              </span>
+            </template>
           </div>
         </div>
         <div>
@@ -136,40 +138,9 @@ const props = defineProps({
 </template>
 
 <style scoped>
-.flip-card {
-  background-color: transparent;
-  perspective: 1000px; /* Remove this if you don't want the 3D effect */
-  position: relative;
-}
-
-/* This container is needed to position the front and back side */
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-}
-
 /* Do an horizontal flip when you move the mouse over the flip box container */
 .flip-card-on-hover:hover > .flip-card-inner:not(.flip),
 .flip {
-  transform: rotateY(180deg);
-}
-
-/* Position the front and back side */
-.flip-card-front,
-.flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden; /* Safari */
-  backface-visibility: hidden;
-}
-
-/* Style the back side */
-.flip-card-front {
   transform: rotateY(180deg);
 }
 </style>

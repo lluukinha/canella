@@ -15,34 +15,34 @@ export const experienceTable: IExperienceTable = {
 };
 
 export enum CardTypes {
-  Hero = "Hero",
-  Monster = "Monster",
-  Weapon = "Weapon",
-  Attack = "Attack",
-  Supply = "Supply",
+  Hero = 'Hero',
+  Monster = 'Monster',
+  Weapon = 'Weapon',
+  Attack = 'Attack',
+  Supply = 'Supply',
 }
 
 enum WeaponTypes {
-  Sword = "Sword",
-  Axe = "Axe",
-  Club = "Club",
-  Bow = "Bow",
-  Spear = "Spear",
-  Crossbow = "Crossbow",
-  Wand = "Wand",
+  Sword = 'Sword',
+  Axe = 'Axe',
+  Club = 'Club',
+  Bow = 'Bow',
+  Spear = 'Spear',
+  Crossbow = 'Crossbow',
+  Wand = 'Wand',
 }
 
 enum AttackTypes {
-  Fire = "Fire",
-  Meelee = "Meelee",
-  Ice = "Ice",
-  Dark = "Dark",
-  Water = "Water",
+  Fire = 'Fire',
+  Meelee = 'Meelee',
+  Ice = 'Ice',
+  Dark = 'Dark',
+  Water = 'Water',
 }
 
 export interface IWeaponCardAttributes {
   type: WeaponTypes;
-  attackType: AttackTypes;
+  attackTypes: AttackTypes[];
   attack: number;
 }
 
@@ -52,7 +52,6 @@ export interface IWeaponCard extends ICard {
 }
 
 export interface IAttackCardAttributes {
-  type: AttackTypes;
   attackType: AttackTypes;
   weaponTypes: WeaponTypes[];
   min: number;
@@ -75,24 +74,35 @@ export interface ICard {
 export const weaponCards: IWeaponCard[] = [
   {
     id: 8,
-    name: "Knife",
+    name: 'Knife',
     type: CardTypes.Weapon,
-    image: "weapon_knife.jpg",
+    image: 'weapon_knife.jpg',
     attributes: {
       type: WeaponTypes.Sword,
-      attackType: AttackTypes.Meelee,
+      attackTypes: [AttackTypes.Meelee],
       attack: 5,
     },
   },
   {
     id: 9,
-    name: "Wooden Bow",
+    name: 'Wooden Bow',
     type: CardTypes.Weapon,
-    image: "weapon_wooden_bow.jpg",
+    image: 'weapon_wooden_bow.jpg',
     attributes: {
       type: WeaponTypes.Bow,
-      attackType: AttackTypes.Meelee,
+      attackTypes: [AttackTypes.Meelee],
       attack: 15,
+    },
+  },
+  {
+    id: 88,
+    name: 'Fire Sword',
+    type: CardTypes.Weapon,
+    image: '',
+    attributes: {
+      type: WeaponTypes.Sword,
+      attackTypes: [AttackTypes.Meelee, AttackTypes.Fire],
+      attack: 5,
     },
   },
 ];
@@ -107,11 +117,10 @@ export interface IAttackCard extends ICard {
 export const attackCards: IAttackCard[] = [
   {
     id: 3,
-    name: "Simple",
+    name: 'Simple',
     type: CardTypes.Attack,
-    image: "attack_simple.jpg",
+    image: 'attack_simple.jpg',
     attributes: {
-      type: AttackTypes.Meelee,
       attackType: AttackTypes.Meelee,
       weaponTypes: Object.values(WeaponTypes),
       min: 1,
@@ -121,11 +130,10 @@ export const attackCards: IAttackCard[] = [
   },
   {
     id: 4,
-    name: "Bite",
+    name: 'Bite',
     type: CardTypes.Attack,
-    image: "",
+    image: '',
     attributes: {
-      type: AttackTypes.Meelee,
       attackType: AttackTypes.Meelee,
       weaponTypes: [],
       min: 5,
@@ -135,11 +143,10 @@ export const attackCards: IAttackCard[] = [
   },
   {
     id: 5,
-    name: "Throw Arrow",
+    name: 'Throw Arrow',
     type: CardTypes.Attack,
-    image: "attack_throw_arrow.jpg",
+    image: 'attack_throw_arrow.jpg',
     attributes: {
-      type: AttackTypes.Meelee,
       attackType: AttackTypes.Meelee,
       weaponTypes: [WeaponTypes.Bow],
       min: 12,
@@ -149,13 +156,25 @@ export const attackCards: IAttackCard[] = [
   },
   {
     id: 6,
-    name: "Super",
+    name: 'Super',
     type: CardTypes.Attack,
-    image: "attack_super.jpg",
+    image: 'attack_super.jpg',
     attributes: {
-      type: AttackTypes.Meelee,
       weaponTypes: Object.values(WeaponTypes),
       attackType: AttackTypes.Meelee,
+      min: 10,
+      max: 10,
+      chance: 100,
+    },
+  },
+  {
+    id: 55,
+    name: 'Queima Tudo',
+    type: CardTypes.Attack,
+    image: '',
+    attributes: {
+      weaponTypes: [WeaponTypes.Wand, WeaponTypes.Sword],
+      attackType: AttackTypes.Fire,
       min: 10,
       max: 10,
       chance: 100,
@@ -164,10 +183,10 @@ export const attackCards: IAttackCard[] = [
 ];
 
 export enum HeroTypes {
-  Knight = "Knight",
-  Sorcerer = "Sorcerer",
-  Druid = "Druid",
-  Paladin = "Paladin",
+  Knight = 'Knight',
+  Sorcerer = 'Sorcerer',
+  Druid = 'Druid',
+  Paladin = 'Paladin',
 }
 
 const knightWeaponTypes = [
@@ -184,7 +203,6 @@ const paladinWeaponTypes = [
 
 export interface IHeroCardAttributes {
   weaponTypes: WeaponTypes[];
-  attackType: AttackTypes;
   type: HeroTypes;
   level: number;
   experience: number;
@@ -199,12 +217,11 @@ export interface IHeroCard extends ICard {
 export const heroCards: IHeroCard[] = [
   {
     id: 1,
-    name: "Knight",
+    name: 'Knight',
     type: CardTypes.Hero,
-    image: "hero_knight.jpg",
+    image: 'hero_knight.jpg',
     attributes: {
       type: HeroTypes.Knight,
-      attackType: AttackTypes.Meelee,
       weaponTypes: knightWeaponTypes,
       level: 1,
       experience: 0,
@@ -213,12 +230,11 @@ export const heroCards: IHeroCard[] = [
   },
   {
     id: 2,
-    name: "Paladin",
+    name: 'Paladin',
     type: CardTypes.Hero,
-    image: "hero_paladin.jpg",
+    image: 'hero_paladin.jpg',
     attributes: {
       type: HeroTypes.Paladin,
-      attackType: AttackTypes.Meelee,
       weaponTypes: paladinWeaponTypes,
       level: 1,
       experience: 0,
@@ -255,8 +271,8 @@ export const monsterCards: IMonsterCard[] = [
   {
     id: 7,
     type: CardTypes.Monster,
-    name: "Snake",
-    image: "monster_snake.jpg",
+    name: 'Snake',
+    image: 'monster_snake.jpg',
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 10,
