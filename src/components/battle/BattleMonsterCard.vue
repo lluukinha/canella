@@ -16,6 +16,11 @@ const props = defineProps({
 const attackTypes = computed(() =>
   props.card.attributes.attackCards.map((a) => a.attributes.type)
 );
+
+const cardImageUrl = computed(() => {
+  const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
+  return new URL(`../../assets/cards/${card}`, import.meta.url).href;
+})
 </script>
 
 <template>
@@ -31,9 +36,8 @@ const attackTypes = computed(() =>
           <span class="uppercase">{{ card.type }}</span>
         </div>
         <div
-          class="image border border-gray-700 rounded w-44 h-40 bg-gray-800 flex justify-center items-center relative"
+          class="image border border-gray-700 rounded w-44 h-40 bg-gray-800 flex justify-center items-center relative bg-cover bg-center" :style="`background-image: url(${cardImageUrl})`"
         >
-          <component :is="card.component" v-if="card.component" />
           <span
             class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold absolute bottom-1 right-1 text-xs"
           >

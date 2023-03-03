@@ -7,17 +7,13 @@ import { computed } from "vue";
 import Card from "../../cards/Card.vue";
 
 const battleCards = computed<IAttackCard[]>(() => playerStore.value.equipedCards.attacks);
-const canEquipBattleCards = computed<boolean>(() => {
-  const { hero, weapon } = playerStore.value.equipedCards;
-  return !!hero && !!weapon;
-})
-
-const equipCard = () => {
-  if (!canEquipBattleCards.value) return;
-  emit('equipCard', CardTypes.Attack);
-}
 
 const emit = defineEmits(["equipCard"]);
+
+const equipCard = (index: number) => {
+  if (!!battleCards.value[index]) return;
+  emit('equipCard', CardTypes.Attack);
+};
 </script>
 
 <template>
@@ -25,7 +21,7 @@ const emit = defineEmits(["equipCard"]);
     <div class="flex flex-col justify-start">
       <CardPlaceholder
         :card-type="CardTypes.Attack"
-        @click="equipCard"
+        @click="equipCard(0)"
         :class="{ 'hover:ring': !battleCards[0] }"
       >
         <Transition name="slide" mode="out-in">
@@ -35,7 +31,7 @@ const emit = defineEmits(["equipCard"]);
       <div class="flex justify-center">
         <button
           class="py-1 px-4 bg-red-600 opacity-50 rounded-lg rounded-t-none drop-shadow-lg transition-all hover:opacity-100 disabled:opacity-0"
-          @click="removeAttack(0)"
+          @click="removeAttack(battleCards[0])"
           :disabled="!battleCards[0]"
         >
           <DoubleDown />
@@ -46,8 +42,8 @@ const emit = defineEmits(["equipCard"]);
     <div class="flex flex-col justify-start">
       <CardPlaceholder
         :card-type="CardTypes.Attack"
-        @click="equipCard"
-        :class="{ 'hover:ring': !battleCards[1] && canEquipBattleCards  }"
+        @click="equipCard(1)"
+        :class="{ 'hover:ring': !battleCards[1] }"
       >
         <Transition name="slide" mode="out-in">
           <Card :card="battleCards[1]" v-if="!!battleCards[1]" />
@@ -56,7 +52,7 @@ const emit = defineEmits(["equipCard"]);
       <div class="flex justify-center">
         <button
           class="py-1 px-4 bg-red-600 opacity-50 rounded-lg rounded-t-none drop-shadow-lg transition-all hover:opacity-100 disabled:opacity-0"
-          @click="removeAttack(1)"
+          @click="removeAttack(battleCards[1])"
           :disabled="!battleCards[1]"
         >
           <DoubleDown />
@@ -67,8 +63,8 @@ const emit = defineEmits(["equipCard"]);
     <div class="flex flex-col justify-start">
       <CardPlaceholder
         :card-type="CardTypes.Attack"
-        @click="equipCard"
-        :class="{ 'hover:ring': !battleCards[2] && canEquipBattleCards }"
+        @click="equipCard(2)"
+        :class="{ 'hover:ring': !battleCards[2] }"
       >
         <Transition name="slide" mode="out-in">
           <Card :card="battleCards[2]" v-if="!!battleCards[2]" />
@@ -77,7 +73,7 @@ const emit = defineEmits(["equipCard"]);
       <div class="flex justify-center">
         <button
           class="py-1 px-4 bg-red-600 opacity-50 rounded-lg rounded-t-none drop-shadow-lg transition-all hover:opacity-100 disabled:opacity-0"
-          @click="removeAttack(2)"
+          @click="removeAttack(battleCards[2])"
           :disabled="!battleCards[2]"
         >
           <DoubleDown />
@@ -88,8 +84,8 @@ const emit = defineEmits(["equipCard"]);
     <div class="flex flex-col justify-start">
       <CardPlaceholder
         :card-type="CardTypes.Attack"
-        @click="equipCard"
-        :class="{ 'hover:ring': !battleCards[3] && canEquipBattleCards }"
+        @click="equipCard(3)"
+        :class="{ 'hover:ring': !battleCards[3] }"
       >
         <Transition name="slide" mode="out-in">
           <Card :card="battleCards[3]" v-if="!!battleCards[3]" />
@@ -98,7 +94,7 @@ const emit = defineEmits(["equipCard"]);
       <div class="flex justify-center">
         <button
           class="py-1 px-4 bg-red-600 opacity-50 rounded-lg rounded-t-none drop-shadow-lg transition-all hover:opacity-100 disabled:opacity-0"
-          @click="removeAttack(3)"
+          @click="removeAttack(battleCards[3])"
           :disabled="!battleCards[3]"
         >
           <DoubleDown />

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PropType } from 'vue';
+import { computed, PropType } from "vue";
 import {
   IHeroCard,
   IAttackCard,
@@ -11,13 +11,18 @@ import {
   IWeaponCardAttributes,
   IAttackCardAttributes,
   IMonsterCardAttributes,
-} from '../../scripts/main';
-import AttackCardAttributes from './attributes/AttackCardAttributes.vue';
-import HeroCardAttributes from './attributes/HeroCardAttributes.vue';
-import MonsterCardAttributes from './attributes/MonsterCardAttributes.vue';
-import WeaponCardAttributes from './attributes/WeaponCardAttributes.vue';
+} from "../../scripts/main";
+import AttackCardAttributes from "./attributes/AttackCardAttributes.vue";
+import HeroCardAttributes from "./attributes/HeroCardAttributes.vue";
+import MonsterCardAttributes from "./attributes/MonsterCardAttributes.vue";
+import WeaponCardAttributes from "./attributes/WeaponCardAttributes.vue";
 
-defineProps({
+const cardImageUrl = computed(() => {
+  const card = props.card.image.length > 0 ? props.card.image : "empty.jpg";
+  return new URL(`../../assets/cards/${card}`, import.meta.url).href;
+});
+
+const props = defineProps({
   card: {
     type: Object as PropType<
       ICard | IHeroCard | IMonsterCard | IAttackCard | IWeaponCard
@@ -25,9 +30,9 @@ defineProps({
     required: true,
   },
   size: {
-    type: String as PropType<'small' | 'medium' | 'large'>,
+    type: String as PropType<"small" | "medium" | "large">,
     required: false,
-    default: 'large',
+    default: "large",
   },
   canFlip: {
     type: Boolean,
@@ -65,19 +70,33 @@ defineProps({
           <span class="uppercase">{{ card.type }}</span>
         </div>
         <div
-          class="image border border-gray-700 rounded w-52 h-52 bg-gray-800 flex justify-center items-center"
+          class="image border border-gray-700 rounded w-52 h-52 bg-gray-800 flex justify-center items-center relative bg-cover bg-center"
+          :style="`background-image: url(${cardImageUrl})`"
         >
-          <component :is="card.component" v-if="card.component" />
+          <div
+            class="flex flex-wrap gap-x-1 gap-y-1 bottom-1 justify-center absolute"
+          >
+            <template v-if="card.type === CardTypes.Attack">
+              <span
+                v-for="weapon in (card.attributes as IAttackCardAttributes).weaponTypes"
+                class="text-xs px-2 rounded bg-yellow-400 bg-opacity-30 font-bold uppercase shadow"
+              >
+                {{ weapon }}
+              </span>
+            </template>
+            <span
+              class="px-2 bg-gray-900 shadow rounded font-bold uppercase text-sm"
+              v-else
+            >
+              {{ card.attributes.attackType }}
+            </span>
+          </div>
         </div>
         <div>
           <div
-            class="name w-52 px-2 py-1 flex justify-between border rounded-md rounded-b-none bg-gray-600 border-gray-700 uppercase"
+            class="name w-52 px-2 py-1 flex justify-center items-center border rounded-md rounded-b-none bg-gray-600 border-gray-700 uppercase"
           >
             {{ card.name }}
-            <span
-              class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold text-xs"
-              >{{ card.attributes.attackType }}</span
-            >
           </div>
           <div
             class="description border rounded-md rounded-t-none mt-1 h-20 border-gray-700 bg-gradient-to-b from-gray-600 to-gray-300 px-2 py-1 flex justify-center items-center"

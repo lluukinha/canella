@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, PropType, ref } from "vue";
-import { delay, ICard, CardTypes } from "../../scripts/main";
+import { delay, ICard, CardTypes, IWeaponCardAttributes, IAttackCardAttributes } from "../../scripts/main";
 import Card from "../cards/Card.vue";
 
 import { playerStore } from "../../scripts/store";
@@ -31,7 +31,34 @@ const chooseCard = async (card: ICard) => {
   isShowingCard.value = true;
 };
 
-defineEmits(["confirm"]);
+const canEquip = (card: ICard) => {
+  if (props.cardType === CardTypes.Hero) return true;
+  if (props.cardType === CardTypes.Attack && !playerStore.value.equipedCards.weapon) return true;
+  if (props.cardType === CardTypes.Weapon && !playerStore.value.equipedCards.hero) return true;
+
+  if (props.cardType === CardTypes.Weapon) {
+    const allowedWeapons = playerStore.value.equipedCards.hero!.attributes.weaponTypes;
+    return allowedWeapons.includes((card.attributes as IWeaponCardAttributes).type);
+  }
+
+  if (props.cardType === CardTypes.Attack) {
+    const allowedWeapons = (card.attributes as IAttackCardAttributes).weaponTypes;
+    return allowedWeapons.includes(playerStore.value.equipedCards.weapon!.attributes.type);
+  }
+};
+
+const disabledReason = computed(() => {
+  if (props.cardType === CardTypes.Attack) return "NOT ALLOWED FOR CURRENT WEAPON";
+  if (props.cardType === CardTypes.Weapon) return "NOT ALLOWED FOR CURRENT HERO";
+  return '';
+});
+
+const emit = defineEmits(["confirm", "close"]);
+
+const confirmCard = () => {
+  if (!chosenCard.value || !canEquip(chosenCard.value)) return;
+  emit('confirm', chosenCard.value);
+}
 </script>
 
 <template>
@@ -41,7 +68,7 @@ defineEmits(["confirm"]);
     <div class="z-50 flex flex-col gap-4 justify-center w-2/3 mt-10">
       <div class="px-4 py-1 class flex justify-between items-center">
         <span>Choose a {{ cardType }} card to equip:</span>
-        <button @click="$emit('confirm')">Close</button>
+        <button @click="$emit('close')">Close</button>
       </div>
       <div class="flex gap-10 w-full">
         <div class="flex-grow">
@@ -56,15 +83,21 @@ defineEmits(["confirm"]);
             <li
               v-for="(card, index) in availableCards"
               :key="`${card.id}_${index}`"
-              class="py-2 border-gray-600 first:border-t-0 border-t hover:bg-gray-600 flex justify-between"
+              class="py-2 border-gray-600 first:border-t-0 border-t hover:bg-gray-600 flex justify-between items-center"
               :class="{ 'bg-gray-600': card.id === chosenCard?.id }"
               @click="chooseCard(card)"
             >
-              <div class="py-1 px-4">{{ card.name }} - {{ index }}</div>
+              <div class="py-1 px-4">
+                {{ card.name }} - {{ index }}
+              </div>
+              <span class="px-4 text-gray-500" v-if="!canEquip(card)">
+                {{ disabledReason }}
+              </span>
               <button
                 class="py-1 px-4 mx-2 rounded bg-green-500 opacity-50 hover:opacity-100 drop-shadow-lg disabled:opacity-0 transition-all"
                 :disabled="!chosenCard"
                 @click="$emit('confirm', chosenCard)"
+                v-else
               >
                 Choose
               </button>
@@ -79,7 +112,7 @@ defineEmits(["confirm"]);
                 v-if="!!chosenCard"
                 :flipOnHover="false"
                 :canFlip="!isShowingCard"
-                @click="$emit('confirm', chosenCard)"
+                @click="confirmCard"
               />
             </Transition>
           </CardPlaceholder>
@@ -88,7 +121,7 @@ defineEmits(["confirm"]);
     </div>
     <div
       class="overlay bg-black opacity-90 w-full h-full absolute z-40"
-      @click="$emit('confirm')"
+      @click="$emit('close')"
     ></div>
   </div>
 </template>
