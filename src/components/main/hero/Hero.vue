@@ -38,7 +38,7 @@ const confirmEquip = async (card: ICard) => {
 </script>
 
 <template>
-  <div class="custom-scrollbar overflow-y-auto pb-20">
+  <div class="custom-scrollbar overflow-y-auto">
     <Transition name="fade">
       <EquipCard
         :cardType="cardTypetoInclude"

@@ -199,9 +199,14 @@ const startBattle = async () => {
   updateCounter();
 };
 
+const escape = () => {
+  playerStore.value.escapes -= 1;
+  emit('quit')
+}
+
 onMounted(startBattle);
 
-defineEmits(['quit']);
+const emit = defineEmits(['quit']);
 </script>
 
 <template>
@@ -315,9 +320,10 @@ defineEmits(['quit']);
           </button>
           <button
             class="py-2 px-4 rounded bg-blue-600 text-white shadow hover:bg-blue-500 disabled:hover:bg-blue-600 disabled:opacity-70"
-            @click="$emit('quit')"
+            @click="escape"
+            v-if="playerStore.escapes > 0"
           >
-            RUN AWAY
+            ESCAPE ({{ playerStore.escapes }})
           </button>
         </div>
         <div

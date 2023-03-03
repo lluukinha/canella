@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import { computed, PropType, ref } from "vue";
-import { delay, ICard, CardTypes, IWeaponCardAttributes, IAttackCardAttributes } from "../../scripts/main";
+import {
+  delay,
+  ICard,
+  CardTypes,
+  IWeaponCardAttributes,
+  IAttackCardAttributes,
+IHeroCardAttributes,
+} from "../../scripts/main";
 import Card from "../cards/Card.vue";
+import CheckIcon from "../icons/CheckIcon.vue";
 
 import { playerStore } from "../../scripts/store";
 import CardPlaceholder from "../cards/CardPlaceholder.vue";
@@ -33,32 +41,50 @@ const chooseCard = async (card: ICard) => {
 
 const canEquip = (card: ICard) => {
   if (props.cardType === CardTypes.Hero) return true;
-  if (props.cardType === CardTypes.Attack && !playerStore.value.equipedCards.weapon) return true;
-  if (props.cardType === CardTypes.Weapon && !playerStore.value.equipedCards.hero) return true;
+  if (
+    props.cardType === CardTypes.Attack &&
+    !playerStore.value.equipedCards.weapon
+  )
+    return true;
+  if (
+    props.cardType === CardTypes.Weapon &&
+    !playerStore.value.equipedCards.hero
+  )
+    return true;
 
   if (props.cardType === CardTypes.Weapon) {
-    const allowedWeapons = playerStore.value.equipedCards.hero!.attributes.weaponTypes;
-    return allowedWeapons.includes((card.attributes as IWeaponCardAttributes).type);
+    const allowedWeapons =
+      playerStore.value.equipedCards.hero!.attributes.weaponTypes;
+    return allowedWeapons.includes(
+      (card.attributes as IWeaponCardAttributes).type
+    );
   }
 
   if (props.cardType === CardTypes.Attack) {
-    const allowedWeapons = (card.attributes as IAttackCardAttributes).weaponTypes;
-    return allowedWeapons.includes(playerStore.value.equipedCards.weapon!.attributes.type);
+    const allowedWeapons = (card.attributes as IAttackCardAttributes)
+      .weaponTypes;
+    return allowedWeapons.includes(
+      playerStore.value.equipedCards.weapon!.attributes.type
+    );
   }
 };
 
 const disabledReason = computed(() => {
-  if (props.cardType === CardTypes.Attack) return "NOT ALLOWED FOR CURRENT WEAPON";
-  if (props.cardType === CardTypes.Weapon) return "NOT ALLOWED FOR CURRENT HERO";
-  return '';
+  if (props.cardType === CardTypes.Attack)
+    return "NOT ALLOWED FOR CURRENT WEAPON";
+  if (props.cardType === CardTypes.Weapon)
+    return "NOT ALLOWED FOR CURRENT HERO";
+  return "";
 });
 
 const emit = defineEmits(["confirm", "close"]);
 
 const confirmCard = () => {
   if (!chosenCard.value || !canEquip(chosenCard.value)) return;
-  emit('confirm', chosenCard.value);
-}
+  emit("confirm", chosenCard.value);
+};
+
+const cardsWithAttack = [CardTypes.Attack, CardTypes.Weapon];
 </script>
 
 <template>
@@ -87,19 +113,54 @@ const confirmCard = () => {
               :class="{ 'bg-gray-600': card.id === chosenCard?.id }"
               @click="chooseCard(card)"
             >
-              <div class="py-1 px-4">
-                {{ card.name }} - {{ index }}
+              <div class="py-1 px-4 flex items-center justify-between w-full">
+                <span>#{{ card.id }} - {{ card.name }}</span>
+                <div class="flex items-center gap-1">
+                  <template v-if="cardType === CardTypes.Hero">
+                    <span class="px-2 bg-gray-800 rounded text-xs font-semibold uppercase">
+                      {{ (card.attributes as IHeroCardAttributes).type }}
+                    </span>
+                    <span class="px-1 bg-gray-100 rounded text-xs text-black font-semibold">
+                      LEVEL: {{ (card.attributes as IHeroCardAttributes).level }}
+                    </span>
+                    <span class="px-1 bg-red-600 rounded text-xs font-semibold">
+                      HP: {{ (card.attributes as IHeroCardAttributes).healthPoints }}
+                    </span>
+                  </template>
+                  <template v-else-if="cardType === CardTypes.Weapon">
+                    <span class="px-1 bg-gray-100 rounded text-xs text-black font-semibold uppercase">
+                      {{ (card.attributes as IWeaponCardAttributes).type }}
+                    </span>
+                    <span class="px-1 bg-red-600 rounded text-xs font-semibold">
+                      ATK: {{ (card.attributes as IWeaponCardAttributes).attack }}
+                    </span>
+                  </template>
+                  <template v-else-if="cardType === CardTypes.Attack">
+                    <span class="px-1 bg-red-600 rounded text-xs font-semibold">
+                      MIN: {{ (card.attributes as IAttackCardAttributes).min }}
+                    </span>
+                    <span class="px-1 bg-red-600 rounded text-xs font-semibold">
+                      MAX: {{ (card.attributes as IAttackCardAttributes).max }}
+                    </span>
+                    <span
+                      class="px-1 bg-gray-100 rounded text-xs text-black font-semibold"
+                    >
+                      CHANCE:
+                      {{ (card.attributes as IAttackCardAttributes).chance }}%
+                    </span>
+                  </template>
+                </div>
               </div>
               <span class="px-4 text-gray-500" v-if="!canEquip(card)">
                 {{ disabledReason }}
               </span>
               <button
-                class="py-1 px-4 mx-2 rounded bg-green-500 opacity-50 hover:opacity-100 drop-shadow-lg disabled:opacity-0 transition-all"
+                class="py-1 px-2 mx-2 rounded bg-green-500 drop-shadow-lg disabled:opacity-0 transition-all"
                 :disabled="!chosenCard"
                 @click="$emit('confirm', chosenCard)"
                 v-else
               >
-                Choose
+                <CheckIcon />
               </button>
             </li>
           </ul>

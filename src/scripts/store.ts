@@ -4,6 +4,7 @@ import { IAttackCard, ICard, IHeroCard, IWeaponCard, heroCards, weaponCards, att
 export interface IPlayer {
   gold: number;
   cards: ICard[];
+  escapes: number;
   equipedCards: {
     hero: IHeroCard | null;
     weapon: IWeaponCard | null;
@@ -12,9 +13,10 @@ export interface IPlayer {
   };
 }
 
-const player = {
+const player : IPlayer = {
   gold: 0,
   cards: [],
+  escapes: 3,
   equipedCards: {
     hero: null,
     weapon: null,
