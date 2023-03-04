@@ -94,7 +94,11 @@ export const weaponCards: IWeaponCard[] = [
       attack: 15,
     },
   },
-  {
+];
+
+/*
+Weapon Example:
+{
     id: 88,
     name: 'Fire Sword',
     type: CardTypes.Weapon,
@@ -105,7 +109,22 @@ export const weaponCards: IWeaponCard[] = [
       attack: 5,
     },
   },
-];
+
+Attack example
+{
+    id: 55,
+    name: 'Queima Tudo',
+    type: CardTypes.Attack,
+    image: '',
+    attributes: {
+      weaponTypes: [WeaponTypes.Wand, WeaponTypes.Sword],
+      attackType: AttackTypes.Fire,
+      min: 10,
+      max: 10,
+      chance: 100,
+    },
+  },
+*/
 
 export interface IAttackCard extends ICard {
   id: number;
@@ -167,19 +186,6 @@ export const attackCards: IAttackCard[] = [
       chance: 100,
     },
   },
-  {
-    id: 55,
-    name: 'Queima Tudo',
-    type: CardTypes.Attack,
-    image: '',
-    attributes: {
-      weaponTypes: [WeaponTypes.Wand, WeaponTypes.Sword],
-      attackType: AttackTypes.Fire,
-      min: 10,
-      max: 10,
-      chance: 100,
-    },
-  },
 ];
 
 export enum HeroTypes {
@@ -230,7 +236,7 @@ export const heroCards: IHeroCard[] = [
   },
   {
     id: 2,
-    name: 'Paladin',
+    name: 'Guilherme',
     type: CardTypes.Hero,
     image: 'hero_paladin.jpg',
     attributes: {

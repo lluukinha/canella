@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue';
 import { IAttackCard } from '../../scripts/main';
+import CardBackSide from '../cards/CardBackSide.vue';
 
 const props = defineProps({
   card: { type: Object as PropType<IAttackCard>, required: true },
@@ -31,14 +32,13 @@ const attack = () => {
 </script>
 
 <template>
-  <div class="flip-card drop-shadow-lg w-32 h-40" @click="attack">
-    <div
-      class="flip-card-inner transition-all"
-      :class="{ 'is-inactive': isFlipped }"
-    >
+  <div
+    class="flip-card drop-shadow-lg w-32 h-40 transition-all"
+    @click="attack"
+  >
+    <div class="flip-card-inner transition-all" :class="{ flip: !isFlipped }">
       <div
         class="flip-card-front bg-gradient-to-t rounded-xl shadow-lg py-2 px-5 border-4 flex flex-col justify-center gap-2 relative transition-all from-red-700 to-gray-900 border-red-900 text-white"
-        :class="{ 'hover:scale-110': canAttack }"
       >
         <div
           class="flex flex-col gap-1 w-full justify-center uppercase text-center font-bold"
@@ -57,17 +57,7 @@ const attack = () => {
           <span class="text-3xl">{{ card.attributes.chance }}%</span>
         </p>
       </div>
-      <div
-        class="flip-card-back bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-lg border-4 border-red-900 flex justify-center items-center text-gray-700 font-extrabold"
-      >
-        CANELLA
-      </div>
+      <CardBackSide class="border-red-900" />
     </div>
   </div>
 </template>
-
-<style scoped>
-.is-inactive {
-  transform: rotateY(180deg);
-}
-</style>

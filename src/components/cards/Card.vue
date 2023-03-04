@@ -16,6 +16,7 @@ import AttackCardAttributes from './attributes/AttackCardAttributes.vue';
 import HeroCardAttributes from './attributes/HeroCardAttributes.vue';
 import MonsterCardAttributes from './attributes/MonsterCardAttributes.vue';
 import WeaponCardAttributes from './attributes/WeaponCardAttributes.vue';
+import CardBackSide from './CardBackSide.vue';
 
 const cardImageUrl = computed(() => {
   const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
@@ -76,6 +77,12 @@ const props = defineProps({
           <div
             class="flex flex-wrap gap-x-1 gap-y-1 bottom-1 justify-center absolute"
           >
+            <span
+              class="text-xs px-2 rounded bg-gray-900 font-bold uppercase shadow"
+              v-if="card.type === CardTypes.Hero"
+            >
+              {{ (card.attributes as IHeroCardAttributes).type }}
+            </span>
             <template v-if="card.type === CardTypes.Attack">
               <span
                 v-for="weapon in (card.attributes as IAttackCardAttributes).weaponTypes"
@@ -87,7 +94,7 @@ const props = defineProps({
             <template v-else-if="card.type === CardTypes.Weapon">
               <span
                 v-for="atk in (card.attributes as IWeaponCardAttributes).attackTypes"
-                class="text-xs px-2 rounded bg-gray-900 bg-opacity-30 font-bold uppercase shadow"
+                class="text-xs px-2 rounded bg-gray-900 font-bold uppercase shadow"
               >
                 {{ atk }}
               </span>
@@ -122,25 +129,14 @@ const props = defineProps({
           </div>
         </div>
       </div>
-      <div
-        class="flip-card-back bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-lg border-4 flex justify-center items-center text-gray-700 font-extrabold"
+      <CardBackSide
         :class="{
           'border-blue-900': card.type === CardTypes.Hero,
           'border-red-900': card.type === CardTypes.Attack,
           'border-yellow-300': card.type === CardTypes.Weapon,
           'border-green-700': card.type === CardTypes.Monster,
         }"
-      >
-        CANELLA
-      </div>
+      />
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Do an horizontal flip when you move the mouse over the flip box container */
-.flip-card-on-hover:hover > .flip-card-inner:not(.flip),
-.flip {
-  transform: rotateY(180deg);
-}
-</style>

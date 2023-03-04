@@ -201,8 +201,8 @@ const startBattle = async () => {
 
 const escape = () => {
   playerStore.value.escapes -= 1;
-  emit('quit')
-}
+  emit('quit');
+};
 
 onMounted(startBattle);
 
@@ -295,7 +295,10 @@ const emit = defineEmits(['quit']);
               :canAttack="canAttack && myTurn"
               :isFlipped="!myTurn"
               @attack="attack"
-              :class="{ 'opacity-50': !canAttack && myTurn }"
+              :class="{
+                'opacity-50': !canAttack && myTurn,
+                'hover:scale-110': canAttack,
+              }"
             />
             <EmptyAttackCardSpace v-for="_ in 4 - heroAttackCards.length" />
           </div>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue';
 import { IMonsterCard } from '../../scripts/main';
+import CardBackSide from '../cards/CardBackSide.vue';
 
 const props = defineProps({
   card: {
@@ -59,18 +60,7 @@ const cardImageUrl = computed(() => {
           </div>
         </div>
       </div>
-      <div
-        class="flip-card-back bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-lg border-4 border-green-500 flex justify-center items-center text-gray-700 font-extrabold"
-      >
-        CANELLA
-      </div>
+      <CardBackSide class="border-green-500" />
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Do an horizontal flip when you move the mouse over the flip box container */
-.flip {
-  transform: rotateY(180deg);
-}
-</style>

@@ -7,15 +7,11 @@ import DoubleLeft from './icons/DoubleLeft.vue';
 import DoubleRight from './icons/DoubleRight.vue';
 
 const knight = {
-  id: 1,
-  name: 'Knight',
   heroCard: heroCards[0],
   weaponCard: weaponCards[0],
   attackCard: attackCards[0],
 };
 const paladin = {
-  id: 1,
-  name: 'Paladin',
   heroCard: heroCards[1],
   weaponCard: weaponCards[1],
   attackCard: attackCards[2],
@@ -31,7 +27,6 @@ const selectCards = async (chosenCategory: any) => {
   playerStore.value.equipedCards.hero = chosenCategory.heroCard;
   playerStore.value.equipedCards.weapon = chosenCategory.weaponCard;
   playerStore.value.equipedCards.attacks.push(chosenCategory.attackCard);
-  playerStore.value.cards.push(attackCards[4], weaponCards[2]);
 };
 </script>
 

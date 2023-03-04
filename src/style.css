@@ -70,6 +70,11 @@
   position: relative;
 }
 
+.flip-card-on-hover:hover > .flip-card-inner:not(.flip),
+.flip {
+  transform: rotateY(180deg);
+}
+
 /* This container is needed to position the front and back side */
 .flip-card-inner {
   position: relative;
