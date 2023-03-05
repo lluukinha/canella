@@ -22,9 +22,12 @@ const forestConfig = {
   bg: forestBgUrl,
   levels: [
     { number: 1, monsters: [monsterCards[0]] },
-    { number: 2, monsters: [monsterCards[0]] },
-    { number: 3, monsters: [monsterCards[0]] },
-    { number: 4, monsters: [monsterCards[0]] },
+    {
+      number: 2,
+      monsters: [monsterCards[0], monsterCards[1], monsterCards[2]],
+    },
+    { number: 3, monsters: [monsterCards[1]] },
+    { number: 4, monsters: [monsterCards[2]] },
     { number: 5, monsters: [monsterCards[0]] },
     { number: 6, monsters: [monsterCards[0]] },
     { number: 7, monsters: [monsterCards[0]] },

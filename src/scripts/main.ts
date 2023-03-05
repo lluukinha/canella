@@ -197,6 +197,20 @@ export const attackCards: IAttackCard[] = [
       chance: 100,
     },
   },
+  {
+    id: 11,
+    name: 'Scratch',
+    type: CardTypes.Attack,
+    image: 'attack_scratch.jpg',
+    attributes: {
+      weaponTypes: [],
+      attackType: AttackTypes.Meelee,
+      min: 10,
+      max: 15,
+      chance: 85,
+    },
+  },
+  // scratch
 ];
 
 export enum HeroTypes {
@@ -318,23 +332,41 @@ export const monsterCards: IMonsterCard[] = [
     },
   },
   {
-    id: 7,
+    id: 12,
     type: CardTypes.Monster,
-    name: 'Snake',
-    image: 'monster_snake.jpg',
+    name: 'Bear',
+    image: 'monster_bear.jpg',
     attributes: {
       attackType: AttackTypes.Meelee,
-      experience: 10,
-      attack: 10,
-      attackCards: [attackCards[1]],
-      healthPoints: 20,
+      experience: 25,
+      attack: 13,
+      attackCards: [attackCards[1], attackCards[4]],
+      healthPoints: 30,
       loot: {
-        gold: { min: 0, max: 1 },
-        card: { chance: 100, card: weaponCards[1] },
+        gold: { min: 1, max: 10 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 13,
+    type: CardTypes.Monster,
+    name: 'Crocodile',
+    image: 'monster_crocodile.jpg',
+    attributes: {
+      attackType: AttackTypes.Meelee,
+      experience: 30,
+      attack: 15,
+      attackCards: [attackCards[1], attackCards[4]],
+      healthPoints: 50,
+      loot: {
+        gold: { min: 5, max: 15 },
+        card: null,
       },
     },
   },
 ];
+// card : { chance: 100, card: weaponCards[1] }
 
 export const delay = (seconds: number) =>
   new Promise((resolve) => setTimeout(resolve, seconds * 1000));

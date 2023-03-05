@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { attackCards, heroCards, weaponCards } from '../scripts/main';
+import { attackCards, delay, heroCards, weaponCards } from '../scripts/main';
 import { playerStore } from '../scripts/store';
 import Card from './cards/Card.vue';
 import DoubleLeft from './icons/DoubleLeft.vue';
@@ -19,8 +19,12 @@ const paladin = {
 
 const chosenDeck = ref<'knight' | 'paladin'>('knight');
 
-const changeDeckIndex = () => {
+const changeDeckIndex = async () => {
+  isHeroCardFlipped.value = true;
+  await delay(0.3);
   chosenDeck.value = chosenDeck.value === 'knight' ? 'paladin' : 'knight';
+  await delay(0.8);
+  isHeroCardFlipped.value = false;
 };
 
 const selectCards = async (chosenCategory: any) => {
@@ -28,6 +32,8 @@ const selectCards = async (chosenCategory: any) => {
   playerStore.value.equipedCards.weapon = chosenCategory.weaponCard;
   playerStore.value.equipedCards.attacks.push(chosenCategory.attackCard);
 };
+
+const isHeroCardFlipped = ref<boolean>(false);
 </script>
 
 <template>
@@ -45,12 +51,15 @@ const selectCards = async (chosenCategory: any) => {
         <Transition name="slide-left" mode="out-in">
           <div
             class="chosen-cards cursor-pointer flex transition-all duration-300 z-50"
+            :class="{ 'start-position': isHeroCardFlipped }"
             v-if="chosenDeck === 'knight'"
             @click="selectCards(knight)"
           >
             <Card
               :card="knight.heroCard"
               class="hero-card transition-all z-30"
+              :canFlip="isHeroCardFlipped"
+              :flipOnHover="false"
             />
             <Card
               :card="knight.weaponCard"
@@ -63,12 +72,15 @@ const selectCards = async (chosenCategory: any) => {
           </div>
           <div
             class="chosen-cards cursor-pointer flex transition-all duration-300 z-50"
+            :class="{ 'start-position': isHeroCardFlipped }"
             v-else-if="chosenDeck === 'paladin'"
             @click="selectCards(paladin)"
           >
             <Card
               :card="paladin.heroCard"
               class="hero-card transition-all z-30"
+              :canFlip="isHeroCardFlipped"
+              :flipOnHover="false"
             />
             <Card
               :card="paladin.weaponCard"
@@ -91,11 +103,11 @@ const selectCards = async (chosenCategory: any) => {
 </template>
 
 <style>
-.weapon-card {
+.chosen-cards:not(.start-position) > .weapon-card {
   transform: translateX(220px) rotate(15deg) translateY(20px);
 }
 
-.attack-card {
+.chosen-cards:not(.start-position) > .attack-card {
   transform: translateX(-250px) rotate(-15deg) translateY(20px);
 }
 </style>
