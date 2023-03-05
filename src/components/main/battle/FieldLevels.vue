@@ -90,7 +90,14 @@ const castleRuinsConfig = {
   ],
 };
 
-const fieldConfig = computed(() => eval(`${props.field}Config`));
+const fieldConfig = computed(() => {
+  if (props.field === 'forest') return forestConfig;
+  if (props.field === 'darkForest') return darkForestConfig;
+  if (props.field === 'castle') return castleConfig;
+  if (props.field === 'castleRuins') return castleRuinsConfig;
+  return forestConfig;
+  // eval(`${props.field}Config`)
+});
 
 const props = defineProps({
   field: {

@@ -15,14 +15,15 @@ const darkForestBgUrl = new URL(
 const castleBgUrl = new URL('../../../assets/castle.jpg', import.meta.url).href;
 const ruinsBgUrl = new URL('../../../assets/ruins.jpeg', import.meta.url).href;
 
-const isUnlockingdarkForest = ref<boolean>(false);
-const isUnlockingcastle = ref<boolean>(false);
-const isUnlockingcastleRuins = ref<boolean>(false);
+const isUnlockingDarkForest = ref<boolean>(false);
+const isUnlockingCastle = ref<boolean>(false);
+const isUnlockingCastleRuins = ref<boolean>(false);
 const unlockField = async (
   field: 'forest' | 'darkForest' | 'castle' | 'castleRuins'
 ) => {
-  const isUnlockingField = `isUnlocking${field}`;
-  eval(isUnlockingField).value = true;
+  if (field === 'darkForest') isUnlockingDarkForest.value = true;
+  if (field === 'castle') isUnlockingCastle.value = true;
+  if (field === 'castleRuins') isUnlockingCastleRuins.value = true;
   await delay(1);
   playerStore.value.story[field].isEnabled = true;
 };
@@ -87,7 +88,7 @@ defineEmits(['startBattle']);
             <div v-if="playerStore.story.darkForest.isEnabled">DARK FOREST</div>
             <div v-else>
               <Transition name="fade" mode="out-in">
-                <UnlockIcon v-if="isUnlockingdarkForest" />
+                <UnlockIcon v-if="isUnlockingDarkForest" />
                 <LockIcon v-else />
               </Transition>
             </div>
@@ -117,7 +118,7 @@ defineEmits(['startBattle']);
             <div v-if="playerStore.story.castle.isEnabled">CASTLE</div>
             <div v-else>
               <Transition name="fade" mode="out-in">
-                <UnlockIcon v-if="isUnlockingcastle" />
+                <UnlockIcon v-if="isUnlockingCastle" />
                 <LockIcon v-else />
               </Transition>
             </div>
@@ -149,7 +150,7 @@ defineEmits(['startBattle']);
             </div>
             <div v-else>
               <Transition name="fade" mode="out-in">
-                <UnlockIcon v-if="isUnlockingcastleRuins" />
+                <UnlockIcon v-if="isUnlockingCastleRuins" />
                 <LockIcon v-else />
               </Transition>
             </div>
