@@ -21,7 +21,7 @@ const ruinsBgUrl = new URL('../../../assets/ruins.jpeg', import.meta.url).href;
 const forestConfig = {
   bg: forestBgUrl,
   levels: [
-    { number: 1, monsters: [monsterCards[1]] },
+    { number: 1, monsters: [monsterCards[0]] },
     { number: 2, monsters: [monsterCards[0]] },
     { number: 3, monsters: [monsterCards[0]] },
     { number: 4, monsters: [monsterCards[0]] },

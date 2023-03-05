@@ -234,14 +234,14 @@ export interface IHeroCard extends ICard {
 export const heroCards: IHeroCard[] = [
   {
     id: 1,
-    name: 'Knight',
+    name: 'Lucas',
     type: CardTypes.Hero,
     image: 'hero_knight.jpg',
     attributes: {
       type: HeroTypes.Knight,
       weaponTypes: knightWeaponTypes,
       level: 1,
-      experience: 90,
+      experience: 0,
       healthPoints: 50,
     },
   },
