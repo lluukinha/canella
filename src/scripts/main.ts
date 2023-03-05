@@ -365,6 +365,23 @@ export const monsterCards: IMonsterCard[] = [
       },
     },
   },
+  {
+    id: 14,
+    type: CardTypes.Monster,
+    name: 'Spider',
+    image: 'monster_spider.jpg',
+    attributes: {
+      attackType: AttackTypes.Meelee,
+      experience: 15,
+      attack: 12,
+      attackCards: [attackCards[1]],
+      healthPoints: 25,
+      loot: {
+        gold: { min: 3, max: 15 },
+        card: null,
+      },
+    },
+  },
 ];
 // card : { chance: 100, card: weaponCards[1] }
 
