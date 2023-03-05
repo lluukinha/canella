@@ -28,12 +28,15 @@ const availableCards = computed(() => {
 
 const isShowingCard = ref<boolean>(false);
 const chosenCard = ref<ICard>();
+const chosenIndex = ref<number>();
 
-const chooseCard = async (card: ICard) => {
-  if (card.id === chosenCard.value?.id) return;
+const chooseCard = async (card: ICard, index: number) => {
+  if (index === chosenIndex.value) return;
 
   isShowingCard.value = false;
-  if (!!chosenCard.value) await delay(0.5);
+  chosenIndex.value = index;
+
+  if (!!chosenCard.value) await delay(0.25);
   chosenCard.value = card;
   await delay(0.5);
 
@@ -102,8 +105,8 @@ const confirmCard = () => {
               v-for="(card, index) in availableCards"
               :key="`${card.id}_${index}`"
               class="py-2 border-gray-600 first:border-t-0 border-t hover:bg-gray-600 flex justify-between items-center"
-              :class="{ 'bg-gray-600': card.id === chosenCard?.id }"
-              @click="chooseCard(card)"
+              :class="{ 'bg-gray-600': index === chosenIndex }"
+              @click="chooseCard(card, index)"
             >
               <div
                 class="py-1 pl-4 pr-2 flex items-center justify-between w-full"
@@ -166,7 +169,9 @@ const confirmCard = () => {
               </button>
               <button
                 class="py-1 px-2 mx-2 rounded bg-green-500 drop-shadow-lg disabled:opacity-0 transition-all"
-                :disabled="!chosenCard"
+                :disabled="
+                  !chosenCard || (!!chosenCard && chosenIndex != index)
+                "
                 @click="$emit('confirm', chosenCard)"
                 v-else
               >

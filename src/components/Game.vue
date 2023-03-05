@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import Battle from "./Battle.vue";
-import ChoosingHero from "./ChoosingHero.vue";
-import BookIcon from "./icons/BookIcon.vue";
-import CardsIcon from "./icons/CardsIcon.vue";
-import PersonIcon from "./icons/PersonIcon.vue";
-import ShopIcon from "./icons/ShopIcon.vue";
-import GoldIcon from "./icons/GoldIcon.vue";
-import { playerStore } from "../scripts/store";
-import Hero from "./main/hero/Hero.vue";
-import BattleView from "./main/battle/BattleView.vue";
-import EscapeIcon from "./icons/EscapeIcon.vue";
+import { computed, ref } from 'vue';
+import Battle from './Battle.vue';
+import ChoosingHero from './ChoosingHero.vue';
+import BookIcon from './icons/BookIcon.vue';
+import CardsIcon from './icons/CardsIcon.vue';
+import PersonIcon from './icons/PersonIcon.vue';
+import ShopIcon from './icons/ShopIcon.vue';
+import GoldIcon from './icons/GoldIcon.vue';
+import { goToNextLevel, playerStore } from '../scripts/store';
+import Hero from './main/hero/Hero.vue';
+import BattleView from './main/battle/BattleView.vue';
+import EscapeIcon from './icons/EscapeIcon.vue';
+import { delay, IBattleData, IMonsterCard } from '../scripts/main';
 
 const playerHasNoCards = computed(
   () =>
@@ -19,21 +20,38 @@ const playerHasNoCards = computed(
 );
 
 enum MenuItems {
-  Hero = "hero",
-  Battle = "battle",
-  Cards = "cards",
-  Shop = "shop",
-  Rewards = "rewards",
+  Hero = 'hero',
+  Battle = 'battle',
+  Cards = 'cards',
+  Shop = 'shop',
+  Rewards = 'rewards',
 }
 
-const isFighting = ref<boolean>(false);
+const battleData = ref<IBattleData>();
 const current = ref<MenuItems>(MenuItems.Battle);
+
+const startBattle = (battle: IBattleData) => {
+  battleData.value = battle;
+};
+
+const wonBattle = async (data: IBattleData) => {
+  battleData.value = undefined;
+  goToNextLevel(data);
+};
 </script>
 
 <template>
-  <Transition name="bounce" mode="out-in">
+  <Transition name="fade" mode="out-in">
     <ChoosingHero v-if="playerHasNoCards" />
-    <div class="w-full h-full flex flex-col" v-else-if="!isFighting">
+    <div class="w-full h-full flex flex-col" v-else>
+      <Transition name="swirl">
+        <Battle
+          v-if="!!battleData"
+          @quit="battleData = undefined"
+          @continue="wonBattle(battleData!)"
+          :battleData="battleData"
+        />
+      </Transition>
       <div
         class="bg-gradient-to-br from-slate-800 to-black h-16 w-full flex justify-between p-4 items-center"
       >
@@ -98,11 +116,10 @@ const current = ref<MenuItems>(MenuItems.Battle);
         <Hero v-if="current === MenuItems.Hero" />
         <BattleView
           v-else-if="current === MenuItems.Battle"
-          @start-battle="isFighting = true"
+          @start-battle="startBattle"
         />
         <div v-else>o que é isso</div>
       </Transition>
     </div>
-    <Battle v-else-if="isFighting" @quit="isFighting = false" />
   </Transition>
 </template>

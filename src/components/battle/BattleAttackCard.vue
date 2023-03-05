@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue';
-import { IAttackCard } from '../../scripts/main';
+import {
+  calculateAverage,
+  IAttackCard,
+  successProbability,
+} from '../../scripts/main';
 import CardBackSide from '../cards/CardBackSide.vue';
 
 const props = defineProps({
@@ -23,11 +27,9 @@ const max = computed(() => {
 const emit = defineEmits(['attack']);
 
 const attack = () => {
-  const successProbability = props.card.attributes.chance / 100;
-  let damage =
-    Math.floor(Math.random() * (max.value - min.value + 1)) + min.value;
-  if (Math.random() >= successProbability) damage = 0;
-  emit('attack', damage);
+  const damage = calculateAverage(min.value, max.value);
+  const failed = successProbability(props.card.attributes.chance);
+  emit('attack', failed ? 0 : damage);
 };
 </script>
 

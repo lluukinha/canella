@@ -64,6 +64,20 @@
   }
 }
 
+.swirl-enter-from,
+.swirl-leave-to {
+  transform: rotate(-540deg) scale(0);
+  opacity: 0;
+}
+
+.swirl-enter-active {
+  transition: transform 1.5s, opacity 0.5s;
+}
+
+.swirl-leave-active {
+  transition: transform 1.5s, opacity 1.5s;
+}
+
 .flip-card {
   background-color: transparent;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
@@ -98,4 +112,24 @@
 /* Style the back side */
 .flip-card-front {
   transform: rotateY(180deg);
+}
+
+.bordered-text {
+  text-shadow: -2px -2px 0 black, -2px -1px 0 black, -2px 0px 0 black,
+    -2px 1px 0 black, -2px 2px 0 black, -1px -2px 0 black, -1px -1px 0 black,
+    -1px 0px 0 black, -1px 1px 0 black, -1px 2px 0 black, 0px -2px 0 black,
+    0px -1px 0 black, 0px 0px 0 black, 0px 1px 0 black, 0px 2px 0 black,
+    1px -2px 0 black, 1px -1px 0 black, 1px 0px 0 black, 1px 1px 0 black,
+    1px 2px 0 black, 2px -2px 0 black, 2px -1px 0 black, 2px 0px 0 black,
+    2px 1px 0 black, 2px 2px 0 black;
+}
+
+.bordered-text-sm {
+  text-shadow: -1px -1px 0 black, -1px -1px 0 black, -1px 0px 0 black,
+    -1px 1px 0 black, -1px 1px 0 black, -1px -1px 0 black, -1px -1px 0 black,
+    -1px 0px 0 black, -1px 1px 0 black, -1px 1px 0 black, 0px -1px 0 black,
+    0px -1px 0 black, 0px 0px 0 black, 0px 1px 0 black, 0px 1px 0 black,
+    1px -1px 0 black, 1px -1px 0 black, 1px 0px 0 black, 1px 1px 0 black,
+    1px 1px 0 black, 1px -1px 0 black, 1px -1px 0 black, 1px 0px 0 black,
+    1px 1px 0 black, 1px 1px 0 black;
 }

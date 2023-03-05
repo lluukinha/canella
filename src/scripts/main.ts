@@ -85,6 +85,17 @@ export const weaponCards: IWeaponCard[] = [
   },
   {
     id: 9,
+    name: 'Katana',
+    type: CardTypes.Weapon,
+    image: 'weapon_katana.jpg',
+    attributes: {
+      type: WeaponTypes.Sword,
+      attackTypes: [AttackTypes.Meelee],
+      attack: 15,
+    },
+  },
+  {
+    id: 10,
     name: 'Wooden Bow',
     type: CardTypes.Weapon,
     image: 'weapon_wooden_bow.jpg',
@@ -230,7 +241,7 @@ export const heroCards: IHeroCard[] = [
       type: HeroTypes.Knight,
       weaponTypes: knightWeaponTypes,
       level: 1,
-      experience: 0,
+      experience: 90,
       healthPoints: 50,
     },
   },
@@ -273,6 +284,21 @@ export interface IMonster {
   attacks: IAttackCard[];
 }
 
+export type FieldConfig = 'forest' | 'darkForest' | 'castle' | 'castleRuins';
+export interface IBattleData {
+  field: FieldConfig;
+  level: number;
+  monster: IMonsterCard;
+  bg: string;
+}
+
+export interface StoryLevel {
+  isEnabled: boolean;
+  currentLevel: number;
+  nextField: FieldConfig;
+  wonAllLevels: boolean;
+}
+
 export const monsterCards: IMonsterCard[] = [
   {
     id: 7,
@@ -288,6 +314,23 @@ export const monsterCards: IMonsterCard[] = [
       loot: {
         gold: { min: 0, max: 1 },
         card: null,
+      },
+    },
+  },
+  {
+    id: 7,
+    type: CardTypes.Monster,
+    name: 'Snake',
+    image: 'monster_snake.jpg',
+    attributes: {
+      attackType: AttackTypes.Meelee,
+      experience: 10,
+      attack: 10,
+      attackCards: [attackCards[1]],
+      healthPoints: 20,
+      loot: {
+        gold: { min: 0, max: 1 },
+        card: { chance: 100, card: weaponCards[1] },
       },
     },
   },
@@ -312,9 +355,8 @@ export const downLevel = async (hero: IHeroCard) => {
   return;
 };
 
-export const calculateAverage = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+export const calculateAverage = (min: number, max: number): number =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
 
 export const successProbability = (chance: number): boolean =>
   Math.random() >= chance / 100;

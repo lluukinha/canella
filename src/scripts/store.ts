@@ -6,12 +6,25 @@ import {
   IWeaponCard,
   CardTypes,
   IWeaponCardAttributes,
+  StoryLevel,
+  IBattleData,
+  delay,
 } from './main';
 
 export interface IPlayer {
   gold: number;
   cards: ICard[];
   escapes: number;
+  story: {
+    forest: StoryLevel;
+    darkForest: StoryLevel;
+    castle: StoryLevel;
+    castleRuins: StoryLevel;
+  };
+  monsters: {
+    seen: number[];
+    won: number[];
+  };
   equipedCards: {
     hero: IHeroCard | null;
     weapon: IWeaponCard | null;
@@ -24,6 +37,36 @@ const player: IPlayer = {
   gold: 0,
   cards: [],
   escapes: 1,
+  story: {
+    forest: {
+      isEnabled: true,
+      currentLevel: 1,
+      nextField: 'darkForest',
+      wonAllLevels: false,
+    },
+    darkForest: {
+      isEnabled: false,
+      currentLevel: 1,
+      nextField: 'castle',
+      wonAllLevels: false,
+    },
+    castle: {
+      isEnabled: false,
+      currentLevel: 1,
+      nextField: 'castleRuins',
+      wonAllLevels: false,
+    },
+    castleRuins: {
+      isEnabled: false,
+      currentLevel: 1,
+      nextField: 'forest',
+      wonAllLevels: false,
+    },
+  },
+  monsters: {
+    seen: [],
+    won: [],
+  },
   equipedCards: {
     hero: null,
     weapon: null,
@@ -100,4 +143,24 @@ export const equipNewCard = (card: ICard) => {
       playerStore.value.cards.push(card);
     });
   }
+};
+
+export const seeMonster = (monsterId: number) => {
+  playerStore.value.monsters.seen.push(monsterId);
+};
+
+export const defeatMonster = (monsterId: number) => {
+  playerStore.value.monsters.won.push(monsterId);
+};
+
+export const goToNextLevel = async (battleData: IBattleData) => {
+  await delay(1);
+  const { field, level } = battleData;
+  const { currentLevel, wonAllLevels } = playerStore.value.story[field];
+  if (level !== currentLevel) return;
+
+  if (currentLevel < 12)
+    playerStore.value.story[field].currentLevel = level + 1;
+  if (currentLevel === 12 && !wonAllLevels)
+    playerStore.value.story[field].wonAllLevels = true;
 };

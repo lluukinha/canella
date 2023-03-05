@@ -24,7 +24,7 @@ const props = defineProps({
     required: true,
   },
 });
-defineEmits(['continue']);
+defineEmits(['continue', 'quit']);
 
 const finishAnimation = async (newExp: number) => {
   const heroCardAttributes = playerStore.value.equipedCards.hero!.attributes;
@@ -72,7 +72,7 @@ const calculateLoot = () => {
 
   const cardLoot = props.enemy.attributes.loot.card;
 
-  if (!!cardLoot && successProbability(cardLoot.chance)) {
+  if (!!cardLoot && !successProbability(cardLoot.chance)) {
     card.value = cardLoot.card;
     playerStore.value.cards.push(card.value);
   }
@@ -131,7 +131,7 @@ onMounted(async () => {
       <div class="flex w-full justify-around">
         <button
           class="px-4 py-2 text-white text-4xl transition-all disabled:opacity-0"
-          @click="$emit('continue')"
+          @click="$emit(enemyHp > 0 ? 'quit' : 'continue')"
           :disabled="!showContinue"
         >
           CONTINUE

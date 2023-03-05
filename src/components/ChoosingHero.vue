@@ -13,7 +13,7 @@ const knight = {
 };
 const paladin = {
   heroCard: heroCards[1],
-  weaponCard: weaponCards[1],
+  weaponCard: weaponCards[2],
   attackCard: attackCards[2],
 };
 
