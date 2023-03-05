@@ -51,7 +51,6 @@ const selectCards = async (chosenCategory: any) => {
             <Card
               :card="knight.heroCard"
               class="hero-card transition-all z-30"
-              :canFlip="true"
             />
             <Card
               :card="knight.weaponCard"
@@ -70,7 +69,6 @@ const selectCards = async (chosenCategory: any) => {
             <Card
               :card="paladin.heroCard"
               class="hero-card transition-all z-30"
-              :canFlip="true"
             />
             <Card
               :card="paladin.weaponCard"
@@ -93,11 +91,11 @@ const selectCards = async (chosenCategory: any) => {
 </template>
 
 <style>
-.chosen-cards:hover > .weapon-card {
+.weapon-card {
   transform: translateX(220px) rotate(15deg) translateY(20px);
 }
 
-.chosen-cards:hover > .attack-card {
+.attack-card {
   transform: translateX(-250px) rotate(-15deg) translateY(20px);
 }
 </style>
