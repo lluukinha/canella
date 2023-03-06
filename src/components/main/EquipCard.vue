@@ -199,7 +199,7 @@ const confirmCard = () => {
                 :card="chosenCard"
                 v-if="!!chosenCard"
                 :flipOnHover="false"
-                :canFlip="!isShowingCard"
+                :hideFront="!isShowingCard"
                 @click="confirmCard"
               />
             </Transition>

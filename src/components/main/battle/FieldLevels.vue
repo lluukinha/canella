@@ -110,6 +110,10 @@ const props = defineProps({
 });
 
 const startBattle = (level: number) => {
+  const { hero, weapon, attacks } = playerStore.value.equipedCards;
+  const canBattle = !!hero && !!weapon && attacks.length > 0;
+  if (!canBattle) return;
+
   const { monsters } = fieldConfig.value.levels[level - 1];
   const chosenMonster: IMonsterCard =
     monsters[Math.floor(Math.random() * monsters.length)];

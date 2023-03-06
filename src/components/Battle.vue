@@ -253,7 +253,7 @@ const emit = defineEmits(['quit', 'continue']);
             <div class="flex justify-center text-5xl bordered-text">VS</div>
             <Card
               :card="battleData.monster"
-              :can-flip="!isShowingMosterCard"
+              :hideFront="!isShowingMosterCard"
               :flip-on-hover="false"
             />
           </div>

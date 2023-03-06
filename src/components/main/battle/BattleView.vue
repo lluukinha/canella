@@ -38,6 +38,7 @@ const unlockNextField = async () => {
   unlockField(nextField);
 };
 
+
 defineEmits(['startBattle']);
 </script>
 

@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { computed, PropType, ref, watch } from 'vue';
-import {
-  IHeroCardAttributes,
-  experienceTable,
-  delay,
-} from '../../../scripts/main';
+import { computed, PropType } from "vue";
+import { IHeroCardAttributes, experienceTable } from "../../../scripts/main";
 
 const props = defineProps({
   attributes: {
@@ -19,17 +15,6 @@ const heroExperience = computed(() => {
   const current = props.attributes.experience - from;
   return Math.floor((current / expToNextLevel) * 100);
 });
-
-const showLevelUp = ref<boolean>(false);
-
-watch(
-  () => props.attributes.level,
-  async (newValue, oldValue) => {
-    showLevelUp.value = true;
-    // await delay(0.8);
-  },
-  { deep: true }
-);
 </script>
 
 <template>
@@ -42,9 +27,8 @@ watch(
         :style="`width: ${heroExperience}%`"
       ></div>
     </div>
-    <span class="w-10 text-xs font-bold rext-right">
+    <span class="w-10 text-xs font-bold text-right">
       {{ attributes.level }}
     </span>
   </div>
-  <div class="absolute animate-ping bottom-16" v-if="showLevelUp">LEVEL UP</div>
 </template>

@@ -22,7 +22,7 @@ export enum CardTypes {
   Supply = 'Supply',
 }
 
-enum WeaponTypes {
+export enum WeaponTypes {
   Sword = 'Sword',
   Axe = 'Axe',
   Club = 'Club',
@@ -32,7 +32,7 @@ enum WeaponTypes {
   Wand = 'Wand',
 }
 
-enum AttackTypes {
+export enum AttackTypes {
   Fire = 'Fire',
   Meelee = 'Meelee',
   Ice = 'Ice',
@@ -409,3 +409,5 @@ export const calculateAverage = (min: number, max: number): number =>
 
 export const successProbability = (chance: number): boolean =>
   Math.random() >= chance / 100;
+
+export const allCards = [...heroCards, ...weaponCards, ...attackCards, ...monsterCards];

@@ -12,6 +12,7 @@ import Hero from './main/hero/Hero.vue';
 import BattleView from './main/battle/BattleView.vue';
 import EscapeIcon from './icons/EscapeIcon.vue';
 import { delay, IBattleData, IMonsterCard } from '../scripts/main';
+import CardsView from './main/cards/CardsView.vue';
 
 const playerHasNoCards = computed(
   () =>
@@ -117,6 +118,7 @@ const wonBattle = async (data: IBattleData) => {
         v-else-if="current === MenuItems.Battle"
         @start-battle="startBattle"
       />
+      <CardsView v-else-if="current === MenuItems.Cards" />
       <div v-else>o que é isso</div>
     </div>
   </Transition>

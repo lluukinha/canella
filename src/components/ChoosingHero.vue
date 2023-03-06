@@ -58,7 +58,7 @@ const isHeroCardFlipped = ref<boolean>(false);
             <Card
               :card="knight.heroCard"
               class="hero-card transition-all z-30"
-              :canFlip="isHeroCardFlipped"
+              :hideFront="isHeroCardFlipped"
               :flipOnHover="false"
             />
             <Card
@@ -79,7 +79,7 @@ const isHeroCardFlipped = ref<boolean>(false);
             <Card
               :card="paladin.heroCard"
               class="hero-card transition-all z-30"
-              :canFlip="isHeroCardFlipped"
+              :hideFront="isHeroCardFlipped"
               :flipOnHover="false"
             />
             <Card
