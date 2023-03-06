@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import HeartIcon from '../icons/HeartIcon.vue';
 
 const props = defineProps({
   hp: { type: Number, required: true },
@@ -21,8 +22,9 @@ const heroHpWidth = computed(() =>
         class="bg-red-600 h-full rounded absolute transition-all"
       ></div>
     </div>
-    <div class="w-10 flex justify-center text-sm font-bold">
+    <div class="w-10 flex justify-center text-sm font-bold gap-1">
       {{ remaining }}
+      <HeartIcon class="h-5 w-5 text-red-500" />
     </div>
   </div>
 </template>

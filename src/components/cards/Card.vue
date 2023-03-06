@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, PropType } from "vue";
+import { computed, PropType } from 'vue';
 import {
   IHeroCard,
   IAttackCard,
@@ -11,15 +11,16 @@ import {
   IWeaponCardAttributes,
   IAttackCardAttributes,
   IMonsterCardAttributes,
-} from "../../scripts/main";
-import AttackCardAttributes from "./attributes/AttackCardAttributes.vue";
-import HeroCardAttributes from "./attributes/HeroCardAttributes.vue";
-import MonsterCardAttributes from "./attributes/MonsterCardAttributes.vue";
-import WeaponCardAttributes from "./attributes/WeaponCardAttributes.vue";
-import CardBackSide from "./CardBackSide.vue";
+} from '../../scripts/main';
+import StarIcon from '../icons/StarIcon.vue';
+import AttackCardAttributes from './attributes/AttackCardAttributes.vue';
+import HeroCardAttributes from './attributes/HeroCardAttributes.vue';
+import MonsterCardAttributes from './attributes/MonsterCardAttributes.vue';
+import WeaponCardAttributes from './attributes/WeaponCardAttributes.vue';
+import CardBackSide from './CardBackSide.vue';
 
 const cardImageUrl = computed(() => {
-  const card = props.card.image.length > 0 ? props.card.image : "empty.jpg";
+  const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
   return new URL(`../../assets/cards/${card}`, import.meta.url).href;
 });
 
@@ -41,26 +42,26 @@ const props = defineProps({
   },
   hideContent: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 const frontSideClasses = computed(() => ({
-  "from-blue-700 to-gray-900 border-blue-900":
+  'from-blue-700 to-gray-900 border-blue-900':
     props.card.type === CardTypes.Hero,
-  "from-red-700 to-gray-900 border-red-900":
+  'from-red-700 to-gray-900 border-red-900':
     props.card.type === CardTypes.Attack,
-  "from-yellow-300 to-gray-900 border-yellow-300":
+  'from-yellow-300 to-gray-900 border-yellow-300':
     props.card.type === CardTypes.Weapon,
-  "from-green-500 to-gray-900 border-green-700":
+  'from-green-500 to-gray-900 border-green-700':
     props.card.type === CardTypes.Monster,
 }));
 
 const backSideClasses = computed(() => ({
-  "border-blue-900": props.card.type === CardTypes.Hero,
-  "border-red-900": props.card.type === CardTypes.Attack,
-  "border-yellow-300": props.card.type === CardTypes.Weapon,
-  "border-green-700": props.card.type === CardTypes.Monster,
+  'border-blue-900': props.card.type === CardTypes.Hero,
+  'border-red-900': props.card.type === CardTypes.Attack,
+  'border-yellow-300': props.card.type === CardTypes.Weapon,
+  'border-green-700': props.card.type === CardTypes.Monster,
 }));
 </script>
 
@@ -69,10 +70,7 @@ const backSideClasses = computed(() => ({
     class="flip-card w-64 h-96"
     :class="{ 'flip-card-on-hover': flipOnHover }"
   >
-    <div
-      class="flip-card-inner transition-all"
-      :class="{ flip: !hideFront }"
-    >
+    <div class="flip-card-inner transition-all" :class="{ flip: !hideFront }">
       <div
         class="flip-card-front bg-gradient-to-t rounded-xl shadow-lg py-2 px-5 border-4 flex flex-col gap-2"
         :class="frontSideClasses"
@@ -87,15 +85,20 @@ const backSideClasses = computed(() => ({
             :style="`background-image: url(${cardImageUrl})`"
           >
             <div
+              class="flex items-center gap-1 absolute top-1 right-2"
+              v-if="card.type === CardTypes.Hero"
+            >
+              <StarIcon class="w-5 h-5 text-yellow-300" />
+              <span class="text-xl font-bold uppercase">{{
+                (card.attributes as IHeroCardAttributes).level
+              }}</span>
+            </div>
+            <div
               class="flex flex-wrap gap-x-1 gap-y-1 bottom-1 justify-center absolute"
             >
-              <span
-                class="text-xs px-2 rounded bg-gray-900 font-bold uppercase shadow"
-                v-if="card.type === CardTypes.Hero"
+              <template
+                v-if="[CardTypes.Attack, CardTypes.Hero].includes(card.type)"
               >
-                {{ (card.attributes as IHeroCardAttributes).type }}
-              </span>
-              <template v-if="card.type === CardTypes.Attack">
                 <span
                   v-for="weapon in (card.attributes as IAttackCardAttributes).weaponTypes"
                   class="text-xs px-2 rounded bg-yellow-400 bg-opacity-30 font-bold uppercase shadow"

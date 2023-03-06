@@ -6,6 +6,7 @@ import {
   successProbability,
 } from '../../scripts/main';
 import CardBackSide from '../cards/CardBackSide.vue';
+import SwordIcon from '../icons/SwordIcon.vue';
 
 const props = defineProps({
   card: { type: Object as PropType<IAttackCard>, required: true },
@@ -47,9 +48,9 @@ const attack = () => {
         >
           <div>{{ card.name }}</div>
 
-          <div>
-            <span class="font-normal text-xs">ATK</span>
-            {{ min }}~{{ max }}
+          <div class="flex items-center justify-center gap-2">
+            <SwordIcon class="w-4 h-4" />
+            <span class="text-lg"> {{ min }}~{{ max }} </span>
           </div>
         </div>
         <p

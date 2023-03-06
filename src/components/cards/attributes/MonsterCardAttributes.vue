@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { PropType } from "vue";
-import { IAttackCardAttributes, IMonsterCardAttributes } from "../../../scripts/main";
+import { PropType } from 'vue';
+import {
+  IAttackCardAttributes,
+  IMonsterCardAttributes,
+} from '../../../scripts/main';
+import HeartIcon from '../../icons/HeartIcon.vue';
+import SwordIcon from '../../icons/SwordIcon.vue';
 
 defineProps({
   attributes: {
@@ -16,12 +21,14 @@ defineProps({
       class="px-2 py-1 bg-gray-800 shadow rounded flex justify-around items-center font-bold text-xs gap-1"
     >
       <div class="flex items-center gap-1">
-        <span class="text-xs font-light">HP:</span>
-        <span class="text-md font-bold uppercase">{{ attributes.healthPoints }}</span>
+        <HeartIcon class="h-5 w-5 text-red-500" />
+        <span class="text-md font-bold text-lg uppercase">{{
+          attributes.healthPoints
+        }}</span>
       </div>
       <div class="flex items-center gap-1">
-        <span class="text-xs font-light uppercase">Attack:</span>
-        <span class="text-md font-bold text-md">{{ attributes.attack }}</span>
+        <SwordIcon class="h-5 w-5" />
+        <span class="text-md font-bold text-lg">{{ attributes.attack }}</span>
       </div>
     </div>
     <div
@@ -29,7 +36,9 @@ defineProps({
     >
       <div class="flex items-center gap-1">
         <span class="text-xs font-light">EXPERIENCE:</span>
-        <span class="text-md font-bold text-xl">{{ attributes.experience }}</span>
+        <span class="text-md font-bold text-xl">{{
+          attributes.experience
+        }}</span>
       </div>
     </div>
   </div>

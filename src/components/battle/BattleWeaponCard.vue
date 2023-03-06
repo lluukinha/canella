@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PropType, computed } from 'vue';
 import { IWeaponCard } from '../../scripts/main';
+import SwordIcon from '../icons/SwordIcon.vue';
 
 const props = defineProps({
   card: {
@@ -32,27 +33,21 @@ const cardImageUrl = computed(() => {
       >
         <span
           class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold text-xs"
-          v-for="atk in card.attributes.attackTypes"
         >
-          {{ atk }}
+          {{ card.attributes.type }}
         </span>
       </div>
     </div>
     <div class="text-xs">
       <div
-        class="name w-32 px-2 py-1 flex justify-between border rounded-md rounded-b-none bg-gray-600 border-gray-700 uppercase"
+        class="name w-32 px-2 py-1 flex justify-between border rounded-md bg-gray-600 border-gray-700 uppercase items-center"
       >
         {{ card.name }}
-      </div>
-      <div
-        class="name w-32 px-2 py-1 flex justify-between border rounded-md rounded-t-none bg-gray-600 border-gray-700 uppercase"
-      >
-        ATTACK
-        <span
-          class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold"
-        >
-          {{ card.attributes.attack }}
-        </span>
+
+        <div class="flex gap-1 items-center">
+          <SwordIcon class="w-4 h-4" />
+          <span class="text-lg font-bold">{{ card.attributes.attack }}</span>
+        </div>
       </div>
     </div>
   </div>

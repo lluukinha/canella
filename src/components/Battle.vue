@@ -38,6 +38,10 @@ const enemyHp = ref<number>(99999);
 const heroHp = ref<number>(heroCard.attributes.healthPoints);
 const showBattleDetails = ref<boolean>(false);
 
+const heroBaseAttack = computed(
+  () => weaponCard.attributes.attack + heroCard.attributes.attack
+);
+
 const attack = async (damage: number) => {
   if (!canAttack.value || gameOver.value || !enemyHp.value) return;
 
@@ -324,7 +328,7 @@ const emit = defineEmits(['quit', 'continue']);
             <BattleAttackCard
               v-for="atk in heroAttackCards"
               :card="atk"
-              :baseAttack="weaponCard.attributes.attack"
+              :baseAttack="heroBaseAttack"
               :canAttack="canAttack && myTurn"
               :isFlipped="!myTurn"
               @attack="attack"

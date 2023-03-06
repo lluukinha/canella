@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { PropType } from "vue";
-import { IWeaponCardAttributes } from "../../../scripts/main";
+import { PropType } from 'vue';
+import { IWeaponCardAttributes } from '../../../scripts/main';
+import SwordIcon from '../../icons/SwordIcon.vue';
 
 defineProps({
   attributes: {
@@ -21,7 +22,7 @@ defineProps({
     <div
       class="px-2 py-1 bg-gray-800 shadow rounded flex justify-center items-center font-bold text-xs gap-1"
     >
-      <span class="text-xs font-light">Attack:</span>
+      <SwordIcon class="w-5 h-5" />
       <span class="text-xl font-bold uppercase">{{ attributes.attack }}</span>
     </div>
   </div>

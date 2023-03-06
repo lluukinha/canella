@@ -80,7 +80,7 @@ export const weaponCards: IWeaponCard[] = [
     attributes: {
       type: WeaponTypes.Sword,
       attackTypes: [AttackTypes.Meelee],
-      attack: 5,
+      attack: 1,
     },
   },
   {
@@ -91,7 +91,7 @@ export const weaponCards: IWeaponCard[] = [
     attributes: {
       type: WeaponTypes.Sword,
       attackTypes: [AttackTypes.Meelee],
-      attack: 15,
+      attack: 10,
     },
   },
   {
@@ -102,7 +102,7 @@ export const weaponCards: IWeaponCard[] = [
     attributes: {
       type: WeaponTypes.Bow,
       attackTypes: [AttackTypes.Meelee],
-      attack: 15,
+      attack: 10,
     },
   },
 ];
@@ -238,6 +238,7 @@ export interface IHeroCardAttributes {
   level: number;
   experience: number;
   healthPoints: number;
+  attack: number;
 }
 
 export interface IHeroCard extends ICard {
@@ -257,6 +258,7 @@ export const heroCards: IHeroCard[] = [
       level: 1,
       experience: 0,
       healthPoints: 50,
+      attack: 5,
     },
   },
   {
@@ -270,6 +272,7 @@ export const heroCards: IHeroCard[] = [
       level: 1,
       experience: 0,
       healthPoints: 50,
+      attack: 5,
     },
   },
 ];
@@ -410,4 +413,9 @@ export const calculateAverage = (min: number, max: number): number =>
 export const successProbability = (chance: number): boolean =>
   Math.random() >= chance / 100;
 
-export const allCards = [...heroCards, ...weaponCards, ...attackCards, ...monsterCards];
+export const allCards = [
+  ...heroCards,
+  ...weaponCards,
+  ...attackCards,
+  ...monsterCards,
+];

@@ -1,18 +1,22 @@
 <script setup lang="ts">
-import { computed, PropType } from "vue";
-import { IHeroCardAttributes, experienceTable } from "../../../scripts/main";
+import { computed } from 'vue';
+import { experienceTable } from '../../../scripts/main';
 
 const props = defineProps({
-  attributes: {
-    type: Object as PropType<IHeroCardAttributes>,
+  experience: {
+    type: Number,
+    required: true,
+  },
+  level: {
+    type: Number,
     required: true,
   },
 });
 
 const heroExperience = computed(() => {
-  const { from, to } = experienceTable[props.attributes.level];
+  const { from, to } = experienceTable[props.level];
   const expToNextLevel = to;
-  const current = props.attributes.experience - from;
+  const current = props.experience - from;
   return Math.floor((current / expToNextLevel) * 100);
 });
 </script>
@@ -27,8 +31,8 @@ const heroExperience = computed(() => {
         :style="`width: ${heroExperience}%`"
       ></div>
     </div>
-    <span class="w-10 text-xs font-bold text-right">
-      {{ attributes.level }}
-    </span>
+    <div class="relative">
+      <span class="w-10"> {{ 100 - heroExperience }}% </span>
+    </div>
   </div>
 </template>
