@@ -155,7 +155,7 @@ const filteredCards = computed((): ICard[] => {
         </h1>
       </div>
       <template v-else>
-      <TransitionGroup name="fade">
+      <TransitionGroup name="list">
         <Card
           :card="card"
           v-for="card in filteredCards"
