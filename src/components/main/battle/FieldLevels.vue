@@ -157,7 +157,7 @@ const unlock = async (level: number) => {
     <div
       class="z-10 absolute flex flex-col p-5 w-full h-full justify-center items-center"
     >
-      <h1 class="text-2xl stroke-black text-strok">
+      <h1 class="text-2xl absolute bottom-10">
         <button @click="$emit('back')">Go back</button>
       </h1>
       <div class="h-full w-full flex justify-around items-center">

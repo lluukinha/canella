@@ -54,7 +54,7 @@ defineEmits(['startBattle']);
       <div class="h-full flex justify-around items-center" v-else>
         <div class="flex flex-col gap-2 items-center justify-center">
           <button
-            class="w-40 h-40 bg-green-600 rounded-lg flex justify-center items-center text-7xl ring ring-green-900 bg-cover bg-center relative"
+            class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
             :style="`background-image: url(${forestBgUrl})`"
             @click="chosenField = 'forest'"
           >
@@ -68,7 +68,7 @@ defineEmits(['startBattle']);
         <div class="flex flex-col gap-2 items-center justify-center">
           <Transition name="fade" mode="out-in">
             <button
-              class="w-40 h-40 bg-green-600 rounded-lg flex justify-center items-center text-7xl ring ring-green-900 bg-cover bg-center relative"
+              class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
               :style="`background-image: url(${darkForestBgUrl})`"
               @click="chosenField = 'darkForest'"
               v-if="playerStore.story.darkForest.isEnabled"
@@ -98,7 +98,7 @@ defineEmits(['startBattle']);
         <div class="flex flex-col gap-2 items-center justify-center">
           <Transition name="fade" mode="out-in">
             <button
-              class="w-40 h-40 bg-green-600 rounded-lg flex justify-center items-center text-7xl ring ring-green-900 bg-cover bg-center relative"
+              class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
               :style="`background-image: url(${castleBgUrl})`"
               @click="chosenField = 'castle'"
               v-if="playerStore.story.castle.isEnabled"
@@ -128,7 +128,7 @@ defineEmits(['startBattle']);
         <div class="flex flex-col gap-2 items-center justify-center">
           <Transition name="fade" mode="out-in">
             <button
-              class="w-40 h-40 bg-green-600 rounded-lg flex justify-center items-center text-7xl ring ring-green-900 bg-cover bg-center relative"
+              class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
               :style="`background-image: url(${ruinsBgUrl})`"
               @click="chosenField = 'castleRuins'"
               v-if="playerStore.story.castleRuins.isEnabled"
