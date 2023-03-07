@@ -64,7 +64,7 @@ export const weaponCards: IWeaponCard[] = [
     attributes: {
       type: WeaponTypes.Sword,
       attackTypes: [AttackTypes.Meelee],
-      attack: 999,
+      attack: 1,
     },
   },
   {
