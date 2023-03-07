@@ -1,37 +1,30 @@
 <script setup lang="ts">
-import { onBeforeMount, PropType, ref, watch } from "vue";
+import { onBeforeMount, PropType, ref, watch } from 'vue';
 import {
   delay,
   FieldConfig,
   IBattleData,
   IMonsterCard,
   monsterCards,
-} from "../../../scripts/main";
-import { playerStore } from "../../../scripts/store";
-import LockIcon from "../../icons/LockIcon.vue";
-import UnlockIcon from "../../icons/UnlockIcon.vue";
+} from '../../../scripts/main';
+import { playerStore } from '../../../scripts/store';
+import LockIcon from '../../icons/LockIcon.vue';
+import UnlockIcon from '../../icons/UnlockIcon.vue';
 
 const bgs = {
-  forest: "../../../assets/forest.jpeg",
-  darkForest: "../../../assets/darkforest.jpeg",
-  castle: "../../../assets/castle.jpg",
-  castleRuins: "../../../assets/ruins.jpeg",
+  forest: '../../../assets/forest.jpeg',
+  darkForest: '../../../assets/darkforest.jpeg',
+  castle: '../../../assets/castle.jpg',
+  castleRuins: '../../../assets/ruins.jpeg',
 };
 
 const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
   forest: {
     1: [monsterCards[0]],
-    2: [monsterCards[0], monsterCards[1], monsterCards[3]],
-    3: [monsterCards[3]],
-    4: [monsterCards[1]],
-    5: [monsterCards[2]],
-    6: [monsterCards[0]],
-    7: [monsterCards[0]],
-    8: [monsterCards[0]],
-    9: [monsterCards[0]],
-    10: [monsterCards[0]],
-    11: [monsterCards[0]],
-    12: [monsterCards[4]],
+    2: [monsterCards[3]],
+    3: [monsterCards[1]],
+    4: [monsterCards[2]],
+    5: [monsterCards[4]],
   },
   darkForest: {
     1: [monsterCards[0]],
@@ -39,13 +32,6 @@ const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
     3: [monsterCards[3]],
     4: [monsterCards[1]],
     5: [monsterCards[2]],
-    6: [monsterCards[0]],
-    7: [monsterCards[0]],
-    8: [monsterCards[0]],
-    9: [monsterCards[0]],
-    10: [monsterCards[0]],
-    11: [monsterCards[0]],
-    12: [monsterCards[0]],
   },
   castle: {
     1: [monsterCards[0]],
@@ -53,13 +39,6 @@ const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
     3: [monsterCards[3]],
     4: [monsterCards[1]],
     5: [monsterCards[2]],
-    6: [monsterCards[0]],
-    7: [monsterCards[0]],
-    8: [monsterCards[0]],
-    9: [monsterCards[0]],
-    10: [monsterCards[0]],
-    11: [monsterCards[0]],
-    12: [monsterCards[0]],
   },
   castleRuins: {
     1: [monsterCards[0]],
@@ -67,20 +46,15 @@ const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
     3: [monsterCards[3]],
     4: [monsterCards[1]],
     5: [monsterCards[2]],
-    6: [monsterCards[0]],
-    7: [monsterCards[0]],
-    8: [monsterCards[0]],
-    9: [monsterCards[0]],
-    10: [monsterCards[0]],
-    11: [monsterCards[0]],
-    12: [monsterCards[0]],
   },
 };
 
 interface ILevelConfig {
   number: number;
+  name: string;
   monsters: IMonsterCard[];
   isEnabled: boolean;
+  boss: boolean;
 }
 
 interface IFieldConfig {
@@ -89,19 +63,32 @@ interface IFieldConfig {
 }
 
 const fieldConfig = ref<IFieldConfig>({
-  bg: "",
+  bg: '',
   levels: [],
 });
 
+const getLevelName = (level: number): string => {
+  if (level === 1) return 'Easy';
+  if (level === 2) return 'Medium';
+  if (level === 3) return 'Hard';
+  if (level === 4) return 'Very Hard';
+  if (level === 5) return 'Boss';
+  return '';
+};
+
 const getLevelConfig = (level: number): ILevelConfig => ({
   number: level,
+  name: getLevelName(level),
   monsters: monstersByLevel[props.field][level] || [],
   isEnabled: playerStore.value.story[props.field].currentLevel >= level,
+  boss: level === 5,
 });
 
 const setupField = () => {
   fieldConfig.value.bg = new URL(bgs[props.field], import.meta.url).href;
-  for (let i: number = 1; i < 13; i++)
+  const levels = [];
+  levels.push();
+  for (let i: number = 1; i < 6; i++)
     fieldConfig.value.levels.push(getLevelConfig(i));
 };
 
@@ -130,10 +117,10 @@ const startBattle = (level: number) => {
     bg: fieldConfig.value.bg,
   };
 
-  emit("startBattle", battleData);
+  emit('startBattle', battleData);
 };
 
-const emit = defineEmits(["back", "startBattle", "fieldFinished"]);
+const emit = defineEmits(['back', 'startBattle', 'fieldFinished']);
 
 watch(
   () => playerStore.value.story[props.field].currentLevel,
@@ -147,7 +134,7 @@ watch(
 watch(
   () => playerStore.value.story[props.field].wonAllLevels,
   async (newValue) => {
-    if (!!newValue) emit("fieldFinished");
+    if (!!newValue) emit('fieldFinished');
   },
   { deep: true }
 );
@@ -173,19 +160,21 @@ const unlock = async (level: number) => {
       <h1 class="text-2xl stroke-black text-strok">
         <button @click="$emit('back')">Go back</button>
       </h1>
-      <div class="h-full w-full grid grid-cols-4 m-auto place-items-center">
+      <div class="h-full w-full flex justify-around items-center">
         <button
-          class="w-40 h-40 bg-gray-600 rounded-lg text-7xl ring ring-green-900 bg-cover bg-center relative flex items-center justify-center disabled:opacity-40 transition-all"
+          class="w-32 h-32 bg-gray-800 rounded-lg text-xl ring ring-gray-900 bg-cover bg-center relative flex items-center justify-center disabled:opacity-40 transition-all"
           :class="{
             'hover:scale-110':
-              playerStore.story[field].currentLevel >= level.number && !isUnlocking,
+              playerStore.story[field].currentLevel >= level.number &&
+              !isUnlocking,
+            ' w-40 h-40': level.boss,
           }"
           v-for="level in fieldConfig.levels"
           :disabled="playerStore.story[field].currentLevel < level.number"
           @click="startBattle(level.number)"
         >
           <Transition name="slide-left" mode="out-in">
-            <div v-if="level.isEnabled">{{ level.number }}</div>
+            <div v-if="level.isEnabled">{{ level.name }}</div>
             <div v-else>
               <Transition name="fade" mode="out-in">
                 <UnlockIcon
