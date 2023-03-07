@@ -1,18 +1,22 @@
 <script setup lang="ts">
-import { onMounted, PropType, ref } from 'vue';
+import { onMounted, PropType, ref } from "vue";
 import {
-  experienceTable,
   IMonsterCard,
   delay,
-  upLevel,
-  downLevel,
   ICard,
   calculateAverage,
   successProbability,
-} from '../../scripts/main';
-import Card from '../cards/Card.vue';
+} from "../../scripts/main";
+import Card from "../cards/Card.vue";
 
-import { playerStore } from '../../scripts/store';
+import {
+  playerStore,
+  expLevels,
+  upLevel,
+  downLevel,
+  removeExp,
+  increaseExp,
+} from "../../scripts/store";
 
 const props = defineProps({
   enemyHp: {
@@ -24,22 +28,22 @@ const props = defineProps({
     required: true,
   },
 });
-defineEmits(['continue', 'quit']);
+defineEmits(["continue", "quit"]);
 
 const finishAnimation = async (newExp: number) => {
   const heroCardAttributes = playerStore.value.equipedCards.hero!.attributes;
   const futureExperience = heroCardAttributes.experience + newExp;
-  if (futureExperience >= experienceTable[heroCardAttributes.level].to) {
+  if (futureExperience >= expLevels[heroCardAttributes.level].to) {
     await upLevel(playerStore.value.equipedCards.hero!);
     const remainingExp =
-      futureExperience - experienceTable[heroCardAttributes.level].from;
+      futureExperience - expLevels[heroCardAttributes.level].from;
     if (remainingExp > 0) finishAnimation(remainingExp);
     showContinue.value = true;
     return;
   }
 
+  increaseExp(playerStore.value.equipedCards.hero!, newExp);
   await delay(0.5);
-  playerStore.value.equipedCards.hero!.attributes.experience += newExp;
   showContinue.value = true;
 };
 
@@ -49,16 +53,16 @@ const lostBattle = async (newExp: number) => {
 
   if (
     heroCardAttributes.level > 1 &&
-    futureExperience < experienceTable[heroCardAttributes.level].from
+    futureExperience < expLevels[heroCardAttributes.level].from
   ) {
     await downLevel(playerStore.value.equipedCards.hero!);
     const remainingExp =
-      experienceTable[heroCardAttributes.level].to - futureExperience;
+      expLevels[heroCardAttributes.level].to - futureExperience;
     if (remainingExp > 0) lostBattle(remainingExp);
     return;
   }
 
-  removeExp(newExp);
+  await removeExp(playerStore.value.equipedCards.hero!, newExp);
   showContinue.value = true;
 };
 
@@ -78,12 +82,6 @@ const calculateLoot = () => {
   }
 
   playerStore.value.gold += gold.value;
-};
-
-const removeExp = (exp: number) => {
-  const heroExp = playerStore.value.equipedCards.hero!.attributes.experience;
-  const newExp = heroExp - exp < 0 ? 0 : exp;
-  playerStore.value.equipedCards.hero!.attributes.experience -= newExp;
 };
 
 onMounted(async () => {

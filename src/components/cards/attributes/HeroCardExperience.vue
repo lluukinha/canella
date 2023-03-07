@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { experienceTable } from '../../../scripts/main';
+import { expLevels } from '../../../scripts/store';
 
 const props = defineProps({
   experience: {
@@ -14,7 +14,7 @@ const props = defineProps({
 });
 
 const heroExperience = computed(() => {
-  const { from, to } = experienceTable[props.level];
+  const { from, to } = expLevels[props.level];
   const expToNextLevel = to;
   const current = props.experience - from;
   return Math.floor((current / expToNextLevel) * 100);

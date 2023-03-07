@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref } from "vue";
 import {
   IAttackCard,
   ICard,
@@ -9,7 +9,23 @@ import {
   StoryLevel,
   IBattleData,
   delay,
-} from './main';
+} from "./main";
+
+interface ILevelIndicator {
+  from: number;
+  to: number;
+}
+
+interface IExperienceTable {
+  [key: number]: ILevelIndicator;
+}
+
+export const expLevels: IExperienceTable = {
+  1: { from: 0, to: 100 },
+  2: { from: 100, to: 200 },
+  3: { from: 200, to: 300 },
+  4: { from: 300, to: 400 },
+};
 
 export interface IPlayer {
   gold: number;
@@ -41,25 +57,25 @@ const player: IPlayer = {
     forest: {
       isEnabled: true,
       currentLevel: 1,
-      nextField: 'darkForest',
+      nextField: "darkForest",
       wonAllLevels: false,
     },
     darkForest: {
       isEnabled: false,
       currentLevel: 1,
-      nextField: 'castle',
+      nextField: "castle",
       wonAllLevels: false,
     },
     castle: {
       isEnabled: false,
       currentLevel: 1,
-      nextField: 'castleRuins',
+      nextField: "castleRuins",
       wonAllLevels: false,
     },
     castleRuins: {
       isEnabled: false,
       currentLevel: 1,
-      nextField: 'forest',
+      nextField: "forest",
       wonAllLevels: false,
     },
   },
@@ -163,4 +179,30 @@ export const goToNextLevel = async (battleData: IBattleData) => {
     playerStore.value.story[field].currentLevel = level + 1;
   if (currentLevel === 12 && !wonAllLevels)
     playerStore.value.story[field].wonAllLevels = true;
+};
+
+export const upLevel = async (hero: IHeroCard) => {
+  hero.attributes.experience = expLevels[hero.attributes.level].to;
+  await delay(0.5);
+  hero.attributes.level += 1;
+  hero.attributes.healthPoints += 30;
+  hero.attributes.attack += 5;
+};
+
+export const downLevel = async (hero: IHeroCard) => {
+  hero.attributes.experience = expLevels[hero.attributes.level].from;
+  await delay(0.5);
+  hero.attributes.level -= 1;
+  hero.attributes.healthPoints -= 30;
+  hero.attributes.attack -= 5;
+};
+
+export const removeExp = (hero: IHeroCard, exp: number) => {
+  const heroExp = hero.attributes.experience;
+  const newExp = heroExp - exp;
+  hero.attributes.experience = newExp < 0 ? 0 : newExp;
+};
+
+export const increaseExp = (hero: IHeroCard, exp: number) => {
+  hero.attributes.experience += exp;
 };
