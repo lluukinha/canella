@@ -64,7 +64,7 @@ export const weaponCards: IWeaponCard[] = [
     attributes: {
       type: WeaponTypes.Sword,
       attackTypes: [AttackTypes.Meelee],
-      attack: 1,
+      attack: 999,
     },
   },
   {
@@ -89,21 +89,21 @@ export const weaponCards: IWeaponCard[] = [
       attack: 10,
     },
   },
+  {
+    id: 16,
+    name: 'Fire Sword',
+    type: CardTypes.Weapon,
+    image: 'weapon_fire_sword.jpg',
+    attributes: {
+      type: WeaponTypes.Sword,
+      attackTypes: [AttackTypes.Meelee, AttackTypes.Fire],
+      attack: 50,
+    },
+  },
 ];
 
 /*
 Weapon Example:
-{
-    id: 88,
-    name: 'Fire Sword',
-    type: CardTypes.Weapon,
-    image: '',
-    attributes: {
-      type: WeaponTypes.Sword,
-      attackTypes: [AttackTypes.Meelee, AttackTypes.Fire],
-      attack: 5,
-    },
-  },
 
 Attack example
 {
@@ -366,6 +366,23 @@ export const monsterCards: IMonsterCard[] = [
       loot: {
         gold: { min: 3, max: 15 },
         card: null,
+      },
+    },
+  },
+  {
+    id: 15,
+    type: CardTypes.Monster,
+    name: "Dragon",
+    image: "monster_dragon.jpg",
+    attributes: {
+      attackType: AttackTypes.Fire,
+      experience: 700,
+      attack: 100,
+      attackCards: [attackCards[1]],
+      healthPoints: 2500,
+      loot: {
+        gold: { min: 3, max: 15 },
+        card: { chance: 100, card: weaponCards[3] },
       },
     },
   },

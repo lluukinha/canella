@@ -31,7 +31,7 @@ const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
     9: [monsterCards[0]],
     10: [monsterCards[0]],
     11: [monsterCards[0]],
-    12: [monsterCards[0]],
+    12: [monsterCards[4]],
   },
   darkForest: {
     1: [monsterCards[0]],
