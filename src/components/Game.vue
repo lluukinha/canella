@@ -113,14 +113,14 @@ const wonBattle = async (data: IBattleData) => {
           </div>
         </div>
       </div>
-      <Transition name="slide-left" mode="out-in">
+      <Transition name="slide" mode="out-in">
         <Hero v-if="current === MenuItems.Hero" />
         <BattleView
           v-else-if="current === MenuItems.Battle"
           @start-battle="startBattle"
         />
         <CardsView v-else-if="current === MenuItems.Cards" />
-        <div v-else>o que é isso</div>
+        <div class="p-5" v-else>tenho que terminar essa parte ainda</div>
       </Transition>
     </div>
   </Transition>
