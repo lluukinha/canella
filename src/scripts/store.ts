@@ -20,11 +20,14 @@ interface IExperienceTable {
   [key: number]: ILevelIndicator;
 }
 
+export const ATTACK_ON_LEVEL = 5;
+export const LIFE_ON_LEVEL = 30;
+
 export const expLevels: IExperienceTable = {
   1: { from: 0, to: 100 },
   2: { from: 100, to: 200 },
   3: { from: 200, to: 300 },
-  4: { from: 300, to: 400 },
+  4: { from: 300, to: 4000 },
 };
 
 export interface IPlayer {
@@ -183,26 +186,48 @@ export const goToNextLevel = async (battleData: IBattleData) => {
 
 export const upLevel = async (hero: IHeroCard) => {
   hero.attributes.experience = expLevels[hero.attributes.level].to;
-  await delay(0.5);
+  await delay(0.8);
   hero.attributes.level += 1;
-  hero.attributes.healthPoints += 30;
-  hero.attributes.attack += 5;
+  hero.attributes.healthPoints += LIFE_ON_LEVEL;
+  hero.attributes.attack += ATTACK_ON_LEVEL;
 };
 
 export const downLevel = async (hero: IHeroCard) => {
   hero.attributes.experience = expLevels[hero.attributes.level].from;
   await delay(0.5);
   hero.attributes.level -= 1;
-  hero.attributes.healthPoints -= 30;
-  hero.attributes.attack -= 5;
+  hero.attributes.healthPoints -= LIFE_ON_LEVEL;
+  hero.attributes.attack -= ATTACK_ON_LEVEL;
 };
 
-export const removeExp = (hero: IHeroCard, exp: number) => {
+export const removeExp = async (hero: IHeroCard, exp: number) => {
+  const futureExperience = hero.attributes.experience - exp;
+
+  if (
+    hero.attributes.level > 1 &&
+    futureExperience < expLevels[hero.attributes.level].from
+  ) {
+    await downLevel(hero);
+    const remainingExp = expLevels[hero.attributes.level].to - futureExperience;
+    if (remainingExp > 0) await removeExp(hero, remainingExp);
+    return;
+  }
+
   const heroExp = hero.attributes.experience;
   const newExp = heroExp - exp;
   hero.attributes.experience = newExp < 0 ? 0 : newExp;
 };
 
-export const increaseExp = (hero: IHeroCard, exp: number) => {
+export const increaseExp = async (hero: IHeroCard, exp: number) => {
+  const futureExperience = hero.attributes.experience + exp;
+  if (futureExperience >= expLevels[hero.attributes.level].to) {
+    await upLevel(hero);
+    const remainingExp =
+      futureExperience - expLevels[hero.attributes.level].from;
+    if (remainingExp > 0) increaseExp(hero, remainingExp);
+    return;
+  }
+
   hero.attributes.experience += exp;
+  await delay(1);
 };

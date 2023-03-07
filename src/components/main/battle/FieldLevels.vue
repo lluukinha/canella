@@ -1,106 +1,111 @@
 <script setup lang="ts">
-import { computed, PropType, ref, watch } from 'vue';
+import { onBeforeMount, PropType, ref, watch } from "vue";
 import {
   delay,
   FieldConfig,
   IBattleData,
   IMonsterCard,
   monsterCards,
-} from '../../../scripts/main';
-import { playerStore } from '../../../scripts/store';
+} from "../../../scripts/main";
+import { playerStore } from "../../../scripts/store";
+import LockIcon from "../../icons/LockIcon.vue";
+import UnlockIcon from "../../icons/UnlockIcon.vue";
 
-const forestBgUrl = new URL('../../../assets/forest.jpeg', import.meta.url)
-  .href;
-const darkForestBgUrl = new URL(
-  '../../../assets/darkforest.jpeg',
-  import.meta.url
-).href;
-const castleBgUrl = new URL('../../../assets/castle.jpg', import.meta.url).href;
-const ruinsBgUrl = new URL('../../../assets/ruins.jpeg', import.meta.url).href;
-
-const forestConfig = {
-  bg: forestBgUrl,
-  levels: [
-    { number: 1, monsters: [monsterCards[0]] },
-    {
-      number: 2,
-      monsters: [monsterCards[0], monsterCards[1], monsterCards[3]],
-    },
-    { number: 3, monsters: [monsterCards[3]] },
-    { number: 4, monsters: [monsterCards[1]] },
-    { number: 5, monsters: [monsterCards[2]] },
-    { number: 6, monsters: [monsterCards[0]] },
-    { number: 7, monsters: [monsterCards[0]] },
-    { number: 8, monsters: [monsterCards[0]] },
-    { number: 9, monsters: [monsterCards[0]] },
-    { number: 10, monsters: [monsterCards[0]] },
-    { number: 11, monsters: [monsterCards[0]] },
-    { number: 12, monsters: [monsterCards[0]] },
-  ],
+const bgs = {
+  forest: "../../../assets/forest.jpeg",
+  darkForest: "../../../assets/darkforest.jpeg",
+  castle: "../../../assets/castle.jpg",
+  castleRuins: "../../../assets/ruins.jpeg",
 };
 
-const darkForestConfig = {
-  bg: darkForestBgUrl,
-  levels: [
-    { number: 1, monsters: [monsterCards[0]] },
-    { number: 2, monsters: [monsterCards[0]] },
-    { number: 3, monsters: [monsterCards[0]] },
-    { number: 4, monsters: [monsterCards[0]] },
-    { number: 5, monsters: [monsterCards[0]] },
-    { number: 6, monsters: [monsterCards[0]] },
-    { number: 7, monsters: [monsterCards[0]] },
-    { number: 8, monsters: [monsterCards[0]] },
-    { number: 9, monsters: [monsterCards[0]] },
-    { number: 10, monsters: [monsterCards[0]] },
-    { number: 11, monsters: [monsterCards[0]] },
-    { number: 12, monsters: [monsterCards[0]] },
-  ],
+const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
+  forest: {
+    1: [monsterCards[0]],
+    2: [monsterCards[0], monsterCards[1], monsterCards[3]],
+    3: [monsterCards[3]],
+    4: [monsterCards[1]],
+    5: [monsterCards[2]],
+    6: [monsterCards[0]],
+    7: [monsterCards[0]],
+    8: [monsterCards[0]],
+    9: [monsterCards[0]],
+    10: [monsterCards[0]],
+    11: [monsterCards[0]],
+    12: [monsterCards[0]],
+  },
+  darkForest: {
+    1: [monsterCards[0]],
+    2: [monsterCards[0], monsterCards[1], monsterCards[3]],
+    3: [monsterCards[3]],
+    4: [monsterCards[1]],
+    5: [monsterCards[2]],
+    6: [monsterCards[0]],
+    7: [monsterCards[0]],
+    8: [monsterCards[0]],
+    9: [monsterCards[0]],
+    10: [monsterCards[0]],
+    11: [monsterCards[0]],
+    12: [monsterCards[0]],
+  },
+  castle: {
+    1: [monsterCards[0]],
+    2: [monsterCards[0], monsterCards[1], monsterCards[3]],
+    3: [monsterCards[3]],
+    4: [monsterCards[1]],
+    5: [monsterCards[2]],
+    6: [monsterCards[0]],
+    7: [monsterCards[0]],
+    8: [monsterCards[0]],
+    9: [monsterCards[0]],
+    10: [monsterCards[0]],
+    11: [monsterCards[0]],
+    12: [monsterCards[0]],
+  },
+  castleRuins: {
+    1: [monsterCards[0]],
+    2: [monsterCards[0], monsterCards[1], monsterCards[3]],
+    3: [monsterCards[3]],
+    4: [monsterCards[1]],
+    5: [monsterCards[2]],
+    6: [monsterCards[0]],
+    7: [monsterCards[0]],
+    8: [monsterCards[0]],
+    9: [monsterCards[0]],
+    10: [monsterCards[0]],
+    11: [monsterCards[0]],
+    12: [monsterCards[0]],
+  },
 };
 
-const castleConfig = {
-  bg: castleBgUrl,
-  levels: [
-    { number: 1, monsters: [monsterCards[0]] },
-    { number: 2, monsters: [monsterCards[0]] },
-    { number: 3, monsters: [monsterCards[0]] },
-    { number: 4, monsters: [monsterCards[0]] },
-    { number: 5, monsters: [monsterCards[0]] },
-    { number: 6, monsters: [monsterCards[0]] },
-    { number: 7, monsters: [monsterCards[0]] },
-    { number: 8, monsters: [monsterCards[0]] },
-    { number: 9, monsters: [monsterCards[0]] },
-    { number: 10, monsters: [monsterCards[0]] },
-    { number: 11, monsters: [monsterCards[0]] },
-    { number: 12, monsters: [monsterCards[0]] },
-  ],
-};
+interface ILevelConfig {
+  number: number;
+  monsters: IMonsterCard[];
+  isEnabled: boolean;
+}
 
-const castleRuinsConfig = {
-  bg: ruinsBgUrl,
-  levels: [
-    { number: 1, monsters: [monsterCards[0]] },
-    { number: 2, monsters: [monsterCards[0]] },
-    { number: 3, monsters: [monsterCards[0]] },
-    { number: 4, monsters: [monsterCards[0]] },
-    { number: 5, monsters: [monsterCards[0]] },
-    { number: 6, monsters: [monsterCards[0]] },
-    { number: 7, monsters: [monsterCards[0]] },
-    { number: 8, monsters: [monsterCards[0]] },
-    { number: 9, monsters: [monsterCards[0]] },
-    { number: 10, monsters: [monsterCards[0]] },
-    { number: 11, monsters: [monsterCards[0]] },
-    { number: 12, monsters: [monsterCards[0]] },
-  ],
-};
+interface IFieldConfig {
+  bg: string;
+  levels: ILevelConfig[];
+}
 
-const fieldConfig = computed(() => {
-  if (props.field === 'forest') return forestConfig;
-  if (props.field === 'darkForest') return darkForestConfig;
-  if (props.field === 'castle') return castleConfig;
-  if (props.field === 'castleRuins') return castleRuinsConfig;
-  return forestConfig;
-  // eval(`${props.field}Config`)
+const fieldConfig = ref<IFieldConfig>({
+  bg: "",
+  levels: [],
 });
+
+const getLevelConfig = (level: number): ILevelConfig => ({
+  number: level,
+  monsters: monstersByLevel[props.field][level] || [],
+  isEnabled: playerStore.value.story[props.field].currentLevel >= level,
+});
+
+const setupField = () => {
+  fieldConfig.value.bg = new URL(bgs[props.field], import.meta.url).href;
+  for (let i: number = 1; i < 13; i++)
+    fieldConfig.value.levels.push(getLevelConfig(i));
+};
+
+onBeforeMount(setupField);
 
 const props = defineProps({
   field: {
@@ -112,7 +117,7 @@ const props = defineProps({
 const startBattle = (level: number) => {
   const { hero, weapon, attacks } = playerStore.value.equipedCards;
   const canBattle = !!hero && !!weapon && attacks.length > 0;
-  if (!canBattle) return;
+  if (!canBattle || isUnlocking.value) return;
 
   const { monsters } = fieldConfig.value.levels[level - 1];
   const chosenMonster: IMonsterCard =
@@ -125,19 +130,16 @@ const startBattle = (level: number) => {
     bg: fieldConfig.value.bg,
   };
 
-  emit('startBattle', battleData);
+  emit("startBattle", battleData);
 };
 
-const emit = defineEmits(['back', 'startBattle', 'fieldFinished']);
+const emit = defineEmits(["back", "startBattle", "fieldFinished"]);
 
 watch(
   () => playerStore.value.story[props.field].currentLevel,
   async (newValue, oldValue) => {
     if (newValue === oldValue) return;
-    showNewLevelMessage.value = true;
-    await delay(0.8);
-
-    showNewLevelMessage.value = false;
+    unlock(newValue);
   },
   { deep: true }
 );
@@ -145,12 +147,19 @@ watch(
 watch(
   () => playerStore.value.story[props.field].wonAllLevels,
   async (newValue) => {
-    if (!!newValue) emit('fieldFinished');
+    if (!!newValue) emit("fieldFinished");
   },
   { deep: true }
 );
 
-const showNewLevelMessage = ref<boolean>(false);
+const isUnlocking = ref<boolean>(false);
+const unlock = async (level: number) => {
+  isUnlocking.value = true;
+  await delay(1);
+  fieldConfig.value.levels[level - 1].isEnabled = true;
+  await delay(0.5);
+  isUnlocking.value = false;
+};
 </script>
 
 <template>
@@ -158,12 +167,6 @@ const showNewLevelMessage = ref<boolean>(false);
     class="w-full h-full bg-cover bg-center relative"
     :style="`background-image: url(${fieldConfig.bg})`"
   >
-    <div
-      class="absolute w-full h-full z-20 flex justify-center items-center text-8xl animate-ping"
-      v-if="showNewLevelMessage"
-    >
-      NEW LEVEL!
-    </div>
     <div
       class="z-10 absolute flex flex-col p-5 w-full h-full justify-center items-center"
     >
@@ -175,20 +178,26 @@ const showNewLevelMessage = ref<boolean>(false);
           class="w-40 h-40 bg-gray-600 rounded-lg text-7xl ring ring-green-900 bg-cover bg-center relative flex items-center justify-center disabled:opacity-40 transition-all"
           :class="{
             'hover:scale-110':
-              playerStore.story[field].currentLevel >= level.number,
+              playerStore.story[field].currentLevel >= level.number && !isUnlocking,
           }"
           v-for="level in fieldConfig.levels"
           :disabled="playerStore.story[field].currentLevel < level.number"
           @click="startBattle(level.number)"
         >
-          <span
-            :class="{
-              'animate-ping':
-                showNewLevelMessage &&
-                playerStore.story[field].currentLevel === level.number,
-            }"
-            >{{ level.number }}</span
-          >
+          <Transition name="slide-left" mode="out-in">
+            <div v-if="level.isEnabled">{{ level.number }}</div>
+            <div v-else>
+              <Transition name="fade" mode="out-in">
+                <UnlockIcon
+                  v-if="
+                    playerStore.story[field].currentLevel === level.number &&
+                    isUnlocking
+                  "
+                />
+                <LockIcon v-else />
+              </Transition>
+            </div>
+          </Transition>
         </button>
       </div>
     </div>

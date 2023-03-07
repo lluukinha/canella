@@ -15,7 +15,7 @@ const props = defineProps({
 
 const heroExperience = computed(() => {
   const { from, to } = expLevels[props.level];
-  const expToNextLevel = to;
+  const expToNextLevel = to - from;
   const current = props.experience - from;
   return Math.floor((current / expToNextLevel) * 100);
 });
@@ -32,7 +32,7 @@ const heroExperience = computed(() => {
       ></div>
     </div>
     <div class="relative">
-      <span class="w-10"> {{ 100 - heroExperience }}% </span>
+      <span class="w-10"> {{ heroExperience }}%</span>
     </div>
   </div>
 </template>

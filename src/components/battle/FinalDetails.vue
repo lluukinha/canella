@@ -1,22 +1,19 @@
 <script setup lang="ts">
-import { onMounted, PropType, ref } from "vue";
+import { computed, onMounted, PropType, ref, watch } from "vue";
 import {
   IMonsterCard,
   delay,
   ICard,
   calculateAverage,
   successProbability,
+  IHeroCardAttributes,
 } from "../../scripts/main";
 import Card from "../cards/Card.vue";
 
-import {
-  playerStore,
-  expLevels,
-  upLevel,
-  downLevel,
-  removeExp,
-  increaseExp,
-} from "../../scripts/store";
+import { playerStore, removeExp, increaseExp } from "../../scripts/store";
+import GoldIcon from "../icons/GoldIcon.vue";
+import HeroLevelChangeInformation from "./HeroLevelChangeInformation.vue";
+import NewCardIcon from "../icons/NewCardIcon.vue";
 
 const props = defineProps({
   enemyHp: {
@@ -30,38 +27,14 @@ const props = defineProps({
 });
 defineEmits(["continue", "quit"]);
 
-const finishAnimation = async (newExp: number) => {
-  const heroCardAttributes = playerStore.value.equipedCards.hero!.attributes;
-  const futureExperience = heroCardAttributes.experience + newExp;
-  if (futureExperience >= expLevels[heroCardAttributes.level].to) {
-    await upLevel(playerStore.value.equipedCards.hero!);
-    const remainingExp =
-      futureExperience - expLevels[heroCardAttributes.level].from;
-    if (remainingExp > 0) finishAnimation(remainingExp);
-    showContinue.value = true;
-    return;
-  }
-
-  increaseExp(playerStore.value.equipedCards.hero!, newExp);
+const wonBattle = async (newExp: number) => {
   await delay(0.5);
+  await increaseExp(playerStore.value.equipedCards.hero!, newExp);
+  await delay(0.2);
   showContinue.value = true;
 };
 
 const lostBattle = async (newExp: number) => {
-  const heroCardAttributes = playerStore.value.equipedCards.hero!.attributes;
-  const futureExperience = heroCardAttributes.experience - newExp;
-
-  if (
-    heroCardAttributes.level > 1 &&
-    futureExperience < expLevels[heroCardAttributes.level].from
-  ) {
-    await downLevel(playerStore.value.equipedCards.hero!);
-    const remainingExp =
-      expLevels[heroCardAttributes.level].to - futureExperience;
-    if (remainingExp > 0) lostBattle(remainingExp);
-    return;
-  }
-
   await removeExp(playerStore.value.equipedCards.hero!, newExp);
   showContinue.value = true;
 };
@@ -87,13 +60,24 @@ const calculateLoot = () => {
 onMounted(async () => {
   if (props.enemyHp === 0) {
     calculateLoot();
-    await delay(0.5);
-    finishAnimation(props.enemy.attributes.experience);
+    await wonBattle(props.enemy.attributes.experience);
   } else {
-    await delay(0.5);
-    lostBattle(props.enemy.attributes.experience);
+    await lostBattle(props.enemy.attributes.experience);
   }
 });
+
+const levelChanged = ref<boolean>(false);
+const hero = computed<IHeroCardAttributes>(() => playerStore.value.equipedCards.hero!.attributes);
+
+watch(
+  () => playerStore.value.equipedCards.hero?.attributes.level,
+  async (newValue, oldValue) => {
+    if (!oldValue || !newValue || newValue === oldValue) return;
+    levelChanged.value = true;
+  },
+  { deep: true }
+);
+
 </script>
 
 <template>
@@ -102,38 +86,49 @@ onMounted(async () => {
   >
     <div class="z-50 flex flex-col justify-center items-center gap-5 w-full">
       <div class="text-white w-full flex justify-center px-10 gap-20">
-        <Card :card="playerStore.equipedCards.hero!" />
+        <Card :card="playerStore.equipedCards.hero!" :class="{ 'opacity-70': enemyHp > 0 }" />
         <div
           class="text-center flex justify-center flex-col items-center gap-5"
         >
           <template v-if="enemyHp === 0">
             <h1 class="text-5xl">ENEMY DEFEATED!</h1>
-            <ul>
-              <li>Earned {{ enemy.attributes.experience }} exp</li>
-              <li v-if="gold > 0">{{ gold }} Gold</li>
-              <li class="flex gap-2" v-if="card">
+            <Transition name="fade">
+              <HeroLevelChangeInformation type="up" :hero="hero" v-if="levelChanged" />
+            </Transition>
+            <ul class="flex flex-col gap-2">
+              <li class="text-lg flex gap-2 items-center justify-center">
+                <span class="font-semibold text-3xl">+{{ enemy.attributes.experience }}</span> experience
+              </li>
+              <li class="flex gap-2" v-if="!!card">
+                <NewCardIcon />
                 <span class="drop-shadow text-yellow-400">NEW CARD:</span>
                 <span class="underline">{{ card.name }}</span>
+              </li>
+              <li v-if="gold > 0" class="flex items-end text-3xl gap-1 justify-center font-semibold">
+                <GoldIcon />
+                {{ gold }}
               </li>
             </ul>
           </template>
           <template v-else>
             <h1 class="text-5xl">YOU LOSE!</h1>
+            <Transition name="fade">
+              <HeroLevelChangeInformation type="down" :hero="hero" v-if="levelChanged" />
+            </Transition>
             <ul>
-              <li>Lost {{ enemy.attributes.experience }} exp</li>
+              <li class="text-lg flex gap-2 items-center">
+                <span class="font-semibold text-3xl">-{{ enemy.attributes.experience }}</span> experience
+              </li>
             </ul>
           </template>
-        </div>
-      </div>
-
-      <div class="flex w-full justify-around">
-        <button
-          class="px-4 py-2 text-white text-4xl transition-all disabled:opacity-0"
+          <button
+          class="px-4 py-2 text-white text-2xl transition-all disabled:opacity-0 bg-green-700 hover:bg-green-800 rounded-lg shadow drop-shadow"
           @click="$emit(enemyHp > 0 ? 'quit' : 'continue')"
           :disabled="!showContinue"
         >
           CONTINUE
         </button>
+        </div>
       </div>
     </div>
     <div class="overlay bg-black opacity-90 w-full h-full absolute z-40"></div>

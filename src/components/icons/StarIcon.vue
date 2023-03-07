@@ -3,7 +3,7 @@
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"
-    class="w-5 h-5"
+    class="text-yellow-400"
   >
     <path
       fill-rule="evenodd"

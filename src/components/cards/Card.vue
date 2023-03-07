@@ -101,7 +101,7 @@ const backSideClasses = computed(() => ({
               >
                 <span
                   v-for="weapon in (card.attributes as IAttackCardAttributes).weaponTypes"
-                  class="text-xs px-2 rounded bg-yellow-400 bg-opacity-30 font-bold uppercase shadow"
+                  class="text-xs px-2 rounded bg-yellow-800 font-bold uppercase shadow"
                 >
                   {{ weapon }}
                 </span>
