@@ -3,6 +3,7 @@ import { computed, onMounted, PropType, ref } from 'vue';
 import {
   calculateAverage,
   delay,
+  IAttackCard,
   IBattleData,
   successProbability,
 } from '../scripts/main';
@@ -37,6 +38,7 @@ const gameOver = ref<boolean>(false);
 const enemyHp = ref<number>(99999);
 const heroHp = ref<number>(heroCard.attributes.healthPoints);
 const showBattleDetails = ref<boolean>(false);
+const enemyChosenCard = ref<IAttackCard>();
 
 const heroBaseAttack = computed(
   () => weaponCard.attributes.attack + heroCard.attributes.attack
@@ -44,6 +46,7 @@ const heroBaseAttack = computed(
 
 const attack = async (damage: number) => {
   if (!canAttack.value || gameOver.value || !enemyHp.value) return;
+  canAttack.value = false;
 
   if (damage === 0) {
     showFailedMessage();
@@ -62,7 +65,6 @@ const attack = async (damage: number) => {
   await delay(0.8);
   showDamage.value = false;
 
-  canAttack.value = false;
   await delay(0.4);
   checkGameOver();
 
@@ -79,11 +81,7 @@ const showFailedMessage = async () => {
 const attackHero = async () => {
   if (myTurn.value || gameOver.value) return;
 
-  const randomIndex = Math.floor(
-    Math.random() * props.battleData.monster.attributes.attackCards.length
-  );
-  const chosenAttack =
-    props.battleData.monster.attributes.attackCards[randomIndex];
+  const chosenAttack = enemyChosenCard.value!;
 
   if (successProbability(chosenAttack.attributes.chance)) {
     showFailedMessage();
@@ -121,10 +119,16 @@ const attackHero = async () => {
 const turnMessage = computed(() => (myTurn.value ? 'YOUR TURN' : 'ENEMY TURN'));
 
 const simulateEnemyTurn = async () => {
+  const randomIndex = Math.floor(
+    Math.random() * props.battleData.monster.attributes.attackCards.length
+  );
+
+  enemyChosenCard.value = props.battleData.monster.attributes.attackCards[randomIndex];
   await delay(1);
   attackHero();
 
   await delay(1);
+  enemyChosenCard.value = undefined;
   endTurn();
 };
 
@@ -283,7 +287,7 @@ const emit = defineEmits(['quit', 'continue']);
               :card="atk"
               :baseAttack="battleData.monster.attributes.attack"
               :canAttack="false"
-              :isFlipped="myTurn"
+              :isFlipped="myTurn || (!myTurn && atk.id != enemyChosenCard?.id)"
             />
           </div>
           <div class="hero-card flex flex-col gap-1">
@@ -333,7 +337,7 @@ const emit = defineEmits(['quit', 'continue']);
               :isFlipped="!myTurn"
               @attack="attack"
               :class="{
-                'opacity-50': !canAttack && myTurn,
+                'opacity-50': !canAttack && myTurn || (canAttack && myTurn && showTurnMessage),
                 'hover:scale-110': canAttack,
               }"
             />
