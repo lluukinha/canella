@@ -111,11 +111,12 @@ const simulateEnemyTurn = async () => {
     Math.random() * props.battleData.monster.attributes.attackCards.length
   );
 
+  await delay(1);
   enemyChosenCard.value = props.battleData.monster.attributes.attackCards[randomIndex];
   await delay(1);
   attackHero();
 
-  await delay(1);
+  await delay(0.5);
   enemyChosenCard.value = undefined;
   endTurn();
 };
