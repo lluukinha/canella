@@ -60,7 +60,7 @@ export const weaponCards: IWeaponCard[] = [
     id: 8,
     name: "Knife",
     type: CardTypes.Weapon,
-    image: "weapon_knife.jpg",
+    image: "weapons/knife.jpg",
     attributes: {
       type: WeaponTypes.Sword,
       attackTypes: [AttackTypes.Meelee],
@@ -71,7 +71,7 @@ export const weaponCards: IWeaponCard[] = [
     id: 9,
     name: "Katana",
     type: CardTypes.Weapon,
-    image: "weapon_katana.jpg",
+    image: "weapons/katana.jpg",
     attributes: {
       type: WeaponTypes.Sword,
       attackTypes: [AttackTypes.Meelee],
@@ -82,7 +82,7 @@ export const weaponCards: IWeaponCard[] = [
     id: 10,
     name: "Wooden Bow",
     type: CardTypes.Weapon,
-    image: "weapon_wooden_bow.jpg",
+    image: "weapons/wooden_bow.jpg",
     attributes: {
       type: WeaponTypes.Bow,
       attackTypes: [AttackTypes.Meelee],
@@ -93,7 +93,7 @@ export const weaponCards: IWeaponCard[] = [
     id: 16,
     name: 'Fire Sword',
     type: CardTypes.Weapon,
-    image: 'weapon_fire_sword.jpg',
+    image: 'weapons/fire_sword.jpg',
     attributes: {
       type: WeaponTypes.Sword,
       attackTypes: [AttackTypes.Meelee, AttackTypes.Fire],
@@ -133,7 +133,7 @@ export const attackCards: IAttackCard[] = [
     id: 3,
     name: "Simple",
     type: CardTypes.Attack,
-    image: "attack_simple.jpg",
+    image: "attacks/simple.jpg",
     attributes: {
       attackType: AttackTypes.Meelee,
       weaponTypes: Object.values(WeaponTypes),
@@ -146,7 +146,7 @@ export const attackCards: IAttackCard[] = [
     id: 4,
     name: "Bite",
     type: CardTypes.Attack,
-    image: "",
+    image: "empty.jpg",
     attributes: {
       attackType: AttackTypes.Meelee,
       weaponTypes: [],
@@ -159,7 +159,7 @@ export const attackCards: IAttackCard[] = [
     id: 5,
     name: "Throw Arrow",
     type: CardTypes.Attack,
-    image: "attack_throw_arrow.jpg",
+    image: "attacks/throw_arrow.jpg",
     attributes: {
       attackType: AttackTypes.Meelee,
       weaponTypes: [WeaponTypes.Bow],
@@ -172,7 +172,7 @@ export const attackCards: IAttackCard[] = [
     id: 6,
     name: "Super",
     type: CardTypes.Attack,
-    image: "attack_super.jpg",
+    image: "attacks/super.jpg",
     attributes: {
       weaponTypes: Object.values(WeaponTypes),
       attackType: AttackTypes.Meelee,
@@ -185,7 +185,7 @@ export const attackCards: IAttackCard[] = [
     id: 11,
     name: "Scratch",
     type: CardTypes.Attack,
-    image: "attack_scratch.jpg",
+    image: "attacks/scratch.jpg",
     attributes: {
       weaponTypes: [],
       attackType: AttackTypes.Meelee,
@@ -235,7 +235,7 @@ export const heroCards: IHeroCard[] = [
     id: 1,
     name: "Lucas",
     type: CardTypes.Hero,
-    image: "hero_knight.jpg",
+    image: "heroes/knight.jpg",
     attributes: {
       type: HeroTypes.Knight,
       weaponTypes: knightWeaponTypes,
@@ -249,7 +249,7 @@ export const heroCards: IHeroCard[] = [
     id: 2,
     name: "Guilherme",
     type: CardTypes.Hero,
-    image: "hero_paladin.jpg",
+    image: "heroes/paladin.jpg",
     attributes: {
       type: HeroTypes.Paladin,
       weaponTypes: paladinWeaponTypes,
@@ -305,7 +305,7 @@ export const monsterCards: IMonsterCard[] = [
     id: 7,
     type: CardTypes.Monster,
     name: "Snake",
-    image: "monster_snake.jpg",
+    image: "monsters/snake.jpg",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 10,
@@ -322,7 +322,7 @@ export const monsterCards: IMonsterCard[] = [
     id: 12,
     type: CardTypes.Monster,
     name: "Bear",
-    image: "monster_bear.jpg",
+    image: "monsters/bear.jpg",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 25,
@@ -339,7 +339,7 @@ export const monsterCards: IMonsterCard[] = [
     id: 13,
     type: CardTypes.Monster,
     name: "Crocodile",
-    image: "monster_crocodile.jpg",
+    image: "monsters/crocodile.jpg",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 30,
@@ -356,7 +356,7 @@ export const monsterCards: IMonsterCard[] = [
     id: 14,
     type: CardTypes.Monster,
     name: "Spider",
-    image: "monster_spider.jpg",
+    image: "monsters/spider.jpg",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 15,
@@ -373,7 +373,7 @@ export const monsterCards: IMonsterCard[] = [
     id: 15,
     type: CardTypes.Monster,
     name: "Dragon",
-    image: "monster_dragon.jpg",
+    image: "monsters/dragon.jpg",
     attributes: {
       attackType: AttackTypes.Fire,
       experience: 700,

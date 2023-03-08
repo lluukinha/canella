@@ -13,6 +13,7 @@ import BattleView from "./main/battle/BattleView.vue";
 import EscapeIcon from "./icons/EscapeIcon.vue";
 import { IBattleData } from "../scripts/main";
 import CardsView from "./main/cards/CardsView.vue";
+import CardsSearchIcon from "./icons/CardsSearchIcon.vue";
 
 const playerHasNoCards = computed(
   () =>
@@ -78,8 +79,8 @@ const wonBattle = async (data: IBattleData) => {
           :class="{ 'bg-slate-700 ring-1': current === MenuItems.Cards }"
           @click="current = MenuItems.Cards"
         >
-          <CardsIcon class="w-6 h-6" />
-          Cards
+          <CardsSearchIcon />
+          Cards Wiki
         </div>
         <div
           class="flex gap-2 py-2 px-4 rounded shadow hover:ring-1 cursor-pointer"
