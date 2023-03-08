@@ -178,9 +178,9 @@ export const goToNextLevel = async (battleData: IBattleData) => {
   const { currentLevel, wonAllLevels } = playerStore.value.story[field];
   if (level !== currentLevel) return;
 
-  if (currentLevel < 12)
+  if (currentLevel < 5)
     playerStore.value.story[field].currentLevel = level + 1;
-  if (currentLevel === 12 && !wonAllLevels)
+  if (currentLevel === 5 && !wonAllLevels)
     playerStore.value.story[field].wonAllLevels = true;
 };
 

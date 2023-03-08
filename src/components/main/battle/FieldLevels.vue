@@ -12,10 +12,10 @@ import LockIcon from '../../icons/LockIcon.vue';
 import UnlockIcon from '../../icons/UnlockIcon.vue';
 
 const bgs = {
-  forest: '../../../assets/forest.jpeg',
-  darkForest: '../../../assets/darkforest.jpeg',
-  castle: '../../../assets/castle.jpg',
-  castleRuins: '../../../assets/ruins.jpeg',
+  forest: new URL('../../../assets/forest.jpeg', import.meta.url).href,
+  darkForest: new URL('../../../assets/darkforest.jpeg', import.meta.url).href,
+  castle: new URL('../../../assets/castle.jpg', import.meta.url).href,
+  castleRuins: new URL('../../../assets/ruins.jpeg', import.meta.url).href,
 };
 
 const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
@@ -85,7 +85,7 @@ const getLevelConfig = (level: number): ILevelConfig => ({
 });
 
 const setupField = () => {
-  fieldConfig.value.bg = new URL(bgs[props.field], import.meta.url).href;
+  fieldConfig.value.bg = bgs[props.field];
   const levels = [];
   levels.push();
   for (let i: number = 1; i < 6; i++)
