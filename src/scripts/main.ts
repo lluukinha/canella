@@ -22,6 +22,7 @@ export enum AttackTypes {
   Ice = "Ice",
   Dark = "Dark",
   Water = "Water",
+  Poison = "Poison"
 }
 
 export interface IWeaponCardAttributes {
@@ -57,7 +58,7 @@ export interface ICard {
 
 export const weaponCards: IWeaponCard[] = [
   {
-    id: 8,
+    id: 1,
     name: "Knife",
     type: CardTypes.Weapon,
     image: "weapons/knife.jpg",
@@ -68,7 +69,7 @@ export const weaponCards: IWeaponCard[] = [
     },
   },
   {
-    id: 9,
+    id: 2,
     name: "Katana",
     type: CardTypes.Weapon,
     image: "weapons/katana.jpg",
@@ -79,7 +80,7 @@ export const weaponCards: IWeaponCard[] = [
     },
   },
   {
-    id: 10,
+    id: 3,
     name: "Wooden Bow",
     type: CardTypes.Weapon,
     image: "weapons/wooden_bow.jpg",
@@ -90,7 +91,7 @@ export const weaponCards: IWeaponCard[] = [
     },
   },
   {
-    id: 16,
+    id: 4,
     name: 'Fire Sword',
     type: CardTypes.Weapon,
     image: 'weapons/fire_sword.jpg',
@@ -130,7 +131,7 @@ export interface IAttackCard extends ICard {
 
 export const attackCards: IAttackCard[] = [
   {
-    id: 3,
+    id: 1,
     name: "Simple",
     type: CardTypes.Attack,
     image: "attacks/simple.jpg",
@@ -143,20 +144,20 @@ export const attackCards: IAttackCard[] = [
     },
   },
   {
-    id: 4,
+    id: 2,
     name: "Bite",
     type: CardTypes.Attack,
     image: "empty.jpg",
     attributes: {
       attackType: AttackTypes.Meelee,
       weaponTypes: [],
-      min: 5,
-      max: 10,
+      min: 1,
+      max: 5,
       chance: 90,
     },
   },
   {
-    id: 5,
+    id: 3,
     name: "Throw Arrow",
     type: CardTypes.Attack,
     image: "attacks/throw_arrow.jpg",
@@ -169,7 +170,7 @@ export const attackCards: IAttackCard[] = [
     },
   },
   {
-    id: 6,
+    id: 4,
     name: "Super",
     type: CardTypes.Attack,
     image: "attacks/super.jpg",
@@ -182,7 +183,7 @@ export const attackCards: IAttackCard[] = [
     },
   },
   {
-    id: 11,
+    id: 5,
     name: "Scratch",
     type: CardTypes.Attack,
     image: "attacks/scratch.jpg",
@@ -194,7 +195,19 @@ export const attackCards: IAttackCard[] = [
       chance: 85,
     },
   },
-  // scratch
+  {
+    id: 6,
+    name: "Poison sting",
+    type: CardTypes.Attack,
+    image: "attacks/scratch.jpg",
+    attributes: {
+      weaponTypes: [],
+      attackType: AttackTypes.Poison,
+      min: 5,
+      max: 10,
+      chance: 100,
+    },
+  },
 ];
 
 export enum HeroTypes {
@@ -233,7 +246,7 @@ export interface IHeroCard extends ICard {
 export const heroCards: IHeroCard[] = [
   {
     id: 1,
-    name: "Lucas",
+    name: "Steve",
     type: CardTypes.Hero,
     image: "heroes/knight.jpg",
     attributes: {
@@ -300,17 +313,17 @@ export interface StoryLevel {
   wonAllLevels: boolean;
 }
 
-export const monsterCards: IMonsterCard[] = [
+export const forestEasy: IMonsterCard[] = [
   {
-    id: 7,
+    id: 1,
     type: CardTypes.Monster,
     name: "Snake",
     image: "monsters/snake.jpg",
     attributes: {
-      attackType: AttackTypes.Meelee,
+      attackType: AttackTypes.Poison,
       experience: 10,
       attack: 10,
-      attackCards: [attackCards[1]],
+      attackCards: [attackCards[1], attackCards[5]],
       healthPoints: 20,
       loot: {
         gold: { min: 0, max: 1 },
@@ -319,7 +332,336 @@ export const monsterCards: IMonsterCard[] = [
     },
   },
   {
+    id: 2,
+    type: CardTypes.Monster,
+    name: "Wasp",
+    image: "monsters/wasp.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 15,
+      attack: 5,
+      attackCards: [attackCards[5]],
+      healthPoints: 25,
+      loot: {
+        gold: { min: 3, max: 7 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 3,
+    type: CardTypes.Monster,
+    name: "Salamander",
+    image: "monsters/salamander.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 15,
+      attack: 13,
+      attackCards: [attackCards[1], attackCards[5]],
+      healthPoints: 20,
+      loot: {
+        gold: { min: 3, max: 8 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 4,
+    type: CardTypes.Monster,
+    name: "Centipede",
+    image: "monsters/centipede.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 10,
+      attack: 8,
+      attackCards: [attackCards[1], attackCards[5]],
+      healthPoints: 15,
+      loot: {
+        gold: { min: 2, max: 5 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 5,
+    type: CardTypes.Monster,
+    name: "Scorpion",
+    image: "monsters/scorpion.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 20,
+      attack: 15,
+      attackCards: [attackCards[5]],
+      healthPoints: 30,
+      loot: {
+        gold: { min: 5, max: 10 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 6,
+    type: CardTypes.Monster,
+    name: "Toad",
+    image: "monsters/toad.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 20,
+      attack: 10,
+      attackCards: [attackCards[1]],
+      healthPoints: 35,
+      loot: {
+        gold: { min: 5, max: 10 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 7,
+    type: CardTypes.Monster,
+    name: "Slug",
+    image: "monsters/slug.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 18,
+      attack: 3,
+      attackCards: [attackCards[1]],
+      healthPoints: 50,
+      loot: {
+        gold: { min: 5, max: 10 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 8,
+    type: CardTypes.Monster,
+    name: "Spider",
+    image: "monsters/spider.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 15,
+      attack: 12,
+      attackCards: [attackCards[1], attackCards[5]],
+      healthPoints: 25,
+      loot: {
+        gold: { min: 3, max: 15 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 9,
+    type: CardTypes.Monster,
+    name: "Larva",
+    image: "monsters/larva.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 10,
+      attack: 10,
+      attackCards: [attackCards[1]],
+      healthPoints: 20,
+      loot: {
+        gold: { min: 3, max: 8 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 10,
+    type: CardTypes.Monster,
+    name: "Bug",
+    image: "monsters/bug.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 18,
+      attack: 12,
+      attackCards: [attackCards[1]],
+      healthPoints: 25,
+      loot: {
+        gold: { min: 5, max: 12 },
+        card: null,
+      },
+    },
+  },
+];
+
+export const forestMedium: IMonsterCard[] = [
+  {
+    id: 11,
+    type: CardTypes.Monster,
+    name: "Poison Spider",
+    image: "monsters/poison_spider.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 25,
+      attack: 20,
+      attackCards: [attackCards[1], attackCards[5]],
+      healthPoints: 30,
+      loot: {
+        gold: { min: 1, max: 10 },
+        card: null,
+      },
+    },
+  },
+  {
     id: 12,
+    type: CardTypes.Monster,
+    name: "Baby Lion",
+    image: "monsters/baby_lion.jpg",
+    attributes: {
+      attackType: AttackTypes.Meelee,
+      experience: 40,
+      attack: 18,
+      attackCards: [attackCards[1], attackCards[4]],
+      healthPoints: 60,
+      loot: {
+        gold: { min: 1, max: 10 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 13,
+    type: CardTypes.Monster,
+    name: "Leopard",
+    image: "monsters/leopard.jpg",
+    attributes: {
+      attackType: AttackTypes.Meelee,
+      experience: 40,
+      attack: 22,
+      attackCards: [attackCards[1], attackCards[4]],
+      healthPoints: 60,
+      loot: {
+        gold: { min: 1, max: 10 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 14,
+    type: CardTypes.Monster,
+    name: "Slime",
+    image: "monsters/slime.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 160,
+      attack: 20,
+      attackCards: [attackCards[5]],
+      healthPoints: 120,
+      loot: {
+        gold: { min: 1, max: 10 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 15,
+    type: CardTypes.Monster,
+    name: "Wolf",
+    image: "monsters/wolf.jpg",
+    attributes: {
+      attackType: AttackTypes.Meelee,
+      experience: 60,
+      attack: 25,
+      attackCards: [attackCards[1], attackCards[4]],
+      healthPoints: 50,
+      loot: {
+        gold: { min: 1, max: 10 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 16,
+    type: CardTypes.Monster,
+    name: "Fox",
+    image: "monsters/fox.jpg",
+    attributes: {
+      attackType: AttackTypes.Meelee,
+      experience: 60,
+      attack: 18,
+      attackCards: [attackCards[1], attackCards[4]],
+      healthPoints: 70,
+      loot: {
+        gold: { min: 1, max: 10 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 17,
+    type: CardTypes.Monster,
+    name: "Troll",
+    image: "monsters/troll.jpg",
+    attributes: {
+      attackType: AttackTypes.Meelee,
+      experience: 80,
+      attack: 25,
+      attackCards: [attackCards[1], attackCards[0], attackCards[4]],
+      healthPoints: 90,
+      loot: {
+        gold: { min: 1, max: 12 },
+        card: null
+      },
+    },
+  },
+  {
+    id: 18,
+    type: CardTypes.Monster,
+    name: "Eagle",
+    image: "monsters/eagle.jpg",
+    attributes: {
+      attackType: AttackTypes.Meelee,
+      experience: 60,
+      attack: 20,
+      attackCards: [attackCards[1]],
+      healthPoints: 70,
+      loot: {
+        gold: { min: 5, max: 20 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 19,
+    type: CardTypes.Monster,
+    name: "Scarab",
+    image: "monsters/scarab.jpg",
+    attributes: {
+      attackType: AttackTypes.Poison,
+      experience: 90,
+      attack: 23,
+      attackCards: [attackCards[1], attackCards[5]],
+      healthPoints: 90,
+      loot: {
+        gold: { min: 10, max: 18 },
+        card: null,
+      },
+    },
+  },
+  {
+    id: 20,
+    type: CardTypes.Monster,
+    name: "Lizard Sentinel",
+    image: "monsters/lizard_sentinel.jpg",
+    attributes: {
+      attackType: AttackTypes.Meelee,
+      experience: 120,
+      attack: 30,
+      attackCards: [attackCards[1], attackCards[4], attackCards[0]],
+      healthPoints: 100,
+      loot: {
+        gold: { min: 8, max: 20 },
+        card: null,
+      },
+    },
+  },
+];
+
+export const forestHard: IMonsterCard[] = [
+  {
+    id: 11,
     type: CardTypes.Monster,
     name: "Bear",
     image: "monsters/bear.jpg",
@@ -336,7 +678,7 @@ export const monsterCards: IMonsterCard[] = [
     },
   },
   {
-    id: 13,
+    id: 12,
     type: CardTypes.Monster,
     name: "Crocodile",
     image: "monsters/crocodile.jpg",
@@ -352,23 +694,11 @@ export const monsterCards: IMonsterCard[] = [
       },
     },
   },
-  {
-    id: 14,
-    type: CardTypes.Monster,
-    name: "Spider",
-    image: "monsters/spider.jpg",
-    attributes: {
-      attackType: AttackTypes.Meelee,
-      experience: 15,
-      attack: 12,
-      attackCards: [attackCards[1]],
-      healthPoints: 25,
-      loot: {
-        gold: { min: 3, max: 15 },
-        card: null,
-      },
-    },
-  },
+];
+
+export const monsterCards: IMonsterCard[] = [
+  ...forestEasy,
+  ...forestMedium,
   {
     id: 15,
     type: CardTypes.Monster,

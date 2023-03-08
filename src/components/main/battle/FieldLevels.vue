@@ -3,6 +3,8 @@ import { onBeforeMount, PropType, ref, watch } from 'vue';
 import {
   delay,
   FieldConfig,
+  forestEasy,
+  forestMedium,
   IBattleData,
   IMonsterCard,
   monsterCards,
@@ -20,8 +22,8 @@ const bgs = {
 
 const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
   forest: {
-    1: [monsterCards[0]],
-    2: [monsterCards[3]],
+    1: forestEasy,
+    2: forestMedium,
     3: [monsterCards[1]],
     4: [monsterCards[2]],
     5: [monsterCards[4]],
@@ -109,6 +111,8 @@ const startBattle = (level: number) => {
   const { monsters } = fieldConfig.value.levels[level - 1];
   const chosenMonster: IMonsterCard =
     monsters[Math.floor(Math.random() * monsters.length)];
+
+    console.log({ monsters, chosenMonster });
 
   const battleData: IBattleData = {
     field: props.field,

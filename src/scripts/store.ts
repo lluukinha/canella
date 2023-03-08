@@ -26,8 +26,25 @@ export const LIFE_ON_LEVEL = 30;
 export const expLevels: IExperienceTable = {
   1: { from: 0, to: 100 },
   2: { from: 100, to: 200 },
-  3: { from: 200, to: 300 },
-  4: { from: 300, to: 4000 },
+  3: { from: 200, to: 400 },
+  4: { from: 400, to: 800 },
+  5: { from: 800, to: 1500 },
+  6: { from: 1500, to: 2600 },
+  7: { from: 2600, to: 4200 },
+  8: { from: 4200, to: 6400 },
+  9: { from: 6400, to: 9300 },
+  10: { from: 9300, to: 13000 },
+  11: { from: 13000, to: 17600 },
+  12: { from: 17600, to: 23200 },
+  13: { from: 23200, to: 29900 },
+  14: { from: 29900, to: 37800 },
+  15: { from: 37800, to: 47000 },
+  16: { from: 47000, to: 57600 },
+  17: { from: 57600, to: 69700 },
+  18: { from: 69700, to: 83400 },
+  19: { from: 83400, to: 98800 },
+  20: { from: 98800, to: 116000 },
+  21: { from: 116000, to: 9999999999 }
 };
 
 export interface IPlayer {
@@ -178,8 +195,7 @@ export const goToNextLevel = async (battleData: IBattleData) => {
   const { currentLevel, wonAllLevels } = playerStore.value.story[field];
   if (level !== currentLevel) return;
 
-  if (currentLevel < 5)
-    playerStore.value.story[field].currentLevel = level + 1;
+  if (currentLevel < 5) playerStore.value.story[field].currentLevel = level + 1;
   if (currentLevel === 5 && !wonAllLevels)
     playerStore.value.story[field].wonAllLevels = true;
 };
