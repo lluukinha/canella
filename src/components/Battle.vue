@@ -104,18 +104,6 @@ const attackHero = async () => {
   checkGameOver();
 };
 
-// const overlayHeight = computed(() =>
-//   Math.floor(
-//     (1 -
-//       enemyHp.value / (props.battleData.monster.attributes.healthPoints || 0)) *
-//       100
-//   )
-// );
-
-// const overlayHeroHeight = computed(() =>
-//   Math.floor((1 - heroHp.value / heroCard.attributes.healthPoints) * 100)
-// );
-
 const turnMessage = computed(() => (myTurn.value ? 'YOUR TURN' : 'ENEMY TURN'));
 
 const simulateEnemyTurn = async () => {
@@ -303,10 +291,6 @@ const emit = defineEmits(['quit', 'continue']);
               >
                 -{{ currentDamage }}
               </div>
-              <!-- <div
-                :style="`height: ${overlayHeight}%`"
-                class="top-0 absolute w-full h-full bg-black bg-opacity-50 text-white flex justify-center items-center rounded-lg transition-all"
-              /> -->
             </div>
           </div>
         </div>
@@ -321,10 +305,6 @@ const emit = defineEmits(['quit', 'continue']);
               >
                 -{{ currentDamage }}
               </div>
-              <!-- <div
-                :style="`height: ${overlayHeroHeight}%`"
-                class="top-0 absolute w-full h-full bg-black bg-opacity-50 text-white flex justify-center items-center transition-all rounded-lg"
-              /> -->
             </div>
           </div>
           <BattleWeaponCard :card="weaponCard" />
