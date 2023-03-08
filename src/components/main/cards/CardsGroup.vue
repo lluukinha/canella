@@ -11,6 +11,7 @@ import {
   IAttackCard,
   IMonsterCard,
 } from "../../../scripts/main";
+
 import Card from "../../cards/Card.vue";
 
 const props = defineProps({
@@ -24,6 +25,10 @@ const props = defineProps({
     required: true,
   },
   visibleIds: {
+    type: Array as PropType<number[]>,
+    required: true,
+  },
+  flippableIds: {
     type: Array as PropType<number[]>,
     required: true,
   },
@@ -156,14 +161,20 @@ const filteredCards = computed((): ICard[] => {
       </div>
       <template v-else>
       <TransitionGroup name="list">
+        <div v-for="card in filteredCards" :key="`${cardType}_${card.id}`" class="relative">
+          <div
+            class="absolute w-full z-30 bottom-10 mx-auto text-center text-gray-500 font-bold"
+            v-if="!flippableIds.includes(card.id) && !visibleIds.includes(card.id)"
+          >
+            UNDISCOVERED
+          </div>
         <Card
           :card="card"
-          v-for="card in filteredCards"
-          :flip-on-hover="false"
-          :hideFront="!visibleIds.includes(card.id)"
-          :hideContent="!visibleIds.includes(card.id)"
-          :key="card.id"
+          :flip-on-hover="flippableIds.includes(card.id) && !visibleIds.includes(card.id)"
+          :hideFront="false && !visibleIds.includes(card.id)"
+          :hideContent="false && !flippableIds.includes(card.id) && !visibleIds.includes(card.id)"
         />
+        </div>
       </TransitionGroup>
     </template>
     </div>

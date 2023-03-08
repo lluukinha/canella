@@ -1,17 +1,13 @@
 <script setup lang="ts">
 import { allCards, ICard, CardTypes } from "../../../scripts/main";
-import Card from "../../cards/Card.vue";
 import { playerStore } from "../../../scripts/store";
 import { computed } from "vue";
 import CardsGroup from "./CardsGroup.vue";
-
-const cardIds = computed(() => playerStore.value.cards.map((c) => c.id));
 
 const allCanellaCards = computed(() => {
   const playerHeroCardIds: number[] = [];
   const playerWeaponCardIds: number[] = [];
   const playerAttackCardIds: number[] = [];
-  const playerMonsterCardIds: number[] = playerStore.value.monsters.seen;
 
   const { hero, weapon, attacks } = playerStore.value.equipedCards;
 
@@ -39,24 +35,28 @@ const allCanellaCards = computed(() => {
       cardType: CardTypes.Hero,
       cards: allCards.filter((c) => c.type === CardTypes.Hero),
       visibleIds: playerHeroCardIds,
+      flippableIds: playerHeroCardIds,
     },
     {
       title: "Weapons",
       cardType: CardTypes.Weapon,
       cards: allCards.filter((c) => c.type === CardTypes.Weapon),
       visibleIds: playerWeaponCardIds,
+      flippableIds: playerWeaponCardIds,
     },
     {
       title: "Attacks",
       cardType: CardTypes.Attack,
       cards: allCards.filter((c) => c.type === CardTypes.Attack),
       visibleIds: playerAttackCardIds,
+      flippableIds: playerAttackCardIds,
     },
     {
       title: "Monsters",
       cardType: CardTypes.Monster,
       cards: allCards.filter((c) => c.type === CardTypes.Monster),
-      visibleIds: playerMonsterCardIds,
+      visibleIds: playerStore.value.monsters.won,
+      flippableIds: playerStore.value.monsters.seen,
     },
   ];
 });
@@ -70,6 +70,7 @@ const allCanellaCards = computed(() => {
       :cards="cardsConfig.cards"
       :title="cardsConfig.title"
       :visible-ids="cardsConfig.visibleIds"
+      :flippable-ids="cardsConfig.flippableIds"
       :card-type="cardsConfig.cardType"
       v-for="cardsConfig in allCanellaCards"
     />

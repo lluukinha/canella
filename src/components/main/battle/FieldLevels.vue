@@ -8,6 +8,7 @@ import {
   IBattleData,
   IMonsterCard,
   monsterCards,
+successProbability,
 } from '../../../scripts/main';
 import { playerStore } from '../../../scripts/store';
 import LockIcon from '../../icons/LockIcon.vue';
@@ -109,10 +110,14 @@ const startBattle = (level: number) => {
   if (!canBattle || isUnlocking.value) return;
 
   const { monsters } = fieldConfig.value.levels[level - 1];
-  const chosenMonster: IMonsterCard =
-    monsters[Math.floor(Math.random() * monsters.length)];
+  const undiscoveredMonsters = monsters.filter(c => !playerStore.value.monsters.won.includes(c.id));
 
-    console.log({ monsters, chosenMonster });
+  let monsterList = monsters;
+  // 90 probability to see a new monster instead of a monster you already defeated.
+  const showUndiscovered = undiscoveredMonsters.length > 0 && successProbability(90);
+  if (showUndiscovered) monsterList = undiscoveredMonsters;
+
+  const chosenMonster: IMonsterCard = monsterList[Math.floor(Math.random() * monsterList.length)];
 
   const battleData: IBattleData = {
     field: props.field,
@@ -142,6 +147,12 @@ watch(
   },
   { deep: true }
 );
+
+const discoveredPercentage = (level: number) => {
+  const monsterIds = fieldConfig.value.levels[level - 1].monsters.map(c => c.id);
+  const defeatedMonsters = playerStore.value.monsters.won.filter(id => monsterIds.includes(id)).length;
+  return Math.round((defeatedMonsters / monsterIds.length) * 100);
+};
 
 const isUnlocking = ref<boolean>(false);
 const unlock = async (level: number) => {
@@ -178,7 +189,10 @@ const unlock = async (level: number) => {
           @click="startBattle(level.number)"
         >
           <Transition name="slide-left" mode="out-in">
-            <div v-if="level.isEnabled">{{ level.name }}</div>
+            <div v-if="level.isEnabled" class="flex flex-col gap-2">
+              <h1 class="text-2xl">{{ level.name }}</h1>
+              <h2 class="text-xs uppercase text-gray-500 font-bold">{{ discoveredPercentage(level.number) }}% DISCOVERED</h2>
+            </div>
             <div v-else>
               <Transition name="fade" mode="out-in">
                 <UnlockIcon

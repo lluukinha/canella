@@ -29,7 +29,7 @@ const emit = defineEmits(['attack']);
 
 const attack = () => {
   const damage = calculateAverage(min.value, max.value);
-  const failed = successProbability(props.card.attributes.chance);
+  const failed = !successProbability(props.card.attributes.chance);
   emit('attack', failed ? 0 : damage);
 };
 </script>

@@ -9,6 +9,7 @@ import {
   StoryLevel,
   IBattleData,
   delay,
+  IMonsterCard,
 } from "./main";
 
 interface ILevelIndicator {
@@ -182,10 +183,12 @@ export const equipNewCard = (card: ICard) => {
 };
 
 export const seeMonster = (monsterId: number) => {
+  if (playerStore.value.monsters.seen.includes(monsterId)) return;
   playerStore.value.monsters.seen.push(monsterId);
 };
 
 export const defeatMonster = (monsterId: number) => {
+  if (playerStore.value.monsters.won.includes(monsterId)) return;
   playerStore.value.monsters.won.push(monsterId);
 };
 

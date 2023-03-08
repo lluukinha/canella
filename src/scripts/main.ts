@@ -61,7 +61,7 @@ export const weaponCards: IWeaponCard[] = [
     id: 1,
     name: "Knife",
     type: CardTypes.Weapon,
-    image: "weapons/knife.jpg",
+    image: "weapons/knife.png",
     attributes: {
       type: WeaponTypes.Sword,
       attackTypes: [AttackTypes.Meelee],
@@ -72,7 +72,7 @@ export const weaponCards: IWeaponCard[] = [
     id: 2,
     name: "Katana",
     type: CardTypes.Weapon,
-    image: "weapons/katana.jpg",
+    image: "weapons/katana.png",
     attributes: {
       type: WeaponTypes.Sword,
       attackTypes: [AttackTypes.Meelee],
@@ -83,7 +83,7 @@ export const weaponCards: IWeaponCard[] = [
     id: 3,
     name: "Wooden Bow",
     type: CardTypes.Weapon,
-    image: "weapons/wooden_bow.jpg",
+    image: "weapons/wooden_bow.png",
     attributes: {
       type: WeaponTypes.Bow,
       attackTypes: [AttackTypes.Meelee],
@@ -94,7 +94,7 @@ export const weaponCards: IWeaponCard[] = [
     id: 4,
     name: 'Fire Sword',
     type: CardTypes.Weapon,
-    image: 'weapons/fire_sword.jpg',
+    image: 'weapons/fire_sword.png',
     attributes: {
       type: WeaponTypes.Sword,
       attackTypes: [AttackTypes.Meelee, AttackTypes.Fire],
@@ -134,7 +134,7 @@ export const attackCards: IAttackCard[] = [
     id: 1,
     name: "Simple",
     type: CardTypes.Attack,
-    image: "attacks/simple.jpg",
+    image: "attacks/simple.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       weaponTypes: Object.values(WeaponTypes),
@@ -147,7 +147,7 @@ export const attackCards: IAttackCard[] = [
     id: 2,
     name: "Bite",
     type: CardTypes.Attack,
-    image: "empty.jpg",
+    image: "attacks/bite.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       weaponTypes: [],
@@ -160,7 +160,7 @@ export const attackCards: IAttackCard[] = [
     id: 3,
     name: "Throw Arrow",
     type: CardTypes.Attack,
-    image: "attacks/throw_arrow.jpg",
+    image: "attacks/throw_arrow.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       weaponTypes: [WeaponTypes.Bow],
@@ -173,7 +173,7 @@ export const attackCards: IAttackCard[] = [
     id: 4,
     name: "Super",
     type: CardTypes.Attack,
-    image: "attacks/super.jpg",
+    image: "attacks/super.png",
     attributes: {
       weaponTypes: Object.values(WeaponTypes),
       attackType: AttackTypes.Meelee,
@@ -186,7 +186,7 @@ export const attackCards: IAttackCard[] = [
     id: 5,
     name: "Scratch",
     type: CardTypes.Attack,
-    image: "attacks/scratch.jpg",
+    image: "attacks/scratch.png",
     attributes: {
       weaponTypes: [],
       attackType: AttackTypes.Meelee,
@@ -199,7 +199,7 @@ export const attackCards: IAttackCard[] = [
     id: 6,
     name: "Poison sting",
     type: CardTypes.Attack,
-    image: "attacks/scratch.jpg",
+    image: "attacks/poison.png",
     attributes: {
       weaponTypes: [],
       attackType: AttackTypes.Poison,
@@ -248,7 +248,7 @@ export const heroCards: IHeroCard[] = [
     id: 1,
     name: "Steve",
     type: CardTypes.Hero,
-    image: "heroes/knight.jpg",
+    image: "heroes/knight.png",
     attributes: {
       type: HeroTypes.Knight,
       weaponTypes: knightWeaponTypes,
@@ -262,7 +262,7 @@ export const heroCards: IHeroCard[] = [
     id: 2,
     name: "Guilherme",
     type: CardTypes.Hero,
-    image: "heroes/paladin.jpg",
+    image: "heroes/paladin.png",
     attributes: {
       type: HeroTypes.Paladin,
       weaponTypes: paladinWeaponTypes,
@@ -318,7 +318,7 @@ export const forestEasy: IMonsterCard[] = [
     id: 1,
     type: CardTypes.Monster,
     name: "Snake",
-    image: "monsters/snake.jpg",
+    image: "monsters/snake.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 10,
@@ -335,7 +335,7 @@ export const forestEasy: IMonsterCard[] = [
     id: 2,
     type: CardTypes.Monster,
     name: "Wasp",
-    image: "monsters/wasp.jpg",
+    image: "monsters/wasp.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 15,
@@ -352,7 +352,7 @@ export const forestEasy: IMonsterCard[] = [
     id: 3,
     type: CardTypes.Monster,
     name: "Salamander",
-    image: "monsters/salamander.jpg",
+    image: "monsters/salamander.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 15,
@@ -369,7 +369,7 @@ export const forestEasy: IMonsterCard[] = [
     id: 4,
     type: CardTypes.Monster,
     name: "Centipede",
-    image: "monsters/centipede.jpg",
+    image: "monsters/centipede.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 10,
@@ -386,7 +386,7 @@ export const forestEasy: IMonsterCard[] = [
     id: 5,
     type: CardTypes.Monster,
     name: "Scorpion",
-    image: "monsters/scorpion.jpg",
+    image: "monsters/scorpion.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 20,
@@ -403,7 +403,7 @@ export const forestEasy: IMonsterCard[] = [
     id: 6,
     type: CardTypes.Monster,
     name: "Toad",
-    image: "monsters/toad.jpg",
+    image: "monsters/toad.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 20,
@@ -420,7 +420,7 @@ export const forestEasy: IMonsterCard[] = [
     id: 7,
     type: CardTypes.Monster,
     name: "Slug",
-    image: "monsters/slug.jpg",
+    image: "monsters/slug.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 18,
@@ -437,7 +437,7 @@ export const forestEasy: IMonsterCard[] = [
     id: 8,
     type: CardTypes.Monster,
     name: "Spider",
-    image: "monsters/spider.jpg",
+    image: "monsters/spider.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 15,
@@ -454,7 +454,7 @@ export const forestEasy: IMonsterCard[] = [
     id: 9,
     type: CardTypes.Monster,
     name: "Larva",
-    image: "monsters/larva.jpg",
+    image: "monsters/larva.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 10,
@@ -471,7 +471,7 @@ export const forestEasy: IMonsterCard[] = [
     id: 10,
     type: CardTypes.Monster,
     name: "Bug",
-    image: "monsters/bug.jpg",
+    image: "monsters/bug.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 18,
@@ -491,7 +491,7 @@ export const forestMedium: IMonsterCard[] = [
     id: 11,
     type: CardTypes.Monster,
     name: "Poison Spider",
-    image: "monsters/poison_spider.jpg",
+    image: "monsters/poison_spider.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 25,
@@ -508,7 +508,7 @@ export const forestMedium: IMonsterCard[] = [
     id: 12,
     type: CardTypes.Monster,
     name: "Baby Lion",
-    image: "monsters/baby_lion.jpg",
+    image: "monsters/baby_lion.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 40,
@@ -525,7 +525,7 @@ export const forestMedium: IMonsterCard[] = [
     id: 13,
     type: CardTypes.Monster,
     name: "Leopard",
-    image: "monsters/leopard.jpg",
+    image: "monsters/leopard.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 40,
@@ -542,7 +542,7 @@ export const forestMedium: IMonsterCard[] = [
     id: 14,
     type: CardTypes.Monster,
     name: "Slime",
-    image: "monsters/slime.jpg",
+    image: "monsters/slime.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 160,
@@ -559,7 +559,7 @@ export const forestMedium: IMonsterCard[] = [
     id: 15,
     type: CardTypes.Monster,
     name: "Wolf",
-    image: "monsters/wolf.jpg",
+    image: "monsters/wolf.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 60,
@@ -576,7 +576,7 @@ export const forestMedium: IMonsterCard[] = [
     id: 16,
     type: CardTypes.Monster,
     name: "Fox",
-    image: "monsters/fox.jpg",
+    image: "monsters/fox.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 60,
@@ -593,7 +593,7 @@ export const forestMedium: IMonsterCard[] = [
     id: 17,
     type: CardTypes.Monster,
     name: "Troll",
-    image: "monsters/troll.jpg",
+    image: "monsters/troll.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 80,
@@ -610,7 +610,7 @@ export const forestMedium: IMonsterCard[] = [
     id: 18,
     type: CardTypes.Monster,
     name: "Eagle",
-    image: "monsters/eagle.jpg",
+    image: "monsters/eagle.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 60,
@@ -627,7 +627,7 @@ export const forestMedium: IMonsterCard[] = [
     id: 19,
     type: CardTypes.Monster,
     name: "Scarab",
-    image: "monsters/scarab.jpg",
+    image: "monsters/scarab.png",
     attributes: {
       attackType: AttackTypes.Poison,
       experience: 90,
@@ -644,7 +644,7 @@ export const forestMedium: IMonsterCard[] = [
     id: 20,
     type: CardTypes.Monster,
     name: "Lizard Sentinel",
-    image: "monsters/lizard_sentinel.jpg",
+    image: "monsters/lizard_sentinel.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 120,
@@ -661,10 +661,10 @@ export const forestMedium: IMonsterCard[] = [
 
 export const forestHard: IMonsterCard[] = [
   {
-    id: 11,
+    id: 21,
     type: CardTypes.Monster,
     name: "Bear",
-    image: "monsters/bear.jpg",
+    image: "monsters/bear.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 25,
@@ -678,10 +678,10 @@ export const forestHard: IMonsterCard[] = [
     },
   },
   {
-    id: 12,
+    id: 22,
     type: CardTypes.Monster,
     name: "Crocodile",
-    image: "monsters/crocodile.jpg",
+    image: "monsters/crocodile.png",
     attributes: {
       attackType: AttackTypes.Meelee,
       experience: 30,
@@ -700,10 +700,10 @@ export const monsterCards: IMonsterCard[] = [
   ...forestEasy,
   ...forestMedium,
   {
-    id: 15,
+    id: 41,
     type: CardTypes.Monster,
     name: "Dragon",
-    image: "monsters/dragon.jpg",
+    image: "monsters/dragon.gif",
     attributes: {
       attackType: AttackTypes.Fire,
       experience: 700,
@@ -726,7 +726,7 @@ export const calculateAverage = (min: number, max: number): number =>
   Math.floor(Math.random() * (max - min + 1)) + min;
 
 export const successProbability = (chance: number): boolean =>
-  Math.random() >= chance / 100;
+  !(Math.random() >= chance / 100);
 
 export const allCards = [
   ...heroCards,

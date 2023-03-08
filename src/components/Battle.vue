@@ -28,9 +28,9 @@ const counter = 100;
 const showDamage = ref<boolean>(false);
 const currentDamage = ref<number>(0);
 const turnCounter = ref<number>(counter);
-const myTurn = ref<boolean>(true);
-const canAttack = ref<boolean>(true);
-const canUseItems = ref<boolean>(true);
+const myTurn = ref<boolean>(false);
+const canAttack = ref<boolean>(false);
+const canUseItems = ref<boolean>(false);
 const showTurnMessage = ref<boolean>(false);
 const showTurnTip = ref<boolean>(false);
 const showFailed = ref<boolean>(false);
@@ -49,7 +49,7 @@ const attack = async (damage: number) => {
   canAttack.value = false;
 
   if (damage === 0) {
-    showFailedMessage();
+    await showFailedMessage();
     canAttack.value = false;
     // if (suppliesBlocked.value) setTimeout(endTurn, 800);
     await delay(0.8);
@@ -83,8 +83,8 @@ const attackHero = async () => {
 
   const chosenAttack = enemyChosenCard.value!;
 
-  if (successProbability(chosenAttack.attributes.chance)) {
-    showFailedMessage();
+  if (!successProbability(chosenAttack.attributes.chance)) {
+    await showFailedMessage();
     return;
   }
 
@@ -114,14 +114,12 @@ const simulateEnemyTurn = async () => {
   await delay(1);
   enemyChosenCard.value = props.battleData.monster.attributes.attackCards[randomIndex];
   await delay(1);
-  attackHero();
-
-  await delay(0.5);
+  await attackHero();
   enemyChosenCard.value = undefined;
   endTurn();
 };
 
-const endTurn = () => {
+const endTurn = async () => {
   if (gameOver.value) return;
 
   showTurnTip.value = false;
@@ -212,6 +210,8 @@ const startBattle = async () => {
   await delay(1);
   showMessage();
   updateCounter();
+  myTurn.value = true;
+  canAttack.value = true;
 };
 
 const escape = () => {
@@ -318,7 +318,7 @@ const emit = defineEmits(['quit', 'continue']);
               :isFlipped="!myTurn"
               @attack="attack"
               :class="{
-                'opacity-50': !canAttack && myTurn || (canAttack && myTurn && showTurnMessage),
+                'opacity-50': !canAttack && myTurn || myTurn && showTurnMessage,
                 'hover:scale-110': canAttack,
               }"
             />

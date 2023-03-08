@@ -10,7 +10,7 @@ import {
 } from "../../scripts/main";
 import Card from "../cards/Card.vue";
 
-import { playerStore, removeExp, increaseExp } from "../../scripts/store";
+import { playerStore, removeExp, increaseExp, defeatMonster } from "../../scripts/store";
 import GoldIcon from "../icons/GoldIcon.vue";
 import HeroLevelChangeInformation from "./HeroLevelChangeInformation.vue";
 import NewCardIcon from "../icons/NewCardIcon.vue";
@@ -29,6 +29,7 @@ defineEmits(["continue", "quit"]);
 
 const wonBattle = async (newExp: number) => {
   await delay(0.5);
+  defeatMonster(props.enemy.id);
   await increaseExp(playerStore.value.equipedCards.hero!, newExp);
   await delay(0.2);
   showContinue.value = true;
@@ -49,7 +50,7 @@ const calculateLoot = () => {
 
   const cardLoot = props.enemy.attributes.loot.card;
 
-  if (!!cardLoot && !successProbability(cardLoot.chance)) {
+  if (!!cardLoot && successProbability(cardLoot.chance)) {
     card.value = cardLoot.card;
     playerStore.value.cards.push(card.value);
   }
@@ -57,12 +58,14 @@ const calculateLoot = () => {
   playerStore.value.gold += gold.value;
 };
 
+const expLost = computed(() => (props.enemy.attributes.experience / 100) * 20);
+
 onMounted(async () => {
   if (props.enemyHp === 0) {
     calculateLoot();
     await wonBattle(props.enemy.attributes.experience);
   } else {
-    await lostBattle(props.enemy.attributes.experience);
+    await lostBattle(expLost.value);
   }
 });
 
@@ -77,7 +80,6 @@ watch(
   },
   { deep: true }
 );
-
 </script>
 
 <template>
@@ -117,7 +119,7 @@ watch(
             </Transition>
             <ul>
               <li class="text-lg flex gap-2 items-center">
-                <span class="font-semibold text-3xl">-{{ enemy.attributes.experience }}</span> experience
+                <span class="font-semibold text-3xl">-{{ expLost }}</span> experience
               </li>
             </ul>
           </template>
