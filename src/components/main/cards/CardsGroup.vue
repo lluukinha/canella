@@ -171,8 +171,8 @@ const filteredCards = computed((): ICard[] => {
         <Card
           :card="card"
           :flip-on-hover="flippableIds.includes(card.id) && !visibleIds.includes(card.id)"
-          :hideFront="false && !visibleIds.includes(card.id)"
-          :hideContent="false && !flippableIds.includes(card.id) && !visibleIds.includes(card.id)"
+          :hideFront="!visibleIds.includes(card.id)"
+          :hideContent="!flippableIds.includes(card.id) && !visibleIds.includes(card.id)"
         />
         </div>
       </TransitionGroup>
