@@ -185,7 +185,7 @@ const unlock = async (level: number) => {
             ' w-40 h-40': level.boss,
           }"
           v-for="level in fieldConfig.levels"
-          :disabled="playerStore.story[field].currentLevel < level.number"
+          :disabled="playerStore.story[field].currentLevel < level.number || playerStore.story[field].currentLevel != level.number && isUnlocking"
           @click="startBattle(level.number)"
         >
           <Transition name="slide-left" mode="out-in">

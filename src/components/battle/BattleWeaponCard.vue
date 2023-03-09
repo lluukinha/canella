@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { PropType, computed } from 'vue';
-import { IWeaponCard } from '../../scripts/main';
-import SwordIcon from '../icons/SwordIcon.vue';
+import { PropType, computed } from "vue";
+import { IWeaponCard } from "../../scripts/main";
 
 const props = defineProps({
   card: {
@@ -11,9 +10,11 @@ const props = defineProps({
 });
 
 const cardImageUrl = computed(() => {
-  const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
+  const card = props.card.image.length > 0 ? props.card.image : "empty.jpg";
   return new URL(`../../assets/cards/${card}`, import.meta.url).href;
 });
+const bgImageUrl = new URL("../../assets/cards/empty.jpg", import.meta.url)
+  .href;
 </script>
 
 <template>
@@ -26,8 +27,11 @@ const cardImageUrl = computed(() => {
     </div>
     <div
       class="image border border-gray-700 rounded w-32 h-32 bg-gray-800 relative bg-cover bg-center"
-      :style="`background-image: url(${cardImageUrl})`"
+      :style="`background-image: url(${bgImageUrl})`"
     >
+      <div class="absolute p-1">
+        <img :src="cardImageUrl" class="object-scale-down" />
+      </div>
       <div
         class="absolute w-full h-full flex justify-center items-end gap-1 bottom-1"
       >
@@ -40,14 +44,9 @@ const cardImageUrl = computed(() => {
     </div>
     <div class="text-xs">
       <div
-        class="name w-32 px-2 py-1 flex justify-between border rounded-md bg-gray-600 border-gray-700 uppercase items-center"
+        class="name w-32 px-2 py-1 flex justify-center border rounded-md bg-gray-600 border-gray-700 uppercase items-center font-semibold"
       >
         {{ card.name }}
-
-        <div class="flex gap-1 items-center">
-          <SwordIcon class="w-4 h-4" />
-          <span class="text-lg font-bold">{{ card.attributes.attack }}</span>
-        </div>
       </div>
     </div>
   </div>

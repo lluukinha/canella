@@ -43,14 +43,9 @@ const bgImageUrl = new URL("../../assets/cards/empty.jpg", import.meta.url)
     </div>
     <div class="text-xs">
       <div
-        class="name w-44 px-2 py-1 flex justify-between border rounded-md bg-gray-600 border-gray-700 uppercase items-center"
+        class="name w-44 px-2 py-1 flex justify-center border rounded-md bg-gray-600 border-gray-700 uppercase items-center font-semibold"
       >
         {{ card.name }}
-
-        <div class="flex gap-1 items-center">
-          <SwordIcon class="h-4 w-4" />
-          <span class="font-bold text-lg">{{ card.attributes.attack }}</span>
-        </div>
       </div>
     </div>
   </div>
