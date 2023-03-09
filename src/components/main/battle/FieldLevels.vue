@@ -4,6 +4,7 @@ import {
   delay,
   FieldConfig,
   forestEasy,
+  forestHard,
   forestMedium,
   IBattleData,
   IMonsterCard,
@@ -25,7 +26,7 @@ const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
   forest: {
     1: forestEasy,
     2: forestMedium,
-    3: [monsterCards[1]],
+    3: forestHard,
     4: [monsterCards[2]],
     5: [monsterCards[4]],
   },
