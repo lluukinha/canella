@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref } from 'vue';
 import {
   IAttackCard,
   ICard,
@@ -9,8 +9,8 @@ import {
   StoryLevel,
   IBattleData,
   delay,
-  IMonsterCard,
-} from "./main";
+  calculateAverage,
+} from './main';
 
 interface ILevelIndicator {
   from: number;
@@ -45,7 +45,7 @@ export const expLevels: IExperienceTable = {
   18: { from: 69700, to: 83400 },
   19: { from: 83400, to: 98800 },
   20: { from: 98800, to: 116000 },
-  21: { from: 116000, to: 9999999999 }
+  21: { from: 116000, to: 9999999999 },
 };
 
 export interface IPlayer {
@@ -78,25 +78,25 @@ const player: IPlayer = {
     forest: {
       isEnabled: true,
       currentLevel: 1,
-      nextField: "darkForest",
+      nextField: 'darkForest',
       wonAllLevels: false,
     },
     darkForest: {
       isEnabled: false,
       currentLevel: 1,
-      nextField: "castle",
+      nextField: 'castle',
       wonAllLevels: false,
     },
     castle: {
       isEnabled: false,
       currentLevel: 1,
-      nextField: "castleRuins",
+      nextField: 'castleRuins',
       wonAllLevels: false,
     },
     castleRuins: {
       isEnabled: false,
       currentLevel: 1,
-      nextField: "forest",
+      nextField: 'forest',
       wonAllLevels: false,
     },
   },
@@ -249,4 +249,16 @@ export const increaseExp = async (hero: IHeroCard, exp: number) => {
 
   hero.attributes.experience += exp;
   await delay(1);
+};
+
+export const calculateAttack = (
+  min: number,
+  max: number,
+  weaponAttack: number,
+  skill: number
+) => {
+  const base = calculateAverage(min, max);
+  const weaponCalc = (6 / 5) * weaponAttack;
+  const skillCalc = (skill + 4) / 28;
+  return Math.floor(base + weaponCalc * skillCalc);
 };

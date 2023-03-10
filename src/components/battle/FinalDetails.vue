@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, PropType, ref, watch } from "vue";
+import { computed, onMounted, PropType, ref, watch } from 'vue';
 import {
   IMonsterCard,
   delay,
@@ -7,13 +7,18 @@ import {
   calculateAverage,
   successProbability,
   IHeroCardAttributes,
-} from "../../scripts/main";
-import Card from "../cards/Card.vue";
+} from '../../scripts/main';
+import Card from '../cards/Card.vue';
 
-import { playerStore, removeExp, increaseExp, defeatMonster } from "../../scripts/store";
-import GoldIcon from "../icons/GoldIcon.vue";
-import HeroLevelChangeInformation from "./HeroLevelChangeInformation.vue";
-import NewCardIcon from "../icons/NewCardIcon.vue";
+import {
+  playerStore,
+  removeExp,
+  increaseExp,
+  defeatMonster,
+} from '../../scripts/store';
+import GoldIcon from '../icons/GoldIcon.vue';
+import HeroLevelChangeInformation from './HeroLevelChangeInformation.vue';
+import NewCardIcon from '../icons/NewCardIcon.vue';
 
 const props = defineProps({
   enemyHp: {
@@ -25,7 +30,7 @@ const props = defineProps({
     required: true,
   },
 });
-defineEmits(["continue", "quit"]);
+defineEmits(['continue', 'quit']);
 
 const wonBattle = async (newExp: number) => {
   await delay(0.5);
@@ -70,7 +75,9 @@ onMounted(async () => {
 });
 
 const levelChanged = ref<boolean>(false);
-const hero = computed<IHeroCardAttributes>(() => playerStore.value.equipedCards.hero!.attributes);
+const hero = computed<IHeroCardAttributes>(
+  () => playerStore.value.equipedCards.hero!.attributes
+);
 
 watch(
   () => playerStore.value.equipedCards.hero?.attributes.level,
@@ -88,25 +95,38 @@ watch(
   >
     <div class="z-50 flex flex-col justify-center items-center gap-5 w-full">
       <div class="text-white w-full flex justify-center px-10 gap-20">
-        <Card :card="playerStore.equipedCards.hero!" :class="{ 'opacity-70': enemyHp > 0 }" />
+        <Card
+          :card="playerStore.equipedCards.hero!"
+          :class="{ 'opacity-70': enemyHp > 0 }"
+        />
         <div
           class="text-center flex justify-center flex-col items-center gap-5"
         >
           <template v-if="enemyHp === 0">
             <h1 class="text-5xl">ENEMY DEFEATED!</h1>
             <Transition name="fade">
-              <HeroLevelChangeInformation type="up" :hero="hero" v-if="levelChanged" />
+              <HeroLevelChangeInformation
+                type="up"
+                :hero="hero"
+                v-if="levelChanged"
+              />
             </Transition>
             <ul class="flex flex-col gap-2">
               <li class="text-lg flex gap-2 items-center justify-center">
-                <span class="font-semibold text-3xl">+{{ enemy.attributes.experience }}</span> experience
+                <span class="font-semibold text-3xl"
+                  >+{{ enemy.attributes.experience }}</span
+                >
+                experience
               </li>
               <li class="flex gap-2" v-if="!!card">
                 <NewCardIcon />
                 <span class="drop-shadow text-yellow-400">NEW CARD:</span>
                 <span class="underline">{{ card.name }}</span>
               </li>
-              <li v-if="gold > 0" class="flex items-end text-3xl gap-1 justify-center font-semibold">
+              <li
+                v-if="gold > 0"
+                class="flex items-end text-3xl gap-1 justify-center font-semibold"
+              >
                 <GoldIcon />
                 {{ gold }}
               </li>
@@ -115,21 +135,26 @@ watch(
           <template v-else>
             <h1 class="text-5xl">YOU LOSE!</h1>
             <Transition name="fade">
-              <HeroLevelChangeInformation type="down" :hero="hero" v-if="levelChanged" />
+              <HeroLevelChangeInformation
+                type="down"
+                :hero="hero"
+                v-if="levelChanged"
+              />
             </Transition>
             <ul>
               <li class="text-lg flex gap-2 items-center">
-                <span class="font-semibold text-3xl">-{{ expLost }}</span> experience
+                <span class="font-semibold text-3xl">-{{ expLost }}</span>
+                experience
               </li>
             </ul>
           </template>
           <button
-          class="px-4 py-2 text-white text-2xl transition-all disabled:opacity-0 bg-green-700 hover:bg-green-800 rounded-lg shadow drop-shadow"
-          @click="$emit(enemyHp > 0 ? 'quit' : 'continue')"
-          :disabled="!showContinue"
-        >
-          CONTINUE
-        </button>
+            class="px-4 py-2 text-white text-2xl transition-all disabled:opacity-0 bg-green-700 hover:bg-green-800 rounded-lg shadow drop-shadow"
+            @click="$emit(enemyHp > 0 ? 'quit' : 'continue')"
+            :disabled="!showContinue"
+          >
+            CONTINUE
+          </button>
         </div>
       </div>
     </div>

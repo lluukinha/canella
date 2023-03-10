@@ -2,8 +2,7 @@
 import { PropType } from 'vue';
 import { IHeroCardAttributes } from '../../../scripts/main';
 import HeartIcon from '../../icons/HeartIcon.vue';
-import StarIcon from '../../icons/StarIcon.vue';
-import SwordIcon from '../../icons/SwordIcon.vue';
+import SkillIcon from '../../icons/SkillIcon.vue';
 import HeroCardExperience from './HeroCardExperience.vue';
 
 defineProps({
@@ -34,7 +33,7 @@ defineProps({
         }}</span>
       </div>
       <div class="flex items-center gap-1">
-        <SwordIcon class="w-5 h-5" />
+        <SkillIcon />
         <span class="text-xl font-bold uppercase">{{ attributes.attack }}</span>
       </div>
     </div>

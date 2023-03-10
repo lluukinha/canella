@@ -9,7 +9,7 @@ import {
 } from '../scripts/main';
 import HpBar from './battle/HpBar.vue';
 import FinalDetails from './battle/FinalDetails.vue';
-import { playerStore, seeMonster } from '../scripts/store';
+import { calculateAttack, playerStore, seeMonster } from '../scripts/store';
 
 import BattleAttackCard from './battle/BattleAttackCard.vue';
 import BattleHeroCard from './battle/BattleHeroCard.vue';
@@ -40,15 +40,19 @@ const heroHp = ref<number>(heroCard.attributes.healthPoints);
 const showBattleDetails = ref<boolean>(false);
 const enemyChosenCard = ref<IAttackCard>();
 
-const heroBaseAttack = computed(
-  () => weaponCard.attributes.attack + heroCard.attributes.attack
-);
-
-const attack = async (damage: number) => {
+const attack = async ({
+  min,
+  max,
+  chance,
+}: {
+  min: number;
+  max: number;
+  chance: number;
+}) => {
   if (!canAttack.value || gameOver.value || !enemyHp.value) return;
   canAttack.value = false;
 
-  if (damage === 0) {
+  if (!successProbability(chance)) {
     await showFailedMessage();
     canAttack.value = false;
     // if (suppliesBlocked.value) setTimeout(endTurn, 800);
@@ -56,6 +60,13 @@ const attack = async (damage: number) => {
     endTurn();
     return;
   }
+
+  const damage = calculateAttack(
+    min,
+    max,
+    weaponCard.attributes.attack,
+    heroCard.attributes.attack
+  );
 
   currentDamage.value = damage;
   showDamage.value = true;
@@ -89,12 +100,16 @@ const attackHero = async () => {
   }
 
   const { min, max } = chosenAttack.attributes;
-  const damage = calculateAverage(min, max);
-  const enemyDamage = damage + props.battleData.monster.attributes.attack;
+  const damage = calculateAttack(
+    min,
+    max,
+    5,
+    props.battleData.monster.attributes.attack
+  );
 
-  currentDamage.value = enemyDamage;
+  currentDamage.value = damage;
   showDamage.value = true;
-  const nextHeroHp = heroHp.value - enemyDamage;
+  const nextHeroHp = heroHp.value - damage;
   heroHp.value = nextHeroHp < 0 ? 0 : nextHeroHp;
 
   await delay(0.8);
@@ -112,7 +127,8 @@ const simulateEnemyTurn = async () => {
   );
 
   await delay(1);
-  enemyChosenCard.value = props.battleData.monster.attributes.attackCards[randomIndex];
+  enemyChosenCard.value =
+    props.battleData.monster.attributes.attackCards[randomIndex];
   await delay(1);
   await attackHero();
   enemyChosenCard.value = undefined;
@@ -313,12 +329,12 @@ const emit = defineEmits(['quit', 'continue']);
             <BattleAttackCard
               v-for="atk in heroAttackCards"
               :card="atk"
-              :baseAttack="heroBaseAttack"
               :canAttack="canAttack && myTurn"
               :isFlipped="!myTurn"
               @attack="attack"
               :class="{
-                'opacity-50': !canAttack && myTurn || myTurn && showTurnMessage,
+                'opacity-50':
+                  (!canAttack && myTurn) || (myTurn && showTurnMessage),
                 'hover:scale-110': canAttack,
               }"
             />

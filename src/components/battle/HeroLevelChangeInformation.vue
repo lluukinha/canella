@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, PropType } from "vue";
-import { IHeroCardAttributes } from "../../scripts/main";
-import { ATTACK_ON_LEVEL, LIFE_ON_LEVEL } from "../../scripts/store";
-import DoubleRight from "../icons/DoubleRight.vue";
-import HeartIcon from "../icons/HeartIcon.vue";
-import StarIcon from "../icons/StarIcon.vue";
-import SwordIcon from "../icons/SwordIcon.vue";
+import { computed, PropType } from 'vue';
+import { IHeroCardAttributes } from '../../scripts/main';
+import { ATTACK_ON_LEVEL, LIFE_ON_LEVEL } from '../../scripts/store';
+import DoubleRight from '../icons/DoubleRight.vue';
+import HeartIcon from '../icons/HeartIcon.vue';
+import SkillIcon from '../icons/SkillIcon.vue';
+import StarIcon from '../icons/StarIcon.vue';
 
 const props = defineProps({
   hero: {
@@ -13,7 +13,7 @@ const props = defineProps({
     required: true,
   },
   type: {
-    type: String as PropType<"up" | "down">,
+    type: String as PropType<'up' | 'down'>,
     required: true,
   },
 });
@@ -23,7 +23,7 @@ const old = computed<{ life: number; attack: number; level: number }>(() => {
   let attack = props.hero.attack - ATTACK_ON_LEVEL;
   let level = props.hero.level - 1;
 
-  if (props.type === "down") {
+  if (props.type === 'down') {
     life = props.hero.healthPoints + LIFE_ON_LEVEL;
     attack = props.hero.attack + ATTACK_ON_LEVEL;
     level = props.hero.level + 1;
@@ -33,7 +33,7 @@ const old = computed<{ life: number; attack: number; level: number }>(() => {
 });
 
 const advancedMsg = computed(() =>
-  props.type === "up" ? "You advanced from level" : "You downgraded from level"
+  props.type === 'up' ? 'You advanced from level' : 'You downgraded from level'
 );
 </script>
 
@@ -67,12 +67,12 @@ const advancedMsg = computed(() =>
       </li>
       <li class="flex justify-center items-center gap-10">
         <div class="flex gap-1 items-center">
-          <SwordIcon class="w-4 h-4 mt-2" />
+          <SkillIcon />
           {{ old.attack }}
         </div>
         <DoubleRight class="w-4 h-4" />
         <div class="flex gap-1 items-center text-3xl font-semibold">
-          <SwordIcon class="w-4 h-4 mt-2" />
+          <SkillIcon />
           {{ hero.attack }}
         </div>
       </li>
