@@ -12,8 +12,8 @@ const props = defineProps({
 const emit = defineEmits(['attack']);
 
 const attack = () => {
-  const { min, max } = props.card.attributes;
-  emit('attack', { min, max });
+  const { min, max, chance } = props.card.attributes;
+  emit('attack', { min, max, chance });
 };
 </script>
 

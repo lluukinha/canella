@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { PropType, computed } from "vue";
-import { IHeroCard } from "../../scripts/main";
-import StarIcon from "../icons/StarIcon.vue";
-import SwordIcon from "../icons/SwordIcon.vue";
+import { PropType, computed } from 'vue';
+import { IHeroCard } from '../../scripts/main';
+import StarIcon from '../icons/StarIcon.vue';
+import SwordIcon from '../icons/SwordIcon.vue';
 
 const props = defineProps({
   card: {
@@ -12,10 +12,10 @@ const props = defineProps({
 });
 
 const cardImageUrl = computed(() => {
-  const card = props.card.image.length > 0 ? props.card.image : "empty.jpg";
+  const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
   return new URL(`../../assets/cards/${card}`, import.meta.url).href;
 });
-const bgImageUrl = new URL("../../assets/cards/empty.jpg", import.meta.url)
+const bgImageUrl = new URL('../../assets/cards/empty.jpg', import.meta.url)
   .href;
 </script>
 
@@ -41,7 +41,7 @@ const bgImageUrl = new URL("../../assets/cards/empty.jpg", import.meta.url)
         }}</span>
       </div>
     </div>
-    <div class="text-xs">
+    <div class="text-2xl">
       <div
         class="name w-44 px-2 py-1 flex justify-center border rounded-md bg-gray-600 border-gray-700 uppercase items-center font-semibold"
       >
