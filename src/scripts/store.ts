@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import {
   IAttackCard,
   ICard,
@@ -114,6 +114,19 @@ const player: IPlayer = {
 
 export const playerStore = ref<IPlayer>(player);
 
+export const cardsFromPlayer = computed(() => {
+  const { hero, weapon, attacks } = playerStore.value.equipedCards;
+  const cards = [];
+  if (!!hero) cards.push(hero);
+  if (!!weapon) cards.push(weapon);
+  if (attacks.length > 0) cards.push(...attacks);
+  cards.push(...playerStore.value.cards);
+  return cards;
+});
+
+export const playerContainsCard = (card: ICard): boolean =>
+  !!cardsFromPlayer.value.find((c) => c.id === card.id && c.type === card.type);
+
 export const removeHero = () => {
   const heroCard = playerStore.value.equipedCards.hero as ICard;
   playerStore.value.cards.push(heroCard);
@@ -134,8 +147,10 @@ export const removeAttack = (card: IAttackCard) => {
   playerStore.value.cards.push(card);
 };
 
-export const removeCardFromDeck = (cardId: number) => {
-  const index = playerStore.value.cards.findIndex((c) => c.id === cardId);
+export const removeCardFromDeck = (card: ICard) => {
+  const index = playerStore.value.cards.findIndex(
+    (c) => c.id === card.id && c.type === card.type
+  );
   if (index > -1) playerStore.value.cards.splice(index, 1);
 };
 
@@ -261,4 +276,20 @@ export const calculateAttack = (
   const weaponCalc = (6 / 5) * weaponAttack;
   const skillCalc = (skill + 4) / 28;
   return Math.floor(base + weaponCalc * skillCalc);
+};
+
+export const buyCard = (card: ICard) => {
+  if (playerStore.value.gold < card.price) return;
+  playerStore.value.cards.push(card);
+  playerStore.value.gold -= card.price;
+};
+
+export const sellCard = (card: ICard) => {
+  const index = playerStore.value.cards.findIndex(
+    (c) => c.id === card.id && c.type === card.type
+  );
+  if (index < 0) return;
+
+  playerStore.value.cards.splice(index, 1);
+  playerStore.value.gold += card.price;
 };

@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref } from 'vue';
 import {
   playerStore,
   removeCardFromDeck,
-  equipNewCard
-} from "../../../scripts/store";
+  equipNewCard,
+} from '../../../scripts/store';
 import {
   CardTypes,
   ICard,
   IHeroCard,
   IWeaponCard,
-} from "../../../scripts/main";
-import EquipCard from "../EquipCard.vue";
-import BattleDetails from "./BattleDetails.vue";
-import HeroDetails from "./HeroDetails.vue";
+} from '../../../scripts/main';
+import EquipCard from '../EquipCard.vue';
+import BattleDetails from './BattleDetails.vue';
+import HeroDetails from './HeroDetails.vue';
 
 const cardTypetoInclude = ref<CardTypes | null>(null);
 
@@ -32,7 +32,7 @@ const equipCard = (cardType: CardTypes) => {
 
 const confirmEquip = async (card: ICard) => {
   cardTypetoInclude.value = null;
-  removeCardFromDeck(card.id);
+  removeCardFromDeck(card);
   equipNewCard(card);
 };
 </script>

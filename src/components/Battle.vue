@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, PropType, ref } from 'vue';
 import {
-  calculateAverage,
   delay,
   IAttackCard,
   IBattleData,

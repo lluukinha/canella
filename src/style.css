@@ -64,6 +64,23 @@
   }
 }
 
+.slide-right-enter-active {
+  animation: slide-right-in 0.5s;
+}
+.slide-right-leave-active {
+  animation: slide-right-in 0.5s reverse;
+}
+@keyframes slide-right-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-300%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
 .swirl-enter-from,
 .swirl-leave-to {
   transform: rotate(-540deg) scale(0);

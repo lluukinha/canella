@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import Battle from "./Battle.vue";
-import ChoosingHero from "./ChoosingHero.vue";
-import BookIcon from "./icons/BookIcon.vue";
-import CardsIcon from "./icons/CardsIcon.vue";
-import PersonIcon from "./icons/PersonIcon.vue";
-import ShopIcon from "./icons/ShopIcon.vue";
-import GoldIcon from "./icons/GoldIcon.vue";
-import { goToNextLevel, playerStore } from "../scripts/store";
-import Hero from "./main/hero/Hero.vue";
-import BattleView from "./main/battle/BattleView.vue";
-import EscapeIcon from "./icons/EscapeIcon.vue";
-import { IBattleData } from "../scripts/main";
-import CardsView from "./main/cards/CardsView.vue";
-import CardsSearchIcon from "./icons/CardsSearchIcon.vue";
+import { computed, ref } from 'vue';
+import Battle from './Battle.vue';
+import ChoosingHero from './ChoosingHero.vue';
+import BookIcon from './icons/BookIcon.vue';
+import CardsIcon from './icons/CardsIcon.vue';
+import PersonIcon from './icons/PersonIcon.vue';
+import ShopIcon from './icons/ShopIcon.vue';
+import GoldIcon from './icons/GoldIcon.vue';
+import { goToNextLevel, playerStore } from '../scripts/store';
+import Hero from './main/hero/Hero.vue';
+import BattleView from './main/battle/BattleView.vue';
+import EscapeIcon from './icons/EscapeIcon.vue';
+import { IBattleData } from '../scripts/main';
+import CardsView from './main/cards/CardsView.vue';
+import CardsSearchIcon from './icons/CardsSearchIcon.vue';
+import ShopView from './main/shop/ShopView.vue';
 
 const playerHasNoCards = computed(
   () =>
@@ -22,11 +23,11 @@ const playerHasNoCards = computed(
 );
 
 enum MenuItems {
-  Hero = "hero",
-  Battle = "battle",
-  Cards = "cards",
-  Shop = "shop",
-  Rewards = "rewards",
+  Hero = 'hero',
+  Battle = 'battle',
+  Cards = 'cards',
+  Shop = 'shop',
+  Rewards = 'rewards',
 }
 
 const battleData = ref<IBattleData>();
@@ -121,6 +122,7 @@ const wonBattle = async (data: IBattleData) => {
           @start-battle="startBattle"
         />
         <CardsView v-else-if="current === MenuItems.Cards" />
+        <ShopView v-else-if="current === MenuItems.Shop" />
         <div class="p-5" v-else>tenho que terminar essa parte ainda</div>
       </Transition>
     </div>
