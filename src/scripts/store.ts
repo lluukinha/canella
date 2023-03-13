@@ -71,7 +71,7 @@ export interface IPlayer {
 }
 
 const player: IPlayer = {
-  gold: 0,
+  gold: 10000,
   cards: [],
   escapes: 1,
   story: {
