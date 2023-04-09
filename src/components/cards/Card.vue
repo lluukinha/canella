@@ -86,13 +86,26 @@ const backSideClasses = computed(() => ({
             :style="`background-image: url(${cardImageUrl})`"
           >
             <div
-              class="flex items-center gap-1 absolute top-1 right-2"
+              class="flex items-center gap-1 absolute top-1 right-1 bg-gray-800 px-2 rounded drop-shadow text-sm"
+              v-if="card.type === CardTypes.Weapon"
+            >
+              {{ (card.attributes as IWeaponCardAttributes).type }}
+            </div>
+            <div
+              class="flex items-center absolute top-1 justify-between w-full"
               v-if="card.type === CardTypes.Hero"
             >
-              <StarIcon class="w-5 h-5 text-yellow-300" />
-              <span class="text-xl font-bold uppercase">{{
-                (card.attributes as IHeroCardAttributes).level
-              }}</span>
+              <div
+                class="flex gap-1 items-center ml-1 bg-gray-800 px-1 rounded"
+              >
+                <StarIcon class="w-4 h-4 text-yellow-300" />
+                <span class="text-md font-bold uppercase">
+                  {{ (card.attributes as IHeroCardAttributes).level }}
+                </span>
+              </div>
+              <div class="mr-1 text-sm bg-gray-800 px-2 rounded drop-shadow">
+                {{ (card.attributes as IHeroCardAttributes).type }}
+              </div>
             </div>
             <div
               class="flex flex-wrap gap-x-1 gap-y-1 bottom-1 justify-center absolute"

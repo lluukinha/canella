@@ -102,6 +102,30 @@ export const weaponCards: IWeaponCard[] = [
       attack: 50,
     },
   },
+  {
+    id: 5,
+    name: 'Snowflake Wand',
+    type: CardTypes.Weapon,
+    image: 'weapons/wand_ai.jpeg',
+    price: 10,
+    attributes: {
+      type: WeaponTypes.Wand,
+      attackTypes: [AttackTypes.Ice],
+      attack: 10,
+    },
+  },
+  {
+    id: 6,
+    name: `Blizzard Wand`,
+    type: CardTypes.Weapon,
+    image: 'weapons/blizzard_wand.jpeg',
+    price: 4000,
+    attributes: {
+      type: WeaponTypes.Wand,
+      attackTypes: [AttackTypes.Water, AttackTypes.Ice],
+      attack: 50,
+    },
+  },
 ];
 
 /*
@@ -228,6 +252,34 @@ export const attackCards: IAttackCard[] = [
       chance: 100,
     },
   },
+  {
+    id: 8,
+    name: 'Snowball',
+    type: CardTypes.Attack,
+    image: 'attacks/snowball.jpg',
+    price: 10,
+    attributes: {
+      attackType: AttackTypes.Ice,
+      weaponTypes: [WeaponTypes.Wand],
+      min: 1,
+      max: 9,
+      chance: 100,
+    },
+  },
+  {
+    id: 9,
+    name: 'Avalanche',
+    type: CardTypes.Attack,
+    image: 'attacks/avalanche.jpeg',
+    price: 500,
+    attributes: {
+      weaponTypes: [WeaponTypes.Wand],
+      attackType: AttackTypes.Ice,
+      min: 40,
+      max: 100,
+      chance: 90,
+    },
+  },
 ];
 
 export enum HeroTypes {
@@ -238,8 +290,8 @@ export enum HeroTypes {
 }
 
 const knightWeaponTypes = [WeaponTypes.Sword];
-
 const paladinWeaponTypes = [WeaponTypes.Bow];
+const druidWeaponTypes = [WeaponTypes.Wand];
 
 export interface IHeroCardAttributes {
   weaponTypes: WeaponTypes[];
@@ -282,6 +334,21 @@ export const heroCards: IHeroCard[] = [
     attributes: {
       type: HeroTypes.Paladin,
       weaponTypes: paladinWeaponTypes,
+      level: 1,
+      experience: 0,
+      healthPoints: 50,
+      attack: 5,
+    },
+  },
+  {
+    id: 3,
+    name: 'Ayla',
+    type: CardTypes.Hero,
+    image: 'heroes/druid_ai.jpeg',
+    price: 1000,
+    attributes: {
+      type: HeroTypes.Druid,
+      weaponTypes: druidWeaponTypes,
       level: 1,
       experience: 0,
       healthPoints: 50,
