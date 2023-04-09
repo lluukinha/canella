@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, PropType } from "vue";
+import { computed, PropType } from 'vue';
 import {
   IHeroCard,
   IAttackCard,
@@ -11,17 +11,16 @@ import {
   IWeaponCardAttributes,
   IAttackCardAttributes,
   IMonsterCardAttributes,
-} from "../../scripts/main";
-import StarIcon from "../icons/StarIcon.vue";
-import AttackCardAttributes from "./attributes/AttackCardAttributes.vue";
-import HeroCardAttributes from "./attributes/HeroCardAttributes.vue";
-import MonsterCardAttributes from "./attributes/MonsterCardAttributes.vue";
-import WeaponCardAttributes from "./attributes/WeaponCardAttributes.vue";
-import CardBackSide from "./CardBackSide.vue";
+} from '../../scripts/main';
+import StarIcon from '../icons/StarIcon.vue';
+import AttackCardAttributes from './attributes/AttackCardAttributes.vue';
+import HeroCardAttributes from './attributes/HeroCardAttributes.vue';
+import MonsterCardAttributes from './attributes/MonsterCardAttributes.vue';
+import WeaponCardAttributes from './attributes/WeaponCardAttributes.vue';
+import CardBackSide from './CardBackSide.vue';
 
-const cardBgUrl = new URL("../../assets/cards/empty.jpg", import.meta.url).href;
 const cardImageUrl = computed(() => {
-  if (props.card.image.length === 0) return "";
+  if (props.card.image.length === 0) return '';
   return new URL(`../../assets/cards/${props.card.image}`, import.meta.url)
     .href;
 });
@@ -49,21 +48,21 @@ const props = defineProps({
 });
 
 const frontSideClasses = computed(() => ({
-  "from-blue-700 to-gray-900 border-blue-900":
+  'from-blue-700 to-gray-900 border-blue-900':
     props.card.type === CardTypes.Hero,
-  "from-red-700 to-gray-900 border-red-900":
+  'from-red-700 to-gray-900 border-red-900':
     props.card.type === CardTypes.Attack,
-  "from-yellow-300 to-gray-900 border-yellow-300":
+  'from-yellow-300 to-gray-900 border-yellow-300':
     props.card.type === CardTypes.Weapon,
-  "from-green-500 to-gray-900 border-green-700":
+  'from-green-500 to-gray-900 border-green-700':
     props.card.type === CardTypes.Monster,
 }));
 
 const backSideClasses = computed(() => ({
-  "border-blue-900": props.card.type === CardTypes.Hero,
-  "border-red-900": props.card.type === CardTypes.Attack,
-  "border-yellow-300": props.card.type === CardTypes.Weapon,
-  "border-green-700": props.card.type === CardTypes.Monster,
+  'border-blue-900': props.card.type === CardTypes.Hero,
+  'border-red-900': props.card.type === CardTypes.Attack,
+  'border-yellow-300': props.card.type === CardTypes.Weapon,
+  'border-green-700': props.card.type === CardTypes.Monster,
 }));
 </script>
 
@@ -84,12 +83,8 @@ const backSideClasses = computed(() => ({
           </div>
           <div
             class="image border border-gray-700 rounded w-52 h-52 bg-gray-800 flex justify-center items-center relative bg-cover bg-center"
-            :style="`background-image: url(${cardBgUrl})`"
+            :style="`background-image: url(${cardImageUrl})`"
           >
-            <div class="absolute w-full p-1">
-              <img :src="cardImageUrl" class="w-full" />
-            </div>
-
             <div
               class="flex items-center gap-1 absolute top-1 right-2"
               v-if="card.type === CardTypes.Hero"

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, PropType } from "vue";
-import { IMonsterCard } from "../../scripts/main";
-import CardBackSide from "../cards/CardBackSide.vue";
-import SwordIcon from "../icons/SwordIcon.vue";
+import { computed, PropType } from 'vue';
+import { IMonsterCard } from '../../scripts/main';
+import CardBackSide from '../cards/CardBackSide.vue';
+import SwordIcon from '../icons/SwordIcon.vue';
 
 const props = defineProps({
   card: {
@@ -16,11 +16,9 @@ const props = defineProps({
 });
 
 const cardImageUrl = computed(() => {
-  const card = props.card.image.length > 0 ? props.card.image : "empty.jpg";
+  const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
   return new URL(`../../assets/cards/${card}`, import.meta.url).href;
 });
-const bgImageUrl = new URL("../../assets/cards/empty.jpg", import.meta.url)
-  .href;
 </script>
 
 <template>
@@ -37,11 +35,8 @@ const bgImageUrl = new URL("../../assets/cards/empty.jpg", import.meta.url)
         </div>
         <div
           class="image border border-gray-700 rounded w-44 h-40 bg-gray-800 flex justify-center items-center relative bg-cover bg-center"
-          :style="`background-image: url(${bgImageUrl})`"
+          :style="`background-image: url(${cardImageUrl})`"
         >
-          <div class="absolute w-full p-1">
-            <img :src="cardImageUrl" class="w-full" />
-          </div>
           <span
             class="px-2 bg-gray-900 shadow rounded flex justify-center items-center font-bold absolute bottom-1 right-1 text-xs"
           >

@@ -2,7 +2,6 @@
 import { PropType, computed } from 'vue';
 import { IHeroCard } from '../../scripts/main';
 import StarIcon from '../icons/StarIcon.vue';
-import SwordIcon from '../icons/SwordIcon.vue';
 
 const props = defineProps({
   card: {
@@ -15,8 +14,6 @@ const cardImageUrl = computed(() => {
   const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
   return new URL(`../../assets/cards/${card}`, import.meta.url).href;
 });
-const bgImageUrl = new URL('../../assets/cards/empty.jpg', import.meta.url)
-  .href;
 </script>
 
 <template>
@@ -29,11 +26,8 @@ const bgImageUrl = new URL('../../assets/cards/empty.jpg', import.meta.url)
     </div>
     <div
       class="image border border-gray-700 rounded w-44 h-40 bg-gray-800 relative bg-cover bg-center"
-      :style="`background-image: url(${bgImageUrl})`"
+      :style="`background-image: url(${cardImageUrl})`"
     >
-      <div class="absolute p-1">
-        <img :src="cardImageUrl" class="object-scale-down" />
-      </div>
       <div class="flex items-center gap-1 absolute top-1 right-2">
         <StarIcon class="w-5 h-5 text-yellow-300" />
         <span class="text-xl font-bold uppercase">{{

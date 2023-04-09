@@ -10,6 +10,7 @@ import {
   IMonsterCard,
   monsterCards,
   successProbability,
+  dragon,
 } from '../../../scripts/main';
 import { playerStore } from '../../../scripts/store';
 import LockIcon from '../../icons/LockIcon.vue';
@@ -28,7 +29,7 @@ const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
     2: forestMedium,
     3: forestHard,
     4: [monsterCards[2]],
-    5: [monsterCards[4]],
+    5: [dragon],
   },
   darkForest: {
     1: [monsterCards[0]],

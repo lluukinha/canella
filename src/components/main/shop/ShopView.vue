@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import Card from "../../cards/Card.vue";
-import { delay, ICard } from "../../../scripts/main";
-import { ref } from "vue";
-import CardsToTrade from "./CardsToTrade.vue";
-import { buyCard, sellCard } from "../../../scripts/store";
-import ChosenCardDetails from "./cardDetails/ChosenCardDetails.vue";
+import { delay, ICard } from '../../../scripts/main';
+import { ref } from 'vue';
+import CardsToTrade from './CardsToTrade.vue';
+import { buyCard, sellCard } from '../../../scripts/store';
+import ChosenCardDetails from './cardDetails/ChosenCardDetails.vue';
 
 const merchant = new URL(
-  "../../../assets/characters/small_merchant.png",
+  '../../../assets/characters/small_merchant.png',
   import.meta.url
 ).href;
 
-const merchantType = ref<"buy" | "sell">();
+const merchantType = ref<'buy' | 'sell'>();
 const chosenCard = ref<ICard>();
 const isShowingCard = ref<boolean>(false);
 
@@ -31,19 +30,17 @@ const cancelSelection = async () => {
   isShowingCard.value = false;
   await delay(0.5);
   chosenCard.value = undefined;
-  merchantType.value = undefined
+  merchantType.value = undefined;
 };
 
 const buyCardFromMerchant = () => {
   if (!chosenCard.value) return;
   buyCard(chosenCard.value);
-  // chosenCard.value = undefined;
 };
 
 const sellCardToMerchant = () => {
   if (!chosenCard.value) return;
   sellCard(chosenCard.value);
-  // chosenCard.value = undefined;
 };
 </script>
 

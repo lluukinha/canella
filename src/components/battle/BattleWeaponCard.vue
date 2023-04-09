@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { PropType, computed } from "vue";
-import { IWeaponCard } from "../../scripts/main";
+import { PropType, computed } from 'vue';
+import { IWeaponCard } from '../../scripts/main';
 
 const props = defineProps({
   card: {
@@ -10,11 +10,9 @@ const props = defineProps({
 });
 
 const cardImageUrl = computed(() => {
-  const card = props.card.image.length > 0 ? props.card.image : "empty.jpg";
+  const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
   return new URL(`../../assets/cards/${card}`, import.meta.url).href;
 });
-const bgImageUrl = new URL("../../assets/cards/empty.jpg", import.meta.url)
-  .href;
 </script>
 
 <template>
@@ -27,11 +25,8 @@ const bgImageUrl = new URL("../../assets/cards/empty.jpg", import.meta.url)
     </div>
     <div
       class="image border border-gray-700 rounded w-32 h-32 bg-gray-800 relative bg-cover bg-center"
-      :style="`background-image: url(${bgImageUrl})`"
+      :style="`background-image: url(${cardImageUrl})`"
     >
-      <div class="absolute p-1">
-        <img :src="cardImageUrl" class="object-scale-down" />
-      </div>
       <div
         class="absolute w-full h-full flex justify-center items-end gap-1 bottom-1"
       >

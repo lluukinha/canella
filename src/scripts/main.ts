@@ -105,7 +105,6 @@ export const weaponCards: IWeaponCard[] = [
 ];
 
 /*
-Weapon Example:
 
 Attack example
 {
@@ -261,7 +260,8 @@ export const heroCards: IHeroCard[] = [
     id: 1,
     name: 'Steve',
     type: CardTypes.Hero,
-    image: 'heroes/knight.png',
+    // image: 'heroes/knight.png',
+    image: 'heroes/knight_ai.jpeg',
     price: 1000,
     attributes: {
       type: HeroTypes.Knight,
@@ -276,7 +276,8 @@ export const heroCards: IHeroCard[] = [
     id: 2,
     name: 'Guilherme',
     type: CardTypes.Hero,
-    image: 'heroes/paladin.png',
+    // image: 'heroes/paladin.png',
+    image: 'heroes/archer_ai.jpeg',
     price: 1000,
     attributes: {
       type: HeroTypes.Paladin,
@@ -778,28 +779,30 @@ export const forestHard: IMonsterCard[] = [
   },
 ];
 
+export const dragon: IMonsterCard = {
+  id: 41,
+  type: CardTypes.Monster,
+  name: 'Dragon',
+  image: 'monsters/dragon.gif',
+  price: 0,
+  attributes: {
+    attackType: AttackTypes.Fire,
+    experience: 700,
+    attack: 100,
+    attackCards: [attackCards[1]],
+    healthPoints: 2500,
+    loot: {
+      gold: { min: 3, max: 15 },
+      card: { chance: 100, card: weaponCards[3] },
+    },
+  },
+};
+
 export const monsterCards: IMonsterCard[] = [
   ...forestEasy,
   ...forestMedium,
   ...forestHard,
-  {
-    id: 41,
-    type: CardTypes.Monster,
-    name: 'Dragon',
-    image: 'monsters/dragon.gif',
-    price: 0,
-    attributes: {
-      attackType: AttackTypes.Fire,
-      experience: 700,
-      attack: 100,
-      attackCards: [attackCards[1]],
-      healthPoints: 2500,
-      loot: {
-        gold: { min: 3, max: 15 },
-        card: { chance: 100, card: weaponCards[3] },
-      },
-    },
-  },
+  dragon,
 ];
 // card : { chance: 100, card: weaponCards[1] }
 
