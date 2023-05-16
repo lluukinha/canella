@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import Game from './components/Game.vue';
 const mainScreen = ref(true);
 
-document.addEventListener('contextmenu', (event) => {
-  event.preventDefault();
-});
+const bgUrl = new URL('./assets/bg.jpg', import.meta.url).href;
+
+onMounted(() => {
+  setTimeout(() => mainScreen.value = false, 4000)
+})
 </script>
 
 <template>
@@ -14,11 +16,11 @@ document.addEventListener('contextmenu', (event) => {
   >
     <Transition name="fade" mode="out-in">
       <div
-        class="w-screen h-screen flex justify-center items-center flex-col gap-10"
+        class="w-screen h-screen flex justify-center items-center bg-center bg-cover flex-col gap-10"
+        :style="`background-image: url(${bgUrl})`"
         v-if="mainScreen"
+        @click="mainScreen = false"
       >
-        LOGO
-        <button @click="mainScreen = false">new game</button>
       </div>
       <Game v-else />
     </Transition>

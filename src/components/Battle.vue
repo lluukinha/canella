@@ -54,7 +54,6 @@ const attack = async ({
   if (!successProbability(chance)) {
     await showFailedMessage();
     canAttack.value = false;
-    // if (suppliesBlocked.value) setTimeout(endTurn, 800);
     await delay(0.8);
     endTurn();
     return;
@@ -79,7 +78,6 @@ const attack = async ({
   checkGameOver();
 
   endTurn();
-  // if (suppliesBlocked.value) setTimeout(endTurn, 1200);
 };
 
 const showFailedMessage = async () => {
@@ -156,16 +154,6 @@ const endTurn = async () => {
   showMessage();
 };
 
-// const recovery = (qtd: number) => {
-//   if (suppliesBlocked.value) return;
-//   const nextHeroHp = heroHp.value + qtd;
-//   heroHp.value =
-//     nextHeroHp > heroCard.attributes.healthPoints
-//       ? heroCard.attributes.healthPoints
-//       : nextHeroHp;
-//   canUseItems.value = false;
-// };
-
 const showMessage = async () => {
   showTurnMessage.value = true;
 
@@ -175,14 +163,6 @@ const showMessage = async () => {
   await delay(0.2);
   showTurnTip.value = true;
 };
-
-// const suppliesBlocked = computed(
-//   () =>
-//     !canUseItems.value ||
-//     heroHp.value === heroCard.attributes.healthPoints ||
-//     gameOver.value
-// );
-// const suppliesBlocked = computed(() => true);
 
 const checkGameOver = () => {
   gameOver.value = enemyHp.value === 0 || heroHp.value === 0;
@@ -339,16 +319,6 @@ const emit = defineEmits(['quit', 'continue']);
             />
             <EmptyAttackCardSpace v-for="_ in 4 - heroAttackCards.length" />
           </div>
-          <!-- <div
-        class="card w-28 h-40 bg-black flex items-center text-center justify-center text-white cursor-pointer transition-all"
-        :class="{
-          'hover:scale-125': !suppliesBlocked,
-          'opacity-50': suppliesBlocked,
-        }"
-        @click="recovery(5)"
-      >
-        POTION
-      </div> -->
         </div>
         <div class="floating-buttons absolute bottom-5 right-5 flex gap-5">
           <button

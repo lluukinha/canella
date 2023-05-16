@@ -3,7 +3,6 @@ import { computed, ref } from 'vue';
 import Battle from './Battle.vue';
 import ChoosingHero from './ChoosingHero.vue';
 import BookIcon from './icons/BookIcon.vue';
-import CardsIcon from './icons/CardsIcon.vue';
 import PersonIcon from './icons/PersonIcon.vue';
 import ShopIcon from './icons/ShopIcon.vue';
 import GoldIcon from './icons/GoldIcon.vue';
@@ -15,6 +14,7 @@ import { IBattleData } from '../scripts/main';
 import CardsView from './main/cards/CardsView.vue';
 import CardsSearchIcon from './icons/CardsSearchIcon.vue';
 import ShopView from './main/shop/ShopView.vue';
+import CodeIcon from './icons/CodeIcon.vue';
 
 const playerHasNoCards = computed(
   () =>
@@ -27,7 +27,7 @@ enum MenuItems {
   Battle = 'battle',
   Cards = 'cards',
   Shop = 'shop',
-  Rewards = 'rewards',
+  CardManager = 'card manager',
 }
 
 const battleData = ref<IBattleData>();
@@ -95,12 +95,12 @@ const wonBattle = async (data: IBattleData) => {
 
         <div
           class="flex gap-2 py-2 px-4 rounded shadow hover:ring-1 cursor-pointer"
-          :class="{ 'bg-slate-700 ring-1': current === MenuItems.Rewards }"
-          @click="current = MenuItems.Rewards"
+          :class="{ 'bg-slate-700 ring-1': current === MenuItems.CardManager }"
+          @click="current = MenuItems.CardManager"
         >
-          <ShopIcon class="w-6 h-6" />
+          <CodeIcon class="w-6 h-6" />
 
-          Rewards
+          Builder
         </div>
 
         <div class="flex gap-5 py-2 px-4">
@@ -123,7 +123,7 @@ const wonBattle = async (data: IBattleData) => {
         />
         <CardsView v-else-if="current === MenuItems.Cards" />
         <ShopView v-else-if="current === MenuItems.Shop" />
-        <div class="p-5" v-else>tenho que terminar essa parte ainda</div>
+        <div class="p-5" v-else>Not available in this version of the game</div>
       </Transition>
     </div>
   </Transition>

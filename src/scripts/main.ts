@@ -7,8 +7,6 @@ export enum CardTypes {
 }
 
 export enum WeaponTypes {
-  Sword = 'Sword',
-  Bow = 'Bow',
   Wand = 'Wand',
 }
 
@@ -56,54 +54,6 @@ export interface ICard {
 export const weaponCards: IWeaponCard[] = [
   {
     id: 1,
-    name: 'Knife',
-    type: CardTypes.Weapon,
-    image: 'weapons/knife.png',
-    price: 10,
-    attributes: {
-      type: WeaponTypes.Sword,
-      attackTypes: [AttackTypes.Meelee],
-      attack: 1,
-    },
-  },
-  {
-    id: 2,
-    name: 'Katana',
-    type: CardTypes.Weapon,
-    image: 'weapons/katana.png',
-    price: 100,
-    attributes: {
-      type: WeaponTypes.Sword,
-      attackTypes: [AttackTypes.Meelee],
-      attack: 15,
-    },
-  },
-  {
-    id: 3,
-    name: 'Wooden Bow',
-    type: CardTypes.Weapon,
-    image: 'weapons/wooden_bow.png',
-    price: 10,
-    attributes: {
-      type: WeaponTypes.Bow,
-      attackTypes: [AttackTypes.Meelee],
-      attack: 10,
-    },
-  },
-  {
-    id: 4,
-    name: 'Fire Sword',
-    type: CardTypes.Weapon,
-    image: 'weapons/fire_sword.png',
-    price: 4000,
-    attributes: {
-      type: WeaponTypes.Sword,
-      attackTypes: [AttackTypes.Meelee, AttackTypes.Fire],
-      attack: 50,
-    },
-  },
-  {
-    id: 5,
     name: 'Snowflake Wand',
     type: CardTypes.Weapon,
     image: 'weapons/wand_ai.jpeg',
@@ -115,7 +65,7 @@ export const weaponCards: IWeaponCard[] = [
     },
   },
   {
-    id: 6,
+    id: 2,
     name: `Blizzard Wand`,
     type: CardTypes.Weapon,
     image: 'weapons/blizzard_wand.jpeg',
@@ -127,24 +77,6 @@ export const weaponCards: IWeaponCard[] = [
     },
   },
 ];
-
-/*
-
-Attack example
-{
-    id: 55,
-    name: 'Queima Tudo',
-    type: CardTypes.Attack,
-    image: '',
-    attributes: {
-      weaponTypes: [WeaponTypes.Wand, WeaponTypes.Sword],
-      attackType: AttackTypes.Fire,
-      min: 10,
-      max: 10,
-      chance: 100,
-    },
-  },
-*/
 
 export interface IAttackCard extends ICard {
   id: number;
@@ -184,20 +116,6 @@ export const attackCards: IAttackCard[] = [
   },
   {
     id: 3,
-    name: 'Throw Arrow',
-    type: CardTypes.Attack,
-    image: 'attacks/throw_arrow.png',
-    price: 10,
-    attributes: {
-      attackType: AttackTypes.Meelee,
-      weaponTypes: [WeaponTypes.Bow],
-      min: 12,
-      max: 18,
-      chance: 50,
-    },
-  },
-  {
-    id: 4,
     name: 'Super',
     type: CardTypes.Attack,
     image: 'attacks/super.png',
@@ -211,7 +129,7 @@ export const attackCards: IAttackCard[] = [
     },
   },
   {
-    id: 5,
+    id: 4,
     name: 'Scratch',
     type: CardTypes.Attack,
     image: 'attacks/scratch.png',
@@ -225,7 +143,7 @@ export const attackCards: IAttackCard[] = [
     },
   },
   {
-    id: 6,
+    id: 5,
     name: 'Poison sting',
     type: CardTypes.Attack,
     image: 'attacks/poison.png',
@@ -239,7 +157,7 @@ export const attackCards: IAttackCard[] = [
     },
   },
   {
-    id: 7,
+    id: 6,
     name: 'Medium',
     type: CardTypes.Attack,
     image: 'attacks/simple.png',
@@ -253,7 +171,7 @@ export const attackCards: IAttackCard[] = [
     },
   },
   {
-    id: 8,
+    id: 7,
     name: 'Snowball',
     type: CardTypes.Attack,
     image: 'attacks/snowball.jpg',
@@ -267,7 +185,7 @@ export const attackCards: IAttackCard[] = [
     },
   },
   {
-    id: 9,
+    id: 8,
     name: 'Avalanche',
     type: CardTypes.Attack,
     image: 'attacks/avalanche.jpeg',
@@ -289,8 +207,6 @@ export enum HeroTypes {
   Paladin = 'Paladin',
 }
 
-const knightWeaponTypes = [WeaponTypes.Sword];
-const paladinWeaponTypes = [WeaponTypes.Bow];
 const druidWeaponTypes = [WeaponTypes.Wand];
 
 export interface IHeroCardAttributes {
@@ -310,38 +226,6 @@ export interface IHeroCard extends ICard {
 export const heroCards: IHeroCard[] = [
   {
     id: 1,
-    name: 'Steve',
-    type: CardTypes.Hero,
-    // image: 'heroes/knight.png',
-    image: 'heroes/knight_ai.jpeg',
-    price: 1000,
-    attributes: {
-      type: HeroTypes.Knight,
-      weaponTypes: knightWeaponTypes,
-      level: 1,
-      experience: 0,
-      healthPoints: 50,
-      attack: 5,
-    },
-  },
-  {
-    id: 2,
-    name: 'Guilherme',
-    type: CardTypes.Hero,
-    // image: 'heroes/paladin.png',
-    image: 'heroes/archer_ai.jpeg',
-    price: 1000,
-    attributes: {
-      type: HeroTypes.Paladin,
-      weaponTypes: paladinWeaponTypes,
-      level: 1,
-      experience: 0,
-      healthPoints: 50,
-      attack: 5,
-    },
-  },
-  {
-    id: 3,
     name: 'Ayla',
     type: CardTypes.Hero,
     image: 'heroes/druid_ai.jpeg',
@@ -762,15 +646,6 @@ export const forestMedium: IMonsterCard[] = [
   },
 ];
 
-/*
-Lion -> Bite, scratch
-Tiger -> Bite, scratch
-Amazon -> medium
-Hunter -> throw arrow
-Orc -> medium
-Pirate -> slice
-*/
-
 export const forestHard: IMonsterCard[] = [
   {
     id: 21,
@@ -871,7 +746,6 @@ export const monsterCards: IMonsterCard[] = [
   ...forestHard,
   dragon,
 ];
-// card : { chance: 100, card: weaponCards[1] }
 
 export const delay = (seconds: number) =>
   new Promise((resolve) => setTimeout(resolve, seconds * 1000));
