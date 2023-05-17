@@ -91,7 +91,7 @@ export const attackCards: IAttackCard[] = [
     name: 'Simple',
     type: CardTypes.Attack,
     image: 'attacks/simple.png',
-    price: 10,
+    price: 0,
     attributes: {
       attackType: AttackTypes.Meelee,
       weaponTypes: Object.values(WeaponTypes),
@@ -119,7 +119,7 @@ export const attackCards: IAttackCard[] = [
     name: 'Super',
     type: CardTypes.Attack,
     image: 'attacks/super.png',
-    price: 500,
+    price: 0,
     attributes: {
       weaponTypes: Object.values(WeaponTypes),
       attackType: AttackTypes.Meelee,
@@ -161,7 +161,7 @@ export const attackCards: IAttackCard[] = [
     name: 'Medium',
     type: CardTypes.Attack,
     image: 'attacks/simple.png',
-    price: 100,
+    price: 0,
     attributes: {
       attackType: AttackTypes.Meelee,
       weaponTypes: Object.values(WeaponTypes),

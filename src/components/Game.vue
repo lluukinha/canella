@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import Battle from './Battle.vue';
 import ChoosingHero from './ChoosingHero.vue';
 import BookIcon from './icons/BookIcon.vue';
@@ -14,7 +14,7 @@ import { IBattleData } from '../scripts/main';
 import CardsView from './main/cards/CardsView.vue';
 import CardsSearchIcon from './icons/CardsSearchIcon.vue';
 import ShopView from './main/shop/ShopView.vue';
-import CodeIcon from './icons/CodeIcon.vue';
+import SaveIcon from './icons/SaveIcon.vue';
 
 const playerHasNoCards = computed(
   () =>
@@ -27,7 +27,6 @@ enum MenuItems {
   Battle = 'battle',
   Cards = 'cards',
   Shop = 'shop',
-  CardManager = 'card manager',
 }
 
 const battleData = ref<IBattleData>();
@@ -41,11 +40,36 @@ const wonBattle = async (data: IBattleData) => {
   battleData.value = undefined;
   goToNextLevel(data);
 };
+
+const saveData = async () => {
+  const willSave = await confirm('Do you want to save your current progress?');
+  if (willSave) localStorage.setItem('progress', JSON.stringify(playerStore.value));
+}
+
+const continueGame = () => {
+  playerStore.value = JSON.parse(localStorage.getItem('progress')!);
+  showContinueInfo.value = false;
+}
+
+const newGame = () => {
+  localStorage.removeItem('progress');
+  showContinueInfo.value = false;
+}
+
+const showContinueInfo = ref<boolean>(!!localStorage.getItem('progress'));
 </script>
 
 <template>
   <Transition name="fade" mode="out-in">
-    <ChoosingHero v-if="playerHasNoCards" />
+    <div v-if="showContinueInfo" class="flex justify-center items-center flex-col gap-20">
+      <h1 class="text-3xl">Saved game found, do you want to continue?</h1>
+
+      <div class="flex flex-col gap-5 text-2xl">
+        <button class="text-gray-400 hover:text-white" @click="continueGame()">CONTINUE</button>
+        <button class="text-gray-400 hover:text-white" @click="newGame()">NEW GAME</button>
+      </div>
+    </div>
+    <ChoosingHero v-else-if="playerHasNoCards" />
     <div class="w-full h-full flex flex-col" v-else>
       <Transition name="swirl">
         <Battle
@@ -89,18 +113,15 @@ const wonBattle = async (data: IBattleData) => {
           @click="current = MenuItems.Shop"
         >
           <ShopIcon class="w-6 h-6" />
-
           Shop
         </div>
 
         <div
           class="flex gap-2 py-2 px-4 rounded shadow hover:ring-1 cursor-pointer"
-          :class="{ 'bg-slate-700 ring-1': current === MenuItems.CardManager }"
-          @click="current = MenuItems.CardManager"
+          @click="saveData()"
         >
-          <CodeIcon class="w-6 h-6" />
-
-          Builder
+          <SaveIcon class="w-6 h-6" />
+          Save
         </div>
 
         <div class="flex gap-5 py-2 px-4">
@@ -123,7 +144,6 @@ const wonBattle = async (data: IBattleData) => {
         />
         <CardsView v-else-if="current === MenuItems.Cards" />
         <ShopView v-else-if="current === MenuItems.Shop" />
-        <div class="p-5" v-else>Not available in this version of the game</div>
       </Transition>
     </div>
   </Transition>
