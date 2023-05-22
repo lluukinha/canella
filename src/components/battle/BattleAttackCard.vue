@@ -27,7 +27,7 @@ const attack = () => {
         class="flip-card-front bg-gradient-to-t rounded-xl shadow-lg py-2 px-5 border-4 flex flex-col justify-center gap-2 relative transition-all from-red-700 to-gray-900 border-red-900 text-white"
       >
         <div
-          class="flex flex-col gap-1 w-full justify-center uppercase text-center font-bold"
+          class="flex flex-col gap-1 w-full justify-center uppercase text-center font-bold items-center"
         >
           <div>{{ card.name }}</div>
         </div>
