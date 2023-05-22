@@ -3,14 +3,12 @@ import { onBeforeMount, onMounted, PropType, ref, watch } from 'vue';
 import {
   delay,
   FieldConfig,
-  forestEasy,
-  forestHard,
-  forestMedium,
   IBattleData,
   IMonsterCard,
   monsterCards,
   successProbability,
-  dragon,
+  forestMonsterCards,
+  darkForestMonsterCards,
 } from '../../../scripts/main';
 import { playerStore } from '../../../scripts/store';
 import LockIcon from '../../icons/LockIcon.vue';
@@ -25,18 +23,18 @@ const bgs = {
 
 const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
   forest: {
-    1: forestEasy,
-    2: forestMedium,
-    3: forestHard,
-    4: [monsterCards[2]],
-    5: [dragon],
+    1: forestMonsterCards.easy,
+    2: forestMonsterCards.medium,
+    3: forestMonsterCards.hard,
+    4: forestMonsterCards.veryHard,
+    5: forestMonsterCards.boss,
   },
   darkForest: {
-    1: [monsterCards[0]],
-    2: [monsterCards[0], monsterCards[1], monsterCards[3]],
-    3: [monsterCards[3]],
-    4: [monsterCards[1]],
-    5: [monsterCards[2]],
+    1: darkForestMonsterCards.easy,
+    2: darkForestMonsterCards.medium,
+    3: darkForestMonsterCards.hard,
+    4: darkForestMonsterCards.veryHard,
+    5: darkForestMonsterCards.boss,
   },
   castle: {
     1: [monsterCards[0]],
