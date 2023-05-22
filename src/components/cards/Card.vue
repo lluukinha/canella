@@ -45,6 +45,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showFullAttack: {
+    type: Boolean,
+    required: false,
+  },
 });
 
 const frontSideClasses = computed(() => ({
@@ -149,6 +153,7 @@ const backSideClasses = computed(() => ({
               />
               <AttackCardAttributes
                 :attributes="card.attributes as IAttackCardAttributes"
+                :showFullAttack="showFullAttack"
                 v-if="card.type === CardTypes.Attack"
               />
               <MonsterCardAttributes

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { allCards, ICard, CardTypes } from "../../../scripts/main";
-import { playerStore } from "../../../scripts/store";
-import { computed } from "vue";
-import CardsGroup from "./CardsGroup.vue";
+import { allCards, CardTypes } from '../../../scripts/main';
+import { playerStore } from '../../../scripts/store';
+import { computed } from 'vue';
+import CardsGroup from './CardsGroup.vue';
 
 const allCanellaCards = computed(() => {
   const playerHeroCardIds: number[] = [];
@@ -31,28 +31,28 @@ const allCanellaCards = computed(() => {
 
   return [
     {
-      title: "Heroes",
+      title: 'Heroes',
       cardType: CardTypes.Hero,
       cards: allCards.filter((c) => c.type === CardTypes.Hero),
       visibleIds: playerHeroCardIds,
       flippableIds: playerHeroCardIds,
     },
     {
-      title: "Weapons",
+      title: 'Weapons',
       cardType: CardTypes.Weapon,
       cards: allCards.filter((c) => c.type === CardTypes.Weapon),
       visibleIds: playerWeaponCardIds,
       flippableIds: playerWeaponCardIds,
     },
     {
-      title: "Attacks",
+      title: 'Attacks',
       cardType: CardTypes.Attack,
-      cards: allCards.filter((c) => c.type === CardTypes.Attack),
+      cards: allCards.filter((c) => c.type === CardTypes.Attack && c.price > 0),
       visibleIds: playerAttackCardIds,
       flippableIds: playerAttackCardIds,
     },
     {
-      title: "Monsters",
+      title: 'Monsters',
       cardType: CardTypes.Monster,
       cards: allCards.filter((c) => c.type === CardTypes.Monster),
       visibleIds: playerStore.value.monsters.won,

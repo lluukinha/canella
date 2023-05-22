@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { CardTypes, IAttackCard } from "../../../scripts/main";
-import CardPlaceholder from "../../cards/CardPlaceholder.vue";
-import DoubleDown from "../../icons/DoubleDown.vue";
-import { playerStore, removeAttack } from "../../../scripts/store";
-import { computed } from "vue";
-import Card from "../../cards/Card.vue";
+import { CardTypes, IAttackCard } from '../../../scripts/main';
+import CardPlaceholder from '../../cards/CardPlaceholder.vue';
+import DoubleDown from '../../icons/DoubleDown.vue';
+import { playerStore, removeAttack } from '../../../scripts/store';
+import { computed } from 'vue';
+import Card from '../../cards/Card.vue';
 
-const battleCards = computed<IAttackCard[]>(() => playerStore.value.equipedCards.attacks);
+const battleCards = computed<IAttackCard[]>(
+  () => playerStore.value.equipedCards.attacks
+);
 
-const emit = defineEmits(["equipCard"]);
+const emit = defineEmits(['equipCard']);
 
 const equipCard = (index: number) => {
   if (!!battleCards.value[index]) return;
@@ -25,7 +27,11 @@ const equipCard = (index: number) => {
         :class="{ 'hover:ring': !battleCards[0] }"
       >
         <Transition name="slide" mode="out-in">
-          <Card :card="battleCards[0]" v-if="!!battleCards[0]" />
+          <Card
+            :card="battleCards[0]"
+            :showFullAttack="true"
+            v-if="!!battleCards[0]"
+          />
         </Transition>
       </CardPlaceholder>
       <div class="flex justify-center">
@@ -46,7 +52,11 @@ const equipCard = (index: number) => {
         :class="{ 'hover:ring': !battleCards[1] }"
       >
         <Transition name="slide" mode="out-in">
-          <Card :card="battleCards[1]" v-if="!!battleCards[1]" />
+          <Card
+            :card="battleCards[1]"
+            :showFullAttack="true"
+            v-if="!!battleCards[1]"
+          />
         </Transition>
       </CardPlaceholder>
       <div class="flex justify-center">
@@ -67,7 +77,11 @@ const equipCard = (index: number) => {
         :class="{ 'hover:ring': !battleCards[2] }"
       >
         <Transition name="slide" mode="out-in">
-          <Card :card="battleCards[2]" v-if="!!battleCards[2]" />
+          <Card
+            :card="battleCards[2]"
+            :showFullAttack="true"
+            v-if="!!battleCards[2]"
+          />
         </Transition>
       </CardPlaceholder>
       <div class="flex justify-center">
@@ -88,7 +102,11 @@ const equipCard = (index: number) => {
         :class="{ 'hover:ring': !battleCards[3] }"
       >
         <Transition name="slide" mode="out-in">
-          <Card :card="battleCards[3]" v-if="!!battleCards[3]" />
+          <Card
+            :card="battleCards[3]"
+            :showFullAttack="true"
+            v-if="!!battleCards[3]"
+          />
         </Transition>
       </CardPlaceholder>
       <div class="flex justify-center">

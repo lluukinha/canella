@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, PropType, ref } from "vue";
+import { computed, PropType, ref } from 'vue';
 import {
   CardTypes,
   ICard,
@@ -10,9 +10,9 @@ import {
   IWeaponCard,
   IAttackCard,
   IMonsterCard,
-} from "../../../scripts/main";
+} from '../../../scripts/main';
 
-import Card from "../../cards/Card.vue";
+import Card from '../../cards/Card.vue';
 
 const props = defineProps({
   cards: {
@@ -42,7 +42,7 @@ const resetFilters = () => {
   heroTypeFilter.value = undefined;
   weaponTypeFilter.value = undefined;
   attackTypeFilter.value = undefined;
-}
+};
 
 const showWeaponTypeFilter = computed(() =>
   [CardTypes.Hero, CardTypes.Weapon, CardTypes.Attack].includes(props.cardType)
@@ -156,27 +156,38 @@ const filteredCards = computed((): ICard[] => {
         v-if="filteredCards.length === 0"
       >
         <h1 class="text-gray-600 font-semibold">
-          NO CARDS FOUND, <button class="underline" @click="resetFilters">RESET FILTERS</button>
+          NO CARDS FOUND,
+          <button class="underline" @click="resetFilters">RESET FILTERS</button>
         </h1>
       </div>
       <template v-else>
-      <TransitionGroup name="list">
-        <div v-for="card in filteredCards" :key="`${cardType}_${card.id}`" class="relative">
+        <TransitionGroup name="list">
           <div
-            class="absolute w-full z-30 bottom-10 mx-auto text-center text-gray-500 font-bold"
-            v-if="!flippableIds.includes(card.id) && !visibleIds.includes(card.id)"
+            v-for="card in filteredCards"
+            :key="`${cardType}_${card.id}`"
+            class="relative"
           >
-            UNDISCOVERED
+            <div
+              class="absolute w-full z-30 bottom-10 mx-auto text-center text-gray-500 font-bold"
+              v-if="
+                !flippableIds.includes(card.id) && !visibleIds.includes(card.id)
+              "
+            >
+              UNDISCOVERED
+            </div>
+            <Card
+              :card="card"
+              :flip-on-hover="
+                flippableIds.includes(card.id) && !visibleIds.includes(card.id)
+              "
+              :hideFront="!visibleIds.includes(card.id)"
+              :hideContent="
+                !flippableIds.includes(card.id) && !visibleIds.includes(card.id)
+              "
+            />
           </div>
-        <Card
-          :card="card"
-          :flip-on-hover="flippableIds.includes(card.id) && !visibleIds.includes(card.id)"
-          :hideFront="!visibleIds.includes(card.id)"
-          :hideContent="!flippableIds.includes(card.id) && !visibleIds.includes(card.id)"
-        />
-        </div>
-      </TransitionGroup>
-    </template>
+        </TransitionGroup>
+      </template>
     </div>
   </div>
 </template>
