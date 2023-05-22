@@ -6,7 +6,13 @@ import BookIcon from './icons/BookIcon.vue';
 import PersonIcon from './icons/PersonIcon.vue';
 import ShopIcon from './icons/ShopIcon.vue';
 import GoldIcon from './icons/GoldIcon.vue';
-import { goToNextLevel, playerStore } from '../scripts/store';
+import {
+  goToNextLevel,
+  playerStore,
+  saveGame,
+  loadGame,
+  removeSave,
+} from '../scripts/store';
 import Hero from './main/hero/Hero.vue';
 import BattleView from './main/battle/BattleView.vue';
 import EscapeIcon from './icons/EscapeIcon.vue';
@@ -43,30 +49,37 @@ const wonBattle = async (data: IBattleData) => {
 
 const saveData = async () => {
   const willSave = await confirm('Do you want to save your current progress?');
-  if (willSave) localStorage.setItem('progress', JSON.stringify(playerStore.value));
-}
+  if (willSave) saveGame();
+};
 
 const continueGame = () => {
-  playerStore.value = JSON.parse(localStorage.getItem('progress')!);
+  loadGame();
   showContinueInfo.value = false;
-}
+};
 
 const newGame = () => {
-  localStorage.removeItem('progress');
+  removeSave();
   showContinueInfo.value = false;
-}
+};
 
 const showContinueInfo = ref<boolean>(!!localStorage.getItem('progress'));
 </script>
 
 <template>
   <Transition name="fade" mode="out-in">
-    <div v-if="showContinueInfo" class="flex justify-center items-center flex-col gap-20">
+    <div
+      v-if="showContinueInfo"
+      class="flex justify-center items-center flex-col gap-20"
+    >
       <h1 class="text-3xl">Saved game found, do you want to continue?</h1>
 
       <div class="flex flex-col gap-5 text-2xl">
-        <button class="text-gray-400 hover:text-white" @click="continueGame()">CONTINUE</button>
-        <button class="text-gray-400 hover:text-white" @click="newGame()">NEW GAME</button>
+        <button class="text-gray-400 hover:text-white" @click="continueGame()">
+          CONTINUE
+        </button>
+        <button class="text-gray-400 hover:text-white" @click="newGame()">
+          NEW GAME
+        </button>
       </div>
     </div>
     <ChoosingHero v-else-if="playerHasNoCards" />

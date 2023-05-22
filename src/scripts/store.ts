@@ -11,6 +11,7 @@ import {
   delay,
   calculateAverage,
 } from './main';
+import AES from './AES';
 
 interface ILevelIndicator {
   from: number;
@@ -23,6 +24,7 @@ interface IExperienceTable {
 
 export const ATTACK_ON_LEVEL = 5;
 export const LIFE_ON_LEVEL = 30;
+const SHUFFLE_KEY = 'c4nell4S!v%;';
 
 export const expLevels: IExperienceTable = {
   1: { from: 0, to: 100 },
@@ -292,4 +294,20 @@ export const sellCard = (card: ICard) => {
 
   playerStore.value.cards.splice(index, 1);
   playerStore.value.gold += card.price;
+};
+
+export const saveGame = () => {
+  const saveAsString = JSON.stringify(playerStore.value);
+  const encrypted = AES.aesEncrypt(saveAsString, SHUFFLE_KEY);
+  localStorage.setItem('progress', JSON.stringify(encrypted));
+};
+
+export const loadGame = () => {
+  const savedGameString = localStorage.getItem('progress')!;
+  const decrypted = JSON.parse(AES.aesDecrypt(savedGameString, SHUFFLE_KEY));
+  playerStore.value = decrypted;
+};
+
+export const removeSave = () => {
+  localStorage.removeItem('progress');
 };
