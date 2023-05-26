@@ -1,0 +1,86 @@
+{
+    "simple": {
+        "id": 1,
+        "name": "Simple",
+        "type": "Attack",
+        "image": "attacks/simple.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "weaponTypes": [],
+            "min": 1,
+            "max": 9,
+            "chance": 100
+        }
+    },
+    "bite": {
+        "id": 2,
+        "name": "Bite",
+        "type": "Attack",
+        "image": "attacks/bite.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "weaponTypes": [],
+            "min": 1,
+            "max": 5,
+            "chance": 90
+        }
+    },
+    "super": {
+        "id": 3,
+        "name": "Super",
+        "type": "Attack",
+        "image": "attacks/super.png",
+        "price": 0,
+        "attributes": {
+            "weaponTypes": [],
+            "attackType": "Meelee",
+            "min": 40,
+            "max": 100,
+            "chance": 90
+        }
+    },
+    "scratch": {
+        "id": 4,
+        "name": "Scratch",
+        "type": "Attack",
+        "image": "attacks/scratch.png",
+        "price": 0,
+        "attributes": {
+            "weaponTypes": [],
+            "attackType": "Meelee",
+            "min": 10,
+            "max": 15,
+            "chance": 85
+        }
+    },
+    "poisonSting": {
+        "id": 5,
+        "name": "Poison sting",
+        "type": "Attack",
+        "image": "attacks/poison.png",
+        "price": 0,
+        "attributes": {
+            "weaponTypes": [],
+            "attackType": "Poison",
+            "min": 5,
+            "max": 10,
+            "chance": 100
+        }
+    },
+    "medium": {
+        "id": 6,
+        "name": "Medium",
+        "type": "Attack",
+        "image": "attacks/simple.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "weaponTypes": [],
+            "min": 10,
+            "max": 40,
+            "chance": 100
+        }
+    }
+}

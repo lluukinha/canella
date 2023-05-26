@@ -1,0 +1,597 @@
+{
+    "snake": {
+        "id": 1,
+        "type": "Monster",
+        "name": "Snake",
+        "image": "monsters/snake.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 10,
+            "attack": 10,
+            "attackCards": [
+                "bite",
+                "simple"
+            ],
+            "healthPoints": 20,
+            "loot": {
+                "gold": {
+                    "min": 0,
+                    "max": 5
+                },
+                "card": null
+            }
+        }
+    },
+    "wasp": {
+        "id": 2,
+        "type": "Monster",
+        "name": "Wasp",
+        "image": "monsters/wasp.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 15,
+            "attack": 5,
+            "attackCards": [
+                "poisonSting"
+            ],
+            "healthPoints": 25,
+            "loot": {
+                "gold": {
+                    "min": 3,
+                    "max": 7
+                },
+                "card": null
+            }
+        }
+    },
+    "poisonSpider": {
+        "id": 11,
+        "type": "Monster",
+        "name": "Poison Spider",
+        "image": "monsters/poison_spider.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 25,
+            "attack": 20,
+            "attackCards": [
+                "bite",
+                "poisonSting"
+            ],
+            "healthPoints": 30,
+            "loot": {
+                "gold": {
+                    "min": 5,
+                    "max": 15
+                },
+                "card": null
+            }
+        }
+    },
+    "salamander": {
+        "id": 3,
+        "type": "Monster",
+        "name": "Salamander",
+        "image": "monsters/salamander.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 15,
+            "attack": 13,
+            "attackCards": [
+                "bite",
+                "poisonSting"
+            ],
+            "healthPoints": 20,
+            "loot": {
+                "gold": {
+                    "min": 3,
+                    "max": 8
+                },
+                "card": null
+            }
+        }
+    },
+    "centipede": {
+        "id": 4,
+        "type": "Monster",
+        "name": "Centipede",
+        "image": "monsters/centipede.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 10,
+            "attack": 8,
+            "attackCards": [
+                "bite",
+                "poisonSting"
+            ],
+            "healthPoints": 15,
+            "loot": {
+                "gold": {
+                    "min": 2,
+                    "max": 5
+                },
+                "card": null
+            }
+        }
+    },
+    "slime": {
+        "id": 14,
+        "type": "Monster",
+        "name": "Slime",
+        "image": "monsters/slime.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 160,
+            "attack": 20,
+            "attackCards": [
+                "poisonSting"
+            ],
+            "healthPoints": 120,
+            "loot": {
+                "gold": {
+                    "min": 15,
+                    "max": 25
+                },
+                "card": null
+            }
+        }
+    },
+    "tarantula": {
+        "id": 23,
+        "type": "Monster",
+        "name": "Tarantula",
+        "image": "monsters/tarantula.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 150,
+            "attack": 25,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 150,
+            "loot": {
+                "gold": {
+                    "min": 8,
+                    "max": 20
+                },
+                "card": null
+            }
+        }
+    },
+    "crocodile": {
+        "id": 22,
+        "type": "Monster",
+        "name": "Crocodile",
+        "image": "monsters/crocodile.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 150,
+            "attack": 35,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 250,
+            "loot": {
+                "gold": {
+                    "min": 15,
+                    "max": 30
+                },
+                "card": null
+            }
+        }
+    },
+    "lizardSentinel": {
+        "id": 20,
+        "type": "Monster",
+        "name": "Lizard Sentinel",
+        "image": "monsters/lizard_sentinel.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 120,
+            "attack": 30,
+            "attackCards": [
+                "bite",
+                "scratch",
+                "simple"
+            ],
+            "healthPoints": 100,
+            "loot": {
+                "gold": {
+                    "min": 15,
+                    "max": 30
+                },
+                "card": null
+            }
+        }
+    },
+    "bug": {
+        "id": 10,
+        "type": "Monster",
+        "name": "Bug",
+        "image": "monsters/bug.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 18,
+            "attack": 12,
+            "attackCards": [
+                "bite"
+            ],
+            "healthPoints": 25,
+            "loot": {
+                "gold": {
+                    "min": 5,
+                    "max": 12
+                },
+                "card": null
+            }
+        }
+    },
+    "spider": {
+        "id": 8,
+        "type": "Monster",
+        "name": "Spider",
+        "image": "monsters/spider.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 15,
+            "attack": 12,
+            "attackCards": [
+                "bite",
+                "poisonSting"
+            ],
+            "healthPoints": 25,
+            "loot": {
+                "gold": {
+                    "min": 3,
+                    "max": 12
+                },
+                "card": null
+            }
+        }
+    },
+    "wolf": {
+        "id": 15,
+        "type": "Monster",
+        "name": "Wolf",
+        "image": "monsters/wolf.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 60,
+            "attack": 25,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 50,
+            "loot": {
+                "gold": {
+                    "min": 10,
+                    "max": 15
+                },
+                "card": null
+            }
+        }
+    },
+    "scarab": {
+        "id": 19,
+        "type": "Monster",
+        "name": "Scarab",
+        "image": "monsters/scarab.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 90,
+            "attack": 23,
+            "attackCards": [
+                "bite",
+                "poisonSting"
+            ],
+            "healthPoints": 90,
+            "loot": {
+                "gold": {
+                    "min": 10,
+                    "max": 18
+                },
+                "card": null
+            }
+        }
+    },
+    "scorpion": {
+        "id": 5,
+        "type": "Monster",
+        "name": "Scorpion",
+        "image": "monsters/scorpion.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 20,
+            "attack": 15,
+            "attackCards": [
+                "poisonSting"
+            ],
+            "healthPoints": 30,
+            "loot": {
+                "gold": {
+                    "min": 5,
+                    "max": 10
+                },
+                "card": null
+            }
+        }
+    },
+    "troll": {
+        "id": 17,
+        "type": "Monster",
+        "name": "Troll",
+        "image": "monsters/troll.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 80,
+            "attack": 25,
+            "attackCards": [
+                "bite",
+                "simple",
+                "scratch"
+            ],
+            "healthPoints": 90,
+            "loot": {
+                "gold": {
+                    "min": 8,
+                    "max": 14
+                },
+                "card": null
+            }
+        }
+    },
+    "bear": {
+        "id": 21,
+        "type": "Monster",
+        "name": "Bear",
+        "image": "monsters/bear.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 180,
+            "attack": 38,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 180,
+            "loot": {
+                "gold": {
+                    "min": 1,
+                    "max": 10
+                },
+                "card": null
+            }
+        }
+    },
+    "toad": {
+        "id": 6,
+        "type": "Monster",
+        "name": "Toad",
+        "image": "monsters/toad.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 20,
+            "attack": 10,
+            "attackCards": [
+                "bite"
+            ],
+            "healthPoints": 35,
+            "loot": {
+                "gold": {
+                    "min": 5,
+                    "max": 10
+                },
+                "card": null
+            }
+        }
+    },
+    "slug": {
+        "id": 7,
+        "type": "Monster",
+        "name": "Slug",
+        "image": "monsters/slug.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 18,
+            "attack": 3,
+            "attackCards": [
+                "bite"
+            ],
+            "healthPoints": 50,
+            "loot": {
+                "gold": {
+                    "min": 8,
+                    "max": 15
+                },
+                "card": null
+            }
+        }
+    },
+    "larva": {
+        "id": 9,
+        "type": "Monster",
+        "name": "Larva",
+        "image": "monsters/larva.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 10,
+            "attack": 10,
+            "attackCards": [
+                "bite"
+            ],
+            "healthPoints": 20,
+            "loot": {
+                "gold": {
+                    "min": 3,
+                    "max": 8
+                },
+                "card": null
+            }
+        }
+    },
+    "babyLion": {
+        "id": 12,
+        "type": "Monster",
+        "name": "Baby Lion",
+        "image": "monsters/baby_lion.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 40,
+            "attack": 18,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 60,
+            "loot": {
+                "gold": {
+                    "min": 8,
+                    "max": 18
+                },
+                "card": null
+            }
+        }
+    },
+    "leopard": {
+        "id": 13,
+        "type": "Monster",
+        "name": "Leopard",
+        "image": "monsters/leopard.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 40,
+            "attack": 22,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 60,
+            "loot": {
+                "gold": {
+                    "min": 10,
+                    "max": 18
+                },
+                "card": null
+            }
+        }
+    },
+    "fox": {
+        "id": 16,
+        "type": "Monster",
+        "name": "Fox",
+        "image": "monsters/fox.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 60,
+            "attack": 18,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 70,
+            "loot": {
+                "gold": {
+                    "min": 1,
+                    "max": 10
+                },
+                "card": null
+            }
+        }
+    },
+    "minotaur": {
+        "id": 24,
+        "type": "Monster",
+        "name": "Minotaur",
+        "image": "monsters/minotaur.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 250,
+            "attack": 42,
+            "attackCards": [
+                "bite",
+                "scratch",
+                "medium"
+            ],
+            "healthPoints": 280,
+            "loot": {
+                "gold": {
+                    "min": 8,
+                    "max": 20
+                },
+                "card": null
+            }
+        }
+    },
+    "eagle": {
+        "id": 18,
+        "type": "Monster",
+        "name": "Eagle",
+        "image": "monsters/eagle.png",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 60,
+            "attack": 20,
+            "attackCards": [
+                "bite",
+                "super"
+            ],
+            "healthPoints": 70,
+            "loot": {
+                "gold": {
+                    "min": 5,
+                    "max": 20
+                },
+                "card": null
+            }
+        }
+    },
+    "dragon": {
+        "id": 41,
+        "type": "Monster",
+        "name": "Dragon",
+        "image": "monsters/dragon.gif",
+        "price": 0,
+        "attributes": {
+            "attackType": "Fire",
+            "experience": 700,
+            "attack": 100,
+            "attackCards": [
+                "bite"
+            ],
+            "healthPoints": 2500,
+            "loot": {
+                "gold": {
+                    "min": 3,
+                    "max": 15
+                },
+                "card": null
+            }
+        }
+    }
+}

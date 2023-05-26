@@ -10,6 +10,9 @@ import {
   IBattleData,
   delay,
   calculateAverage,
+  heroCards,
+  attackCards,
+  weaponCards,
 } from './main';
 import AES from './AES';
 
@@ -52,7 +55,11 @@ export const expLevels: IExperienceTable = {
 
 export interface IPlayer {
   gold: number;
-  cards: ICard[];
+  cards: {
+    heroes: string[]
+    weapons: string[]
+    attacks: string[]
+  };
   escapes: number;
   story: {
     forest: StoryLevel;
@@ -65,16 +72,20 @@ export interface IPlayer {
     won: number[];
   };
   equipedCards: {
-    hero: IHeroCard | null;
-    weapon: IWeaponCard | null;
-    attacks: IAttackCard[];
+    hero: string | null;
+    weapon: string | null;
+    attacks: string[];
     // supplies: ISupplyCard[]
   };
 }
 
 const player: IPlayer = {
   gold: 0,
-  cards: [],
+  cards: {
+    heroes: [],
+    weapons: [],
+    attacks: []
+  },
   escapes: 1,
   story: {
     forest: {
@@ -116,85 +127,99 @@ const player: IPlayer = {
 
 export const playerStore = ref<IPlayer>(player);
 
-export const cardsFromPlayer = computed(() => {
+export const cardsFromPlayer = computed<ICard[]>(() => {
   const { hero, weapon, attacks } = playerStore.value.equipedCards;
-  const cards = [];
-  if (!!hero) cards.push(hero);
-  if (!!weapon) cards.push(weapon);
-  if (attacks.length > 0) cards.push(...attacks);
-  cards.push(...playerStore.value.cards);
+  const cards: ICard[] = [];
+  if (!!hero) cards.push(toHeroCard(hero));
+  if (!!weapon) cards.push(toWeaponCard(weapon));
+  if (attacks.length > 0) cards.push(...attacks.map(toAttackCard));
+  if (playerStore.value.cards.attacks.length > 0) cards.push(...playerStore.value.cards.attacks.map(toAttackCard));
+  if (playerStore.value.cards.heroes.length > 0) cards.push(...playerStore.value.cards.heroes.map(toHeroCard));
+  if (playerStore.value.cards.weapons.length > 0) cards.push(...playerStore.value.cards.weapons.map(toWeaponCard));
   return cards;
 });
+
+export const unequipedCardsFromPlayer = computed<ICard[]>(() => {
+  const cards: ICard[] = [];
+  if (playerStore.value.cards.attacks.length > 0) cards.push(...playerStore.value.cards.attacks.map(toAttackCard));
+  if (playerStore.value.cards.heroes.length > 0) cards.push(...playerStore.value.cards.heroes.map(toHeroCard));
+  if (playerStore.value.cards.weapons.length > 0) cards.push(...playerStore.value.cards.weapons.map(toWeaponCard));
+  return cards;
+});
+
+export const toHeroCard = (key: string): IHeroCard => heroCards[key] || null;
+export const toAttackCard = (key: string): IAttackCard => attackCards[key] || null;
+export const toWeaponCard = (key: string): IWeaponCard => weaponCards[key] || null;
 
 export const playerContainsCard = (card: ICard): boolean =>
   !!cardsFromPlayer.value.find((c) => c.id === card.id && c.type === card.type);
 
 export const removeHero = () => {
-  const heroCard = playerStore.value.equipedCards.hero as ICard;
-  playerStore.value.cards.push(heroCard);
+  const heroKey = playerStore.value.equipedCards.hero;
+  if (!heroKey) return;
+
+  playerStore.value.cards.heroes.push(heroKey);
   playerStore.value.equipedCards.hero = null;
 };
 
 export const removeWeapon = () => {
-  const weaponCard = playerStore.value.equipedCards.weapon as ICard;
-  playerStore.value.cards.push(weaponCard);
+  const weaponKey = playerStore.value.equipedCards.weapon;
+  if (!weaponKey) return;
+
+  playerStore.value.cards.weapons.push(weaponKey);
   playerStore.value.equipedCards.weapon = null;
 };
 
-export const removeAttack = (card: IAttackCard) => {
-  const index = playerStore.value.equipedCards.attacks.findIndex(
-    (c) => c.id === card.id
-  );
+export const removeAttack = (key: string) => {
+  const index = playerStore.value.equipedCards.attacks.findIndex(c => c === key);
   playerStore.value.equipedCards.attacks.splice(index, 1);
-  playerStore.value.cards.push(card);
+  playerStore.value.cards.attacks.push(key);
 };
 
-export const removeCardFromDeck = (card: ICard) => {
-  const index = playerStore.value.cards.findIndex(
-    (c) => c.id === card.id && c.type === card.type
-  );
-  if (index > -1) playerStore.value.cards.splice(index, 1);
+export const removeCardFromDeck = (cardInfo: { cardKey: string, type: CardTypes }) => {
+  let storeKey: 'attacks' | 'heroes' | 'weapons' = 'heroes';
+  if (cardInfo.type === CardTypes.Attack) storeKey = 'attacks';
+  if (cardInfo.type === CardTypes.Hero) storeKey = 'heroes'
+  if (cardInfo.type === CardTypes.Weapon) storeKey = 'weapons';
+
+  const index = playerStore.value.cards[storeKey].findIndex(c => c === cardInfo.cardKey);
+  if (index > -1) playerStore.value.cards[storeKey].splice(index, 1);
 };
 
-export const equipNewCard = (card: ICard) => {
-  if (card.type === CardTypes.Hero)
-    playerStore.value.equipedCards.hero = card as IHeroCard;
-  if (card.type === CardTypes.Weapon)
-    playerStore.value.equipedCards.weapon = card as IWeaponCard;
-  if (card.type === CardTypes.Attack)
-    playerStore.value.equipedCards.attacks.push(card as IAttackCard);
+export const equipNewCard = (cardInfo: { cardKey: string, type: CardTypes }) => {
+  if (cardInfo.type === CardTypes.Hero)
+    playerStore.value.equipedCards.hero = cardInfo.cardKey;
+  if (cardInfo.type === CardTypes.Weapon)
+    playerStore.value.equipedCards.weapon = cardInfo.cardKey;
+  if (cardInfo.type === CardTypes.Attack)
+    playerStore.value.equipedCards.attacks.push(cardInfo.cardKey;);
 
   const { hero, weapon } = playerStore.value.equipedCards;
-  if (card.type === CardTypes.Hero && !!weapon) {
-    const heroCanUseEquipedWeapon = (
-      card as IHeroCard
-    ).attributes.weaponTypes.includes(weapon.attributes.type);
+  const heroCard = hero ? heroCards[cardInfo.cardKey] : null;
+  const weaponCard = weapon ? weaponCards[weapon] : null;
+  if (cardInfo.type === CardTypes.Hero && !!weaponCard && !!heroCard) {
+    const heroCanUseEquipedWeapon = heroCard.attributes.weaponTypes.includes(weaponCard.attributes.type);
     if (!heroCanUseEquipedWeapon) removeWeapon();
   }
 
-  if (card.type === CardTypes.Weapon && !!hero) {
-    const weaponCanBeUsedByEquipedHero = hero.attributes.weaponTypes.includes(
-      (card as IWeaponCard).attributes.type
-    );
+  if (cardInfo.type === CardTypes.Weapon && !!heroCard && !!weaponCard) {
+    const weaponCanBeUsedByEquipedHero = heroCard.attributes.weaponTypes.includes(weaponCard.attributes.type);
     if (!weaponCanBeUsedByEquipedHero) removeHero();
   }
 
-  if (card.type === CardTypes.Weapon) {
+  if (cardInfo.type === CardTypes.Weapon && !!weaponCard) {
     const equipedAttackCards = playerStore.value.equipedCards.attacks;
     const notAllowed = equipedAttackCards.filter((c) => {
-      const attr = card.attributes as IWeaponCardAttributes;
-      const isWeaponAllowed = c.attributes.weaponTypes.includes(attr.type);
-      const isAttackAllowed = attr.attackTypes.includes(
-        c.attributes.attackType
-      );
+      const attr = weaponCard.attributes as IWeaponCardAttributes;
+      const attackCard = attackCards[c];
+      const isWeaponAllowed = attackCard.attributes.weaponTypes.includes(attr.type);
+      const isAttackAllowed = attr.attackTypes.includes(attackCard.attributes.attackType);
       return !isWeaponAllowed || !isAttackAllowed;
     });
     notAllowed.forEach((card) => {
-      const index = playerStore.value.equipedCards.attacks.findIndex(
-        (c) => c.id === card.id
-      );
+      const index = equipedAttackCards.findIndex(c => c === card);
       playerStore.value.equipedCards.attacks.splice(index, 1);
-      playerStore.value.cards.push(card);
+      playerStore.value.cards.attacks.push(card);
     });
   }
 };
