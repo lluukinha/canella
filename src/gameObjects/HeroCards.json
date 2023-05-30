@@ -1,19 +1,13 @@
 {
-    "ayla": {
-        "id": 1,
-        "name": "Ayla",
-        "type": "Hero",
-        "image": "heroes/druid_ai.jpeg",
-        "price": 1000,
-        "attributes": {
-            "type": "Druid",
-            "weaponTypes": [
-                "Wand"
-            ],
-            "level": 1,
-            "experience": 0,
-            "healthPoints": 50,
-            "attack": 5
-        }
+  "ayla": {
+    "id": 1,
+    "name": "Ayla",
+    "type": "Hero",
+    "image": "heroes/druid_ai.jpeg",
+    "price": 1000,
+    "attributes": {
+      "type": "Druid",
+      "weaponTypes": ["Wand"]
     }
+  }
 }

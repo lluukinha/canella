@@ -6,7 +6,9 @@ import { playerStore, removeAttack } from '../../../scripts/store';
 import { computed } from 'vue';
 import Card from '../../cards/Card.vue';
 
-const battleCards = computed<string[]>(() => playerStore.value.equipedCards.attacks);
+const battleCards = computed<string[]>(
+  () => playerStore.value.equipedCards.attacks
+);
 const emit = defineEmits(['equipCard']);
 
 const equipCard = (index: number) => {
@@ -50,7 +52,7 @@ const equipCard = (index: number) => {
       >
         <Transition name="slide" mode="out-in">
           <Card
-            :card="battleCards[1]"
+            :card="attackCards[battleCards[1]]"
             :showFullAttack="true"
             v-if="!!battleCards[1]"
           />
@@ -75,7 +77,7 @@ const equipCard = (index: number) => {
       >
         <Transition name="slide" mode="out-in">
           <Card
-            :card="battleCards[2]"
+            :card="attackCards[battleCards[2]]"
             :showFullAttack="true"
             v-if="!!battleCards[2]"
           />
@@ -100,7 +102,7 @@ const equipCard = (index: number) => {
       >
         <Transition name="slide" mode="out-in">
           <Card
-            :card="battleCards[3]"
+            :card="attackCards[battleCards[3]]"
             :showFullAttack="true"
             v-if="!!battleCards[3]"
           />

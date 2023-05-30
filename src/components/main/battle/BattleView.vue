@@ -18,12 +18,10 @@ const ruinsBgUrl = new URL('../../../assets/ruins.jpeg', import.meta.url).href;
 const isUnlockingDarkForest = ref<boolean>(false);
 const isUnlockingCastle = ref<boolean>(false);
 const isUnlockingCastleRuins = ref<boolean>(false);
-const unlockField = async (
-  field: 'forest' | 'darkForest' | 'castle' | 'castleRuins'
-) => {
-  if (field === 'darkForest') isUnlockingDarkForest.value = true;
-  if (field === 'castle') isUnlockingCastle.value = true;
-  if (field === 'castleRuins') isUnlockingCastleRuins.value = true;
+const unlockField = async (field: FieldConfig) => {
+  if (field === 'second') isUnlockingDarkForest.value = true;
+  if (field === 'third') isUnlockingCastle.value = true;
+  if (field === 'fourth') isUnlockingCastleRuins.value = true;
   await delay(1);
   playerStore.value.story[field].isEnabled = true;
 };
@@ -56,7 +54,7 @@ defineEmits(['startBattle']);
           <button
             class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
             :style="`background-image: url(${forestBgUrl})`"
-            @click="chosenField = 'forest'"
+            @click="chosenField = 'first'"
           >
             <div
               class="absolute w-full h-full bg-black bg-opacity-50 hover:opacity-0 transition-all rounded-lg"
@@ -70,8 +68,8 @@ defineEmits(['startBattle']);
             <button
               class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
               :style="`background-image: url(${darkForestBgUrl})`"
-              @click="chosenField = 'darkForest'"
-              v-if="playerStore.story.darkForest.isEnabled"
+              @click="chosenField = 'second'"
+              v-if="playerStore.story.second.isEnabled"
             >
               <div
                 class="absolute w-full h-full bg-black bg-opacity-50 hover:opacity-0 transition-all rounded-lg"
@@ -85,7 +83,7 @@ defineEmits(['startBattle']);
             </div>
           </Transition>
           <Transition name="slide-left" mode="out-in">
-            <div v-if="playerStore.story.darkForest.isEnabled">DARK FOREST</div>
+            <div v-if="playerStore.story.second.isEnabled">DARK FOREST</div>
             <div v-else>
               <Transition name="fade" mode="out-in">
                 <UnlockIcon v-if="isUnlockingDarkForest" />
@@ -100,8 +98,8 @@ defineEmits(['startBattle']);
             <button
               class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
               :style="`background-image: url(${castleBgUrl})`"
-              @click="chosenField = 'castle'"
-              v-if="playerStore.story.castle.isEnabled"
+              @click="chosenField = 'third'"
+              v-if="playerStore.story.third.isEnabled"
             >
               <div
                 class="absolute w-full h-full bg-black bg-opacity-50 hover:opacity-0 transition-all rounded-lg"
@@ -115,7 +113,7 @@ defineEmits(['startBattle']);
             </div>
           </Transition>
           <Transition name="slide-left" mode="out-in">
-            <div v-if="playerStore.story.castle.isEnabled">CASTLE</div>
+            <div v-if="playerStore.story.third.isEnabled">CASTLE</div>
             <div v-else>
               <Transition name="fade" mode="out-in">
                 <UnlockIcon v-if="isUnlockingCastle" />
@@ -130,8 +128,8 @@ defineEmits(['startBattle']);
             <button
               class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
               :style="`background-image: url(${ruinsBgUrl})`"
-              @click="chosenField = 'castleRuins'"
-              v-if="playerStore.story.castleRuins.isEnabled"
+              @click="chosenField = 'fourth'"
+              v-if="playerStore.story.fourth.isEnabled"
             >
               <div
                 class="absolute w-full h-full bg-black bg-opacity-50 hover:opacity-0 transition-all rounded-lg"
@@ -145,9 +143,7 @@ defineEmits(['startBattle']);
             </div>
           </Transition>
           <Transition name="slide-left" mode="out-in">
-            <div v-if="playerStore.story.castleRuins.isEnabled">
-              CASTLE RUINS
-            </div>
+            <div v-if="playerStore.story.fourth.isEnabled">CASTLE RUINS</div>
             <div v-else>
               <Transition name="fade" mode="out-in">
                 <UnlockIcon v-if="isUnlockingCastleRuins" />

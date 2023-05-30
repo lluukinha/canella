@@ -1,6 +1,18 @@
 <script setup lang="ts">
-import { allCards, CardTypes } from '../../../scripts/main';
-import { playerStore } from '../../../scripts/store';
+import {
+  CardTypes,
+  attackCards,
+  heroCards,
+  monsterCards,
+  weaponCards,
+} from '../../../scripts/main';
+import {
+  playerStore,
+  toAttackCard,
+  toHeroCard,
+  toMonsterCard,
+  toWeaponCard,
+} from '../../../scripts/store';
 import { computed } from 'vue';
 import CardsGroup from './CardsGroup.vue';
 
@@ -11,21 +23,22 @@ const allCanellaCards = computed(() => {
 
   const { hero, weapon, attacks } = playerStore.value.equipedCards;
 
-  if (!!hero) playerHeroCardIds.push(hero.id);
-  const heroCardIds = playerStore.value.cards
-    .filter((c) => c.type === CardTypes.Hero)
+  if (!!hero) playerHeroCardIds.push(toHeroCard(hero).id);
+  const heroCardIds = playerStore.value.cards.heroes
+    .map(toHeroCard)
     .map((c) => c.id);
   playerHeroCardIds.push(...heroCardIds);
 
-  if (!!weapon) playerWeaponCardIds.push(weapon.id);
-  const weaponCardIds = playerStore.value.cards
-    .filter((c) => c.type === CardTypes.Weapon)
+  if (!!weapon) playerWeaponCardIds.push(toWeaponCard(weapon).id);
+  const weaponCardIds = playerStore.value.cards.weapons
+    .map(toWeaponCard)
     .map((c) => c.id);
   playerWeaponCardIds.push(...weaponCardIds);
 
-  if (attacks.length > 0) playerAttackCardIds.push(...attacks.map((c) => c.id));
-  const attackCardsIds = playerStore.value.cards
-    .filter((c) => c.type === CardTypes.Attack)
+  if (attacks.length > 0)
+    playerAttackCardIds.push(...attacks.map(toAttackCard).map((c) => c.id));
+  const attackCardsIds = playerStore.value.cards.attacks
+    .map(toAttackCard)
     .map((c) => c.id);
   playerAttackCardIds.push(...attackCardsIds);
 
@@ -33,30 +46,34 @@ const allCanellaCards = computed(() => {
     {
       title: 'Heroes',
       cardType: CardTypes.Hero,
-      cards: allCards.filter((c) => c.type === CardTypes.Hero),
+      cards: Object.values(heroCards),
       visibleIds: playerHeroCardIds,
       flippableIds: playerHeroCardIds,
     },
     {
       title: 'Weapons',
       cardType: CardTypes.Weapon,
-      cards: allCards.filter((c) => c.type === CardTypes.Weapon),
+      cards: Object.values(weaponCards),
       visibleIds: playerWeaponCardIds,
       flippableIds: playerWeaponCardIds,
     },
     {
       title: 'Attacks',
       cardType: CardTypes.Attack,
-      cards: allCards.filter((c) => c.type === CardTypes.Attack && c.price > 0),
+      cards: Object.values(attackCards),
       visibleIds: playerAttackCardIds,
       flippableIds: playerAttackCardIds,
     },
     {
       title: 'Monsters',
       cardType: CardTypes.Monster,
-      cards: allCards.filter((c) => c.type === CardTypes.Monster),
-      visibleIds: playerStore.value.monsters.won,
-      flippableIds: playerStore.value.monsters.seen,
+      cards: Object.values(monsterCards),
+      visibleIds: playerStore.value.monsters.won
+        .map(toMonsterCard)
+        .map((c) => c.id),
+      flippableIds: playerStore.value.monsters.seen
+        .map(toMonsterCard)
+        .map((c) => c.id),
     },
   ];
 });

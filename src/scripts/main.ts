@@ -1,31 +1,51 @@
-import HeroCards from "../gameObjects/HeroCards.json";
-import WeaponCards from "../gameObjects/WeaponCards.json";
-import AttackCards from "../gameObjects/AttackCards.json";
-import MonsterCards from "../gameObjects/MonsterCards.json";
-import MonsterAttackCards from "../gameObjects/MonsterAttackCards.json"
+import HeroCards from '../gameObjects/HeroCards.json';
+import WeaponCards from '../gameObjects/WeaponCards.json';
+import AttackCards from '../gameObjects/AttackCards.json';
+import MonsterCards from '../gameObjects/MonsterCards.json';
+import MonsterAttackCards from '../gameObjects/MonsterAttackCards.json';
+import LevelConfigs from '../gameObjects/LevelConfigs.json';
 
 export interface IHeroCardGameObject {
-  [key: string]: IHeroCard
+  [key: string]: IHeroCard;
 }
 export interface IWeaponCardGameObject {
-  [key: string]: IWeaponCard
+  [key: string]: IWeaponCard;
 }
 export interface IAttackCardGameObject {
-  [key: string]: IAttackCard
+  [key: string]: IAttackCard;
 }
 export interface IMonsterCardGameObject {
-  [key: string]: IMonsterCard
+  [key: string]: IMonsterCard;
 }
 export interface IMonsterAttackCardGameObject {
-  [key: string]: IAttackCard
+  [key: string]: IAttackCard;
 }
+export interface ILevelConfig {
+  name: string;
+  background: string;
+  easy: string[];
+  medium: string[];
+  hard: string[];
+  veryHard: string[];
+  boss: string[];
+}
+
+export interface ILevelConfigGameObject {
+  [key: string]: ILevelConfig;
+}
+
 export const heroCards = HeroCards as IHeroCardGameObject;
 export const weaponCards = WeaponCards as IWeaponCardGameObject;
 export const attackCards = AttackCards as IAttackCardGameObject;
 export const monsterCards = MonsterCards as IMonsterCardGameObject;
-export const monsterAttackCards = MonsterAttackCards as IMonsterAttackCardGameObject;
+export const monsterAttackCards =
+  MonsterAttackCards as IMonsterAttackCardGameObject;
+export const levelConfigs = LevelConfigs as ILevelConfigGameObject;
 
-export interface ICardInfo { cardKey: string, type: CardTypes };
+export interface ICardInfo {
+  cardKey: string;
+  type: CardTypes;
+}
 
 export enum CardTypes {
   Hero = 'Hero',
@@ -99,10 +119,6 @@ const druidWeaponTypes = [WeaponTypes.Wand];
 export interface IHeroCardAttributes {
   weaponTypes: WeaponTypes[];
   type: HeroTypes;
-  level: number;
-  experience: number;
-  healthPoints: number;
-  attack: number;
 }
 
 export interface IHeroCard extends ICard {
@@ -134,11 +150,11 @@ export interface IMonster {
   attacks: IAttackCard[];
 }
 
-export type FieldConfig = 'forest' | 'darkForest' | 'castle' | 'castleRuins';
+export type FieldConfig = 'first' | 'second' | 'third' | 'fourth';
 export interface IBattleData {
   field: FieldConfig;
   level: number;
-  monster: IMonsterCard;
+  monster: string;
   bg: string;
 }
 
@@ -148,32 +164,6 @@ export interface StoryLevel {
   nextField: FieldConfig;
   wonAllLevels: boolean;
 }
-
-const forestEasy: string[] = ["snake", "wasp"];
-const forestMedium: string[] = ["poisonSpider", "salamander", "centipede"];
-const forestHard: string[] = ["slime", "tarantula"];
-const forestVeryHard: string[] = ["crocodile", "lizardSentinel"];
-const forestBoss: string[] = ["minotaur"];
-export const forestMonsterCards = {
-  easy: forestEasy,
-  medium: forestMedium,
-  hard: forestHard,
-  veryHard: forestVeryHard,
-  boss: forestBoss,
-};
-
-const darkForestEasy: string[] = ["bug", "spider"];
-const darkForestMedium: string[] = ["wolf", "scarab"];
-const darkForestHard: string[] = ["scorpion", "troll"];
-const darkForestVeryHard: string[] = ["bear"];
-const darkForestBoss: string[] = ["eagle"];
-export const darkForestMonsterCards = {
-  easy: darkForestEasy,
-  medium: darkForestMedium,
-  hard: darkForestHard,
-  veryHard: darkForestVeryHard,
-  boss: darkForestBoss,
-};
 
 export const delay = (seconds: number) =>
   new Promise((resolve) => setTimeout(resolve, seconds * 1000));

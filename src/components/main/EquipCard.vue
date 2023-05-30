@@ -7,15 +7,20 @@ import {
   IWeaponCardAttributes,
   IAttackCardAttributes,
   IHeroCardAttributes,
-heroCards,
-weaponCards,
-attackCards,
+  heroCards,
+  weaponCards,
+  attackCards,
 } from '../../scripts/main';
 import Card from '../cards/Card.vue';
 import CheckIcon from '../icons/CheckIcon.vue';
 import ErrorIcon from '../icons/ErrorIcon.vue';
 
-import { playerStore, toAttackCard, toHeroCard, toWeaponCard } from '../../scripts/store';
+import {
+  playerStore,
+  toAttackCard,
+  toHeroCard,
+  toWeaponCard,
+} from '../../scripts/store';
 import CardPlaceholder from '../cards/CardPlaceholder.vue';
 
 const props = defineProps({
@@ -27,9 +32,12 @@ const props = defineProps({
 
 const availableCards = computed<ICard[]>(() => {
   const cards = [];
-  if (props.cardType === CardTypes.Hero) cards.push(...playerStore.value.cards.heroes.map(toHeroCard));
-  if (props.cardType === CardTypes.Attack) cards.push(...playerStore.value.cards.attacks.map(toAttackCard));
-  if (props.cardType === CardTypes.Weapon) cards.push(...playerStore.value.cards.weapons.map(toWeaponCard));
+  if (props.cardType === CardTypes.Hero)
+    cards.push(...playerStore.value.cards.heroes.map(toHeroCard));
+  if (props.cardType === CardTypes.Attack)
+    cards.push(...playerStore.value.cards.attacks.map(toAttackCard));
+  if (props.cardType === CardTypes.Weapon)
+    cards.push(...playerStore.value.cards.weapons.map(toWeaponCard));
   return cards;
 });
 
@@ -52,13 +60,23 @@ const chooseCard = async (card: ICard, index: number) => {
 
 const canEquip = (card: ICard) => {
   if (props.cardType === CardTypes.Hero) return true;
-  if (props.cardType === CardTypes.Attack && !playerStore.value.equipedCards.weapon) return true;
-  if (props.cardType === CardTypes.Weapon && !playerStore.value.equipedCards.hero) return true;
+  if (
+    props.cardType === CardTypes.Attack &&
+    !playerStore.value.equipedCards.weapon
+  )
+    return true;
+  if (
+    props.cardType === CardTypes.Weapon &&
+    !playerStore.value.equipedCards.hero
+  )
+    return true;
 
   if (props.cardType === CardTypes.Weapon) {
-    const heroCard = heroCards[playerStore.value.equipedCards.hero!]
+    const heroCard = heroCards[playerStore.value.equipedCards.hero!];
     const allowedWeapons = heroCard.attributes.weaponTypes;
-    return allowedWeapons.includes((card.attributes as IWeaponCardAttributes).type);
+    return allowedWeapons.includes(
+      (card.attributes as IWeaponCardAttributes).type
+    );
   }
 
   if (props.cardType === CardTypes.Attack) {
@@ -81,7 +99,9 @@ const confirmCard = () => {
   if (props.cardType === CardTypes.Hero) cardsToLookFor = heroCards;
   if (props.cardType === CardTypes.Weapon) cardsToLookFor = weaponCards;
 
-  const index = (Object.values(cardsToLookFor) as ICard[]).findIndex(c => c.id === chosenCard.value!.id);
+  const index = (Object.values(cardsToLookFor) as ICard[]).findIndex(
+    (c) => c.id === chosenCard.value!.id
+  );
   const cardKey = Object.keys(cardsToLookFor)[index];
 
   emit('confirm', { cardKey, type: props.cardType });
@@ -178,7 +198,7 @@ const confirmCard = () => {
                 :disabled="
                   !chosenCard || (!!chosenCard && chosenIndex != index)
                 "
-                @click="$emit('confirm', chosenCard)"
+                @click="confirmCard"
                 v-else
               >
                 <CheckIcon />

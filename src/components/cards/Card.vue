@@ -18,6 +18,11 @@ import HeroCardAttributes from './attributes/HeroCardAttributes.vue';
 import MonsterCardAttributes from './attributes/MonsterCardAttributes.vue';
 import WeaponCardAttributes from './attributes/WeaponCardAttributes.vue';
 import CardBackSide from './CardBackSide.vue';
+import {
+  findCardKey,
+  IHeroExperienceInfo,
+  playerStore,
+} from '../../scripts/store';
 
 const cardImageUrl = computed(() => {
   if (props.card.image.length === 0) return '';
@@ -49,6 +54,14 @@ const props = defineProps({
     type: Boolean,
     required: false,
   },
+});
+
+const heroCardInfo = computed<IHeroExperienceInfo | null>(() => {
+  if (props.card.type === CardTypes.Hero) {
+    const key = findCardKey(props.card);
+    return playerStore.value.experience[key] || null;
+  }
+  return null;
 });
 
 const frontSideClasses = computed(() => ({
@@ -97,14 +110,14 @@ const backSideClasses = computed(() => ({
             </div>
             <div
               class="flex items-center absolute top-1 justify-between w-full"
-              v-if="card.type === CardTypes.Hero"
+              v-if="card.type === CardTypes.Hero && !!heroCardInfo"
             >
               <div
                 class="flex gap-1 items-center ml-1 bg-gray-800 px-1 rounded"
               >
                 <StarIcon class="w-4 h-4 text-yellow-300" />
                 <span class="text-md font-bold uppercase">
-                  {{ (card.attributes as IHeroCardAttributes).level }}
+                  {{ heroCardInfo.level }}
                 </span>
               </div>
               <div class="mr-1 text-sm bg-gray-800 px-2 rounded drop-shadow">
@@ -145,6 +158,7 @@ const backSideClasses = computed(() => ({
             >
               <HeroCardAttributes
                 :attributes="card.attributes as IHeroCardAttributes"
+                :expInfo="heroCardInfo"
                 v-if="card.type === CardTypes.Hero"
               />
               <WeaponCardAttributes

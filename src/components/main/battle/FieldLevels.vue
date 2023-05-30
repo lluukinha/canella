@@ -4,58 +4,71 @@ import {
   delay,
   FieldConfig,
   IBattleData,
-  IMonsterCard,
-  monsterCards,
   successProbability,
-  forestMonsterCards,
-  darkForestMonsterCards,
+  levelConfigs,
 } from '../../../scripts/main';
-import { playerStore } from '../../../scripts/store';
+import {
+  findCardKey,
+  playerStore,
+  toMonsterCard,
+} from '../../../scripts/store';
 import LockIcon from '../../icons/LockIcon.vue';
 import UnlockIcon from '../../icons/UnlockIcon.vue';
 
 const bgs = {
-  forest: new URL('../../../assets/forest.jpeg', import.meta.url).href,
-  darkForest: new URL('../../../assets/darkforest.jpeg', import.meta.url).href,
-  castle: new URL('../../../assets/castle.jpg', import.meta.url).href,
-  castleRuins: new URL('../../../assets/ruins.jpeg', import.meta.url).href,
+  first: new URL(
+    `../../../assets/${levelConfigs.first.background}`,
+    import.meta.url
+  ).href,
+  second: new URL(
+    `../../../assets/${levelConfigs.second.background}`,
+    import.meta.url
+  ).href,
+  third: new URL(
+    `../../../assets/${levelConfigs.third.background}`,
+    import.meta.url
+  ).href,
+  fourth: new URL(
+    `../../../assets/${levelConfigs.fourth.background}`,
+    import.meta.url
+  ).href,
 };
 
-const monstersByLevel: { [key: string]: { [key: number]: IMonsterCard[] } } = {
-  forest: {
-    1: forestMonsterCards.easy,
-    2: forestMonsterCards.medium,
-    3: forestMonsterCards.hard,
-    4: forestMonsterCards.veryHard,
-    5: forestMonsterCards.boss,
+const monstersByLevel: { [key: string]: { [key: number]: string[] } } = {
+  first: {
+    1: levelConfigs.first.easy,
+    2: levelConfigs.first.medium,
+    3: levelConfigs.first.hard,
+    4: levelConfigs.first.veryHard,
+    5: levelConfigs.first.boss,
   },
-  darkForest: {
-    1: darkForestMonsterCards.easy,
-    2: darkForestMonsterCards.medium,
-    3: darkForestMonsterCards.hard,
-    4: darkForestMonsterCards.veryHard,
-    5: darkForestMonsterCards.boss,
+  second: {
+    1: levelConfigs.second.easy,
+    2: levelConfigs.second.medium,
+    3: levelConfigs.second.hard,
+    4: levelConfigs.second.veryHard,
+    5: levelConfigs.second.boss,
   },
-  castle: {
-    1: [monsterCards[0]],
-    2: [monsterCards[0], monsterCards[1], monsterCards[3]],
-    3: [monsterCards[3]],
-    4: [monsterCards[1]],
-    5: [monsterCards[2]],
+  third: {
+    1: levelConfigs.third.easy,
+    2: levelConfigs.third.medium,
+    3: levelConfigs.third.hard,
+    4: levelConfigs.third.veryHard,
+    5: levelConfigs.third.boss,
   },
-  castleRuins: {
-    1: [monsterCards[0]],
-    2: [monsterCards[0], monsterCards[1], monsterCards[3]],
-    3: [monsterCards[3]],
-    4: [monsterCards[1]],
-    5: [monsterCards[2]],
+  fourth: {
+    1: levelConfigs.fourth.easy,
+    2: levelConfigs.fourth.medium,
+    3: levelConfigs.fourth.hard,
+    4: levelConfigs.fourth.veryHard,
+    5: levelConfigs.fourth.boss,
   },
 };
 
 interface ILevelConfig {
   number: number;
   name: string;
-  monsters: IMonsterCard[];
+  monsters: string[];
   isEnabled: boolean;
   boss: boolean;
 }
@@ -111,7 +124,7 @@ const startBattle = (level: number) => {
 
   const { monsters } = fieldConfig.value.levels[level - 1];
   const undiscoveredMonsters = monsters.filter(
-    (c) => !playerStore.value.monsters.won.includes(c.id)
+    (c) => !playerStore.value.monsters.won.includes(c)
   );
 
   let monsterList = monsters;
@@ -120,9 +133,8 @@ const startBattle = (level: number) => {
     undiscoveredMonsters.length > 0 && successProbability(90);
   if (showUndiscovered) monsterList = undiscoveredMonsters;
 
-  const chosenMonster: IMonsterCard =
+  const chosenMonster: string =
     monsterList[Math.floor(Math.random() * monsterList.length)];
-
   const battleData: IBattleData = {
     field: props.field,
     level,
@@ -153,9 +165,7 @@ watch(
 );
 
 const discoveredPercentage = (level: number) => {
-  const monsterIds = fieldConfig.value.levels[level - 1].monsters.map(
-    (c) => c.id
-  );
+  const monsterIds = fieldConfig.value.levels[level - 1].monsters;
   const defeatedMonsters = playerStore.value.monsters.won.filter((id) =>
     monsterIds.includes(id)
   ).length;

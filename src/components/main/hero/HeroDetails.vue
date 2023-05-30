@@ -1,18 +1,28 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import Card from "../../cards/Card.vue";
-import { playerStore, removeHero, removeWeapon } from "../../../scripts/store";
-import { CardTypes, IHeroCard, IWeaponCard } from "../../../scripts/main";
-import CardPlaceholder from "../../cards/CardPlaceholder.vue";
-import DoubleDown from "../../icons/DoubleDown.vue";
-const heroCard = computed(
-  (): IHeroCard | null => playerStore.value.equipedCards.hero
+import { computed } from 'vue';
+import Card from '../../cards/Card.vue';
+import {
+  playerStore,
+  removeHero,
+  removeWeapon,
+  toHeroCard,
+  toWeaponCard,
+} from '../../../scripts/store';
+import { CardTypes, IHeroCard, IWeaponCard } from '../../../scripts/main';
+import CardPlaceholder from '../../cards/CardPlaceholder.vue';
+import DoubleDown from '../../icons/DoubleDown.vue';
+const heroCard = computed((): IHeroCard | null =>
+  playerStore.value.equipedCards.hero
+    ? toHeroCard(playerStore.value.equipedCards.hero)
+    : null
 );
-const weaponCard = computed(
-  (): IWeaponCard | null => playerStore.value.equipedCards.weapon
+const weaponCard = computed((): IWeaponCard | null =>
+  playerStore.value.equipedCards.weapon
+    ? toWeaponCard(playerStore.value.equipedCards.weapon)
+    : null
 );
 
-defineEmits(["equipCard"]);
+defineEmits(['equipCard']);
 </script>
 
 <template>

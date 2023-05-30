@@ -2,7 +2,11 @@
 import { PropType, computed } from 'vue';
 import { IAttackCard } from '../../scripts/main';
 import CardBackSide from '../cards/CardBackSide.vue';
-import { playerStore, calculateAttack } from '../../scripts/store';
+import {
+  playerStore,
+  calculateAttack,
+  toWeaponCard,
+} from '../../scripts/store';
 
 const props = defineProps({
   card: { type: Object as PropType<IAttackCard>, required: true },
@@ -17,12 +21,23 @@ const attack = () => {
   emit('attack', { min, max, chance });
 };
 
+const heroExpInfo = computed(() =>
+  playerStore.value.equipedCards.hero
+    ? playerStore.value.experience[playerStore.value.equipedCards.hero]
+    : null
+);
+const weaponCard = computed(() =>
+  playerStore.value.equipedCards.weapon
+    ? toWeaponCard(playerStore.value.equipedCards.weapon)
+    : null
+);
+
 const heroAttack = computed(() => {
-  return playerStore.value.equipedCards.hero?.attributes.attack || 0;
+  return heroExpInfo.value?.attack || 0;
 });
 
 const weaponAttack = computed(() => {
-  return playerStore.value.equipedCards.weapon?.attributes.attack || 0;
+  return weaponCard.value?.attributes.attack || 0;
 });
 
 const minAttack = computed(() => {
