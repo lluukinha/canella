@@ -40,11 +40,7 @@ const setupCards = () => {
     const heroes = playerStore.value.cards.heroes.map(toHeroCard);
     const weapons = playerStore.value.cards.weapons.map(toWeaponCard);
     const attacks = playerStore.value.cards.attacks.map(toAttackCard);
-    filteredCards = [...heroes, ...weapons, ...attacks].filter((c) => {
-      if (c.type === CardTypes.Hero)
-        return (c.attributes as IHeroCardAttributes).experience === 0;
-      return true;
-    });
+    filteredCards = [...heroes, ...weapons, ...attacks];
   }
 
   filteredCards = filteredCards.sort((a, b) => {

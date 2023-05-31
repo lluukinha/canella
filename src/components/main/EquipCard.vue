@@ -145,18 +145,6 @@ const confirmCard = () => {
                     >
                       {{ (card.attributes as IHeroCardAttributes).type }}
                     </span>
-                    <span
-                      class="px-1 bg-gray-100 rounded text-xs text-black font-semibold"
-                    >
-                      LEVEL:
-                      {{ (card.attributes as IHeroCardAttributes).level }}
-                    </span>
-                    <span class="px-1 bg-red-600 rounded text-xs font-semibold">
-                      HP:
-                      {{
-                        (card.attributes as IHeroCardAttributes).healthPoints
-                      }}
-                    </span>
                   </template>
                   <template v-else-if="cardType === CardTypes.Weapon">
                     <span
