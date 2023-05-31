@@ -249,7 +249,7 @@ const emit = defineEmits(['quit', 'continue']);
 <template>
   <div
     class="select-none bg-yellow-100 w-full h-full text-white absolute bg-cover top-0 left-0 z-50"
-    :style="`background-image: url(${battleData.bg})`"
+    :style="`background-image: url('../assets/backgrounds/${battleData.bg}')`"
   >
     <Transition name="fade" mode="out-in">
       <div

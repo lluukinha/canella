@@ -11,7 +11,7 @@ const props = defineProps({
 
 const cardImageUrl = computed(() => {
   const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
-  return new URL(`../../assets/cards/${card}`, import.meta.url).href;
+  return `../assets/cards/${card}`;
 });
 </script>
 

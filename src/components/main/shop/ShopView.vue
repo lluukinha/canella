@@ -5,11 +5,6 @@ import CardsToTrade from './CardsToTrade.vue';
 import { buyCard, sellCard } from '../../../scripts/store';
 import ChosenCardDetails from './cardDetails/ChosenCardDetails.vue';
 
-const merchant = new URL(
-  '../../../assets/characters/small_merchant.png',
-  import.meta.url
-).href;
-
 const merchantType = ref<'buy' | 'sell'>();
 const chosenCard = ref<ICard>();
 const isShowingCard = ref<boolean>(false);
@@ -59,7 +54,7 @@ const sellCardToMerchant = () => {
       </div>
       <div
         class="w-full flex justify-center items-start relative bg-cover bg-top bg-no-repeat transition-all"
-        :style="`background-image: url(${merchant})`"
+        :style="`background-image: url('../assets/characters/small_merchant.png')`"
       >
         <Transition name="fade">
           <ChosenCardDetails

@@ -7,32 +7,9 @@ import {
   successProbability,
   levelConfigs,
 } from '../../../scripts/main';
-import {
-  findCardKey,
-  playerStore,
-  toMonsterCard,
-} from '../../../scripts/store';
+import { playerStore } from '../../../scripts/store';
 import LockIcon from '../../icons/LockIcon.vue';
 import UnlockIcon from '../../icons/UnlockIcon.vue';
-
-const bgs = {
-  first: new URL(
-    `../../../assets/${levelConfigs.first.background}`,
-    import.meta.url
-  ).href,
-  second: new URL(
-    `../../../assets/${levelConfigs.second.background}`,
-    import.meta.url
-  ).href,
-  third: new URL(
-    `../../../assets/${levelConfigs.third.background}`,
-    import.meta.url
-  ).href,
-  fourth: new URL(
-    `../../../assets/${levelConfigs.fourth.background}`,
-    import.meta.url
-  ).href,
-};
 
 const monstersByLevel: { [key: string]: { [key: number]: string[] } } = {
   first: {
@@ -101,7 +78,7 @@ const getLevelConfig = (level: number): ILevelConfig => ({
 });
 
 const setupField = () => {
-  fieldConfig.value.bg = bgs[props.field];
+  fieldConfig.value.bg = levelConfigs[props.field].background;
   const levels = [];
   levels.push();
   for (let i: number = 1; i < 6; i++)
@@ -211,7 +188,7 @@ onMounted(changeTip);
 <template>
   <div
     class="w-full h-full bg-cover bg-center relative"
-    :style="`background-image: url(${fieldConfig.bg})`"
+    :style="`background-image: url('../assets/backgrounds/${fieldConfig.bg}')`"
   >
     <div
       class="z-10 absolute flex flex-col p-5 w-full h-full justify-center items-center"

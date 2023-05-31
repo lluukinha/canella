@@ -25,9 +25,8 @@ import {
 } from '../../scripts/store';
 
 const cardImageUrl = computed(() => {
-  if (props.card.image.length === 0) return '';
-  return new URL(`../../assets/cards/${props.card.image}`, import.meta.url)
-    .href;
+  const card = props.card.image.length > 0 ? props.card.image : 'empty.jpg';
+  return `../assets/cards/${card}`;
 });
 
 const props = defineProps({

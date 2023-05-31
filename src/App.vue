@@ -3,8 +3,6 @@ import { onMounted, ref } from 'vue';
 import Game from './components/Game.vue';
 const mainScreen = ref(true);
 
-const bgUrl = new URL('./assets/bg.jpg', import.meta.url).href;
-
 onMounted(() => {
   setTimeout(() => mainScreen.value = false, 4000)
 })
@@ -17,7 +15,7 @@ onMounted(() => {
     <Transition name="fade" mode="out-in">
       <div
         class="w-screen h-screen flex justify-center items-center bg-center bg-cover flex-col gap-10"
-        :style="`background-image: url(${bgUrl})`"
+        :style="`background-image: url(../assets/bg.jpg)`"
         v-if="mainScreen"
         @click="mainScreen = false"
       >

@@ -1,19 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { delay, FieldConfig } from '../../../scripts/main';
+import { delay, FieldConfig, levelConfigs } from '../../../scripts/main';
 import LockIcon from '../../icons/LockIcon.vue';
 import UnlockIcon from '../../icons/UnlockIcon.vue';
 import { playerStore } from '../../../scripts/store';
 import FieldLevels from './FieldLevels.vue';
-
-const forestBgUrl = new URL('../../../assets/forest.jpeg', import.meta.url)
-  .href;
-const darkForestBgUrl = new URL(
-  '../../../assets/darkforest.jpeg',
-  import.meta.url
-).href;
-const castleBgUrl = new URL('../../../assets/castle.jpg', import.meta.url).href;
-const ruinsBgUrl = new URL('../../../assets/ruins.jpeg', import.meta.url).href;
 
 const isUnlockingDarkForest = ref<boolean>(false);
 const isUnlockingCastle = ref<boolean>(false);
@@ -53,21 +44,21 @@ defineEmits(['startBattle']);
         <div class="flex flex-col gap-2 items-center justify-center">
           <button
             class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
-            :style="`background-image: url(${forestBgUrl})`"
+            :style="`background-image: url('../assets/backgrounds/${levelConfigs.first.background}')`"
             @click="chosenField = 'first'"
           >
             <div
               class="absolute w-full h-full bg-black bg-opacity-50 hover:opacity-0 transition-all rounded-lg"
             ></div>
           </button>
-          FOREST
+          {{ levelConfigs.first.name }}
         </div>
 
         <div class="flex flex-col gap-2 items-center justify-center">
           <Transition name="fade" mode="out-in">
             <button
               class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
-              :style="`background-image: url(${darkForestBgUrl})`"
+              :style="`background-image: url('../assets/backgrounds/${levelConfigs.second.background}')`"
               @click="chosenField = 'second'"
               v-if="playerStore.story.second.isEnabled"
             >
@@ -83,7 +74,9 @@ defineEmits(['startBattle']);
             </div>
           </Transition>
           <Transition name="slide-left" mode="out-in">
-            <div v-if="playerStore.story.second.isEnabled">DARK FOREST</div>
+            <div v-if="playerStore.story.second.isEnabled">
+              {{ levelConfigs.second.name }}
+            </div>
             <div v-else>
               <Transition name="fade" mode="out-in">
                 <UnlockIcon v-if="isUnlockingDarkForest" />
@@ -97,7 +90,7 @@ defineEmits(['startBattle']);
           <Transition name="fade" mode="out-in">
             <button
               class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
-              :style="`background-image: url(${castleBgUrl})`"
+              :style="`background-image: url('../assets/backgrounds/${levelConfigs.third.background}')`"
               @click="chosenField = 'third'"
               v-if="playerStore.story.third.isEnabled"
             >
@@ -113,7 +106,9 @@ defineEmits(['startBattle']);
             </div>
           </Transition>
           <Transition name="slide-left" mode="out-in">
-            <div v-if="playerStore.story.third.isEnabled">CASTLE</div>
+            <div v-if="playerStore.story.third.isEnabled">
+              {{ levelConfigs.third.name }}
+            </div>
             <div v-else>
               <Transition name="fade" mode="out-in">
                 <UnlockIcon v-if="isUnlockingCastle" />
@@ -127,7 +122,7 @@ defineEmits(['startBattle']);
           <Transition name="fade" mode="out-in">
             <button
               class="w-40 h-40 bg-gray-900 rounded-lg flex justify-center items-center text-7xl ring ring-gray-900 bg-cover bg-center relative"
-              :style="`background-image: url(${ruinsBgUrl})`"
+              :style="`background-image: url('../assets/backgrounds/${levelConfigs.fourth.background}')`"
               @click="chosenField = 'fourth'"
               v-if="playerStore.story.fourth.isEnabled"
             >
@@ -143,7 +138,9 @@ defineEmits(['startBattle']);
             </div>
           </Transition>
           <Transition name="slide-left" mode="out-in">
-            <div v-if="playerStore.story.fourth.isEnabled">CASTLE RUINS</div>
+            <div v-if="playerStore.story.fourth.isEnabled">
+              {{ levelConfigs.fourth.name }}
+            </div>
             <div v-else>
               <Transition name="fade" mode="out-in">
                 <UnlockIcon v-if="isUnlockingCastleRuins" />
