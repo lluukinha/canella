@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue';
-import { IHeroCardAttributes } from '../../scripts/main';
-import { ATTACK_ON_LEVEL, LIFE_ON_LEVEL } from '../../scripts/store';
+import {
+  ATTACK_ON_LEVEL,
+  IHeroExperienceInfo,
+  LIFE_ON_LEVEL,
+} from '../../scripts/store';
 import DoubleRight from '../icons/DoubleRight.vue';
 import HeartIcon from '../icons/HeartIcon.vue';
 import SkillIcon from '../icons/SkillIcon.vue';
@@ -9,7 +12,7 @@ import StarIcon from '../icons/StarIcon.vue';
 
 const props = defineProps({
   hero: {
-    type: Object as PropType<IHeroCardAttributes>,
+    type: Object as PropType<IHeroExperienceInfo>,
     required: true,
   },
   type: {

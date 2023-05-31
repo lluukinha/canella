@@ -6,7 +6,7 @@ import {
   ICard,
   calculateAverage,
   successProbability,
-  IHeroCardAttributes,
+  IHeroCard,
 } from '../../scripts/main';
 import Card from '../cards/Card.vue';
 
@@ -15,6 +15,10 @@ import {
   removeExp,
   increaseExp,
   defeatMonster,
+  IHeroExperienceInfo,
+  toHeroCard,
+  includeNewCard,
+  findCardKey,
 } from '../../scripts/store';
 import GoldIcon from '../icons/GoldIcon.vue';
 import HeroLevelChangeInformation from './HeroLevelChangeInformation.vue';
@@ -34,7 +38,7 @@ defineEmits(['continue', 'quit']);
 
 const wonBattle = async (newExp: number) => {
   await delay(0.5);
-  defeatMonster(props.enemy.id);
+  defeatMonster(findCardKey(props.enemy));
   await increaseExp(playerStore.value.equipedCards.hero!, newExp);
   await delay(0.2);
   showContinue.value = true;
@@ -57,7 +61,7 @@ const calculateLoot = () => {
 
   if (!!cardLoot && successProbability(cardLoot.chance)) {
     card.value = cardLoot.card;
-    playerStore.value.cards.push(card.value);
+    includeNewCard(card.value);
   }
 
   playerStore.value.gold += gold.value;
@@ -74,13 +78,18 @@ onMounted(async () => {
   }
 });
 
-const levelChanged = ref<boolean>(false);
-const hero = computed<IHeroCardAttributes>(
-  () => playerStore.value.equipedCards.hero!.attributes
+const heroExpInfo = computed<IHeroExperienceInfo>(
+  () => playerStore.value.experience[playerStore.value.equipedCards.hero!]
 );
 
+const heroCard = computed<IHeroCard>(() =>
+  toHeroCard(playerStore.value.equipedCards.hero!)
+);
+
+const levelChanged = ref<boolean>(false);
+
 watch(
-  () => playerStore.value.equipedCards.hero?.attributes.level,
+  () => heroExpInfo.value.level,
   async (newValue, oldValue) => {
     if (!oldValue || !newValue || newValue === oldValue) return;
     levelChanged.value = true;
@@ -95,10 +104,7 @@ watch(
   >
     <div class="z-50 flex flex-col justify-center items-center gap-5 w-full">
       <div class="text-white w-full flex justify-center px-10 gap-20">
-        <Card
-          :card="playerStore.equipedCards.hero!"
-          :class="{ 'opacity-70': enemyHp > 0 }"
-        />
+        <Card :card="heroCard" :class="{ 'opacity-70': enemyHp > 0 }" />
         <div
           class="text-center flex justify-center flex-col items-center gap-5"
         >
@@ -107,7 +113,7 @@ watch(
             <Transition name="fade">
               <HeroLevelChangeInformation
                 type="up"
-                :hero="hero"
+                :hero="heroExpInfo"
                 v-if="levelChanged"
               />
             </Transition>
@@ -137,7 +143,7 @@ watch(
             <Transition name="fade">
               <HeroLevelChangeInformation
                 type="down"
-                :hero="hero"
+                :hero="heroExpInfo"
                 v-if="levelChanged"
               />
             </Transition>

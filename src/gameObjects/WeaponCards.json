@@ -1,0 +1,31 @@
+{
+    "snowflakeWand": {
+        "id": 1,
+        "name": "Snowflake Wand",
+        "type": "Weapon",
+        "image": "weapons/wand_ai.jpeg",
+        "price": 10,
+        "attributes": {
+            "type": "Wand",
+            "attackTypes": [
+                "Ice"
+            ],
+            "attack": 10
+        }
+    },
+    "blizzardWand": {
+        "id": 2,
+        "name": "Blizzard Wand",
+        "type": "Weapon",
+        "image": "weapons/blizzard_wand.jpeg",
+        "price": 4000,
+        "attributes": {
+            "type": "Wand",
+            "attackTypes": [
+                "Water",
+                "Ice"
+            ],
+            "attack": 50
+        }
+    }
+}

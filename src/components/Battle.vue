@@ -5,10 +5,21 @@ import {
   IAttackCard,
   IBattleData,
   successProbability,
+  heroCards,
+  weaponCards,
 } from '../scripts/main';
 import HpBar from './battle/HpBar.vue';
 import FinalDetails from './battle/FinalDetails.vue';
-import { calculateAttack, playerStore, seeMonster } from '../scripts/store';
+import {
+  calculateAttack,
+  playerStore,
+  seeMonster,
+  toAttackCard,
+  toMonsterCard,
+  toMonsterAttackCard,
+  IHeroExperienceInfo,
+  findCardKey,
+} from '../scripts/store';
 
 import BattleAttackCard from './battle/BattleAttackCard.vue';
 import BattleHeroCard from './battle/BattleHeroCard.vue';
@@ -16,10 +27,16 @@ import BattleMonsterCard from './battle/BattleMonsterCard.vue';
 import EmptyAttackCardSpace from './battle/EmptyAttackCardSpace.vue';
 import Card from './cards/Card.vue';
 import BattleWeaponCard from './battle/BattleWeaponCard.vue';
+import { IMonsterCard } from '../scripts/main';
 
-const heroCard = playerStore.value.equipedCards.hero!;
-const weaponCard = playerStore.value.equipedCards.weapon!;
-const heroAttackCards = playerStore.value.equipedCards.attacks;
+const heroCard = heroCards[playerStore.value.equipedCards.hero!];
+const weaponCard = weaponCards[playerStore.value.equipedCards.weapon!];
+const heroAttackCards =
+  playerStore.value.equipedCards.attacks.map(toAttackCard);
+
+const heroExpInfo = computed<IHeroExperienceInfo>(
+  () => playerStore.value.experience[playerStore.value.equipedCards.hero!]
+);
 
 const isShowingMosterCard = ref(false);
 const battleStarted = ref(false);
@@ -35,7 +52,7 @@ const showTurnTip = ref<boolean>(false);
 const showFailed = ref<boolean>(false);
 const gameOver = ref<boolean>(false);
 const enemyHp = ref<number>(99999);
-const heroHp = ref<number>(heroCard.attributes.healthPoints);
+const heroHp = ref<number>(heroExpInfo.value.healthPoints);
 const showBattleDetails = ref<boolean>(false);
 const enemyChosenCard = ref<IAttackCard>();
 
@@ -63,7 +80,7 @@ const attack = async ({
     min,
     max,
     weaponCard.attributes.attack,
-    heroCard.attributes.attack
+    heroExpInfo.value.attack
   );
 
   currentDamage.value = damage;
@@ -101,7 +118,7 @@ const attackHero = async () => {
     min,
     max,
     5,
-    props.battleData.monster.attributes.attack
+    monsterCard.value.attributes.attack
   );
 
   currentDamage.value = damage;
@@ -119,13 +136,10 @@ const attackHero = async () => {
 const turnMessage = computed(() => (myTurn.value ? 'YOUR TURN' : 'ENEMY TURN'));
 
 const simulateEnemyTurn = async () => {
-  const randomIndex = Math.floor(
-    Math.random() * props.battleData.monster.attributes.attackCards.length
-  );
+  const randomIndex = Math.floor(Math.random() * enemyAttackCards.value.length);
 
   await delay(1);
-  enemyChosenCard.value =
-    props.battleData.monster.attributes.attackCards[randomIndex];
+  enemyChosenCard.value = enemyAttackCards.value[randomIndex];
   await delay(1);
   await attackHero();
   enemyChosenCard.value = undefined;
@@ -179,21 +193,19 @@ const updateCounter = async () => {
   updateCounter();
 };
 
+const monsterKey = computed(() => findCardKey(monsterCard.value));
 const playerSawMonster = computed(
-  () =>
-    !!playerStore.value.monsters.seen.find(
-      (c) => c === props.battleData.monster.id
-    )
+  () => !!playerStore.value.monsters.seen.find((c) => c === monsterKey.value)
 );
 
 const startBattle = async () => {
-  enemyHp.value = props.battleData.monster.attributes.healthPoints;
+  enemyHp.value = monsterCard.value.attributes.healthPoints;
 
   await delay(1.5);
   showBattleDetails.value = true;
 
   if (!playerSawMonster.value) {
-    seeMonster(props.battleData.monster.id);
+    seeMonster(monsterKey.value);
     await delay(2);
   }
 
@@ -221,6 +233,14 @@ const props = defineProps({
   },
 });
 
+const monsterCard = computed<IMonsterCard>(() =>
+  toMonsterCard(props.battleData.monster)
+);
+
+const enemyAttackCards = computed<IAttackCard[]>(() =>
+  monsterCard.value.attributes.attackCards.map(toMonsterAttackCard)
+);
+
 onMounted(startBattle);
 
 const emit = defineEmits(['quit', 'continue']);
@@ -244,7 +264,7 @@ const emit = defineEmits(['quit', 'continue']);
             <Card :card="heroCard" />
             <div class="flex justify-center text-5xl bordered-text">VS</div>
             <Card
-              :card="battleData.monster"
+              :card="monsterCard"
               :hideFront="!isShowingMosterCard"
               :flip-on-hover="false"
             />
@@ -254,7 +274,7 @@ const emit = defineEmits(['quit', 'continue']);
       <div class="flex flex-col justify-center w-full h-full" v-else>
         <Transition name="bounce">
           <FinalDetails
-            :enemy="battleData.monster"
+            :enemy="monsterCard"
             :enemyHp="enemyHp"
             @continue="$emit('continue')"
             @quit="$emit('quit')"
@@ -263,24 +283,22 @@ const emit = defineEmits(['quit', 'continue']);
         </Transition>
         <div class="w-full h-full flex items-center justify-center gap-5 px-5">
           <div class="flex flex-grow justify-center gap-2">
-            <EmptyAttackCardSpace
-              v-for="_ in 4 - battleData.monster.attributes.attackCards.length"
-            />
+            <EmptyAttackCardSpace v-for="_ in 4 - enemyAttackCards.length" />
             <BattleAttackCard
-              v-for="atk in battleData.monster.attributes.attackCards"
+              v-for="atk in enemyAttackCards"
               :card="atk"
-              :baseAttack="battleData.monster.attributes.attack"
+              :baseAttack="monsterCard.attributes.attack"
               :canAttack="false"
               :isFlipped="myTurn || (!myTurn && atk.id != enemyChosenCard?.id)"
             />
           </div>
           <div class="hero-card flex flex-col gap-1">
             <HpBar
-              :hp="battleData.monster.attributes.healthPoints"
+              :hp="monsterCard.attributes.healthPoints"
               :remaining="enemyHp"
             />
             <div class="card-holder flex relative">
-              <BattleMonsterCard :card="battleData.monster" />
+              <BattleMonsterCard :card="monsterCard" />
               <div
                 class="absolute w-full h-full text-5xl flex justify-center items-center drop-shadow-2xl text-white animate-ping bordered-text"
                 v-if="showDamage && myTurn"
@@ -292,7 +310,7 @@ const emit = defineEmits(['quit', 'continue']);
         </div>
         <div class="w-full h-full flex items-center justify-center gap-2 px-5">
           <div class="hero-card flex flex-col gap-1">
-            <HpBar :hp="heroCard.attributes.healthPoints" :remaining="heroHp" />
+            <HpBar :hp="heroExpInfo.healthPoints" :remaining="heroHp" />
             <div class="card-holder flex relative">
               <BattleHeroCard :card="heroCard" />
               <div

@@ -1,0 +1,34 @@
+{
+    "snowball": {
+        "id": 7,
+        "name": "Snowball",
+        "type": "Attack",
+        "image": "attacks/snowball.jpg",
+        "price": 10,
+        "attributes": {
+            "attackType": "Ice",
+            "weaponTypes": [
+                "Wand"
+            ],
+            "min": 1,
+            "max": 9,
+            "chance": 100
+        }
+    },
+    "avalanche": {
+        "id": 8,
+        "name": "Avalanche",
+        "type": "Attack",
+        "image": "attacks/avalanche.jpeg",
+        "price": 500,
+        "attributes": {
+            "weaponTypes": [
+                "Wand"
+            ],
+            "attackType": "Ice",
+            "min": 40,
+            "max": 100,
+            "chance": 90
+        }
+    }
+}

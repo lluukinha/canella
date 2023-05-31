@@ -1,0 +1,38 @@
+{
+  "first": {
+    "name": "Forest",
+    "background": "forest.jpeg",
+    "easy": ["snake", "wasp"],
+    "medium": ["poisonSpider", "salamander", "centipede"],
+    "hard": ["slime", "tarantula"],
+    "veryHard": ["crocodile", "lizardSentinel"],
+    "boss": ["minotaur"]
+  },
+  "second": {
+    "name": "Dark Forest",
+    "background": "darkforest.jpeg",
+    "easy": ["bug", "spider"],
+    "medium": ["wolf", "scarab"],
+    "hard": ["scorpion", "troll"],
+    "veryHard": ["bear"],
+    "boss": ["eagle"]
+  },
+  "third": {
+    "name": "Castle",
+    "background": "castle.jpg",
+    "easy": ["bug", "spider"],
+    "medium": ["wolf", "scarab"],
+    "hard": ["scorpion", "troll"],
+    "veryHard": ["bear"],
+    "boss": ["eagle"]
+  },
+  "fourth": {
+    "name": "Castle Ruins",
+    "background": "ruins.jpeg",
+    "easy": ["bug", "spider"],
+    "medium": ["wolf", "scarab"],
+    "hard": ["scorpion", "troll"],
+    "veryHard": ["bear"],
+    "boss": ["eagle"]
+  }
+}

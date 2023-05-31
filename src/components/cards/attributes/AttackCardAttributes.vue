@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { PropType, computed } from 'vue';
 import { IAttackCardAttributes } from '../../../scripts/main';
-import { calculateAttack, playerStore } from '../../../scripts/store';
+import {
+  calculateAttack,
+  playerStore,
+  toHeroCard,
+  toWeaponCard,
+} from '../../../scripts/store';
 
 const props = defineProps({
   attributes: {
@@ -15,11 +20,15 @@ const props = defineProps({
 });
 
 const heroAttack = computed(() => {
-  return playerStore.value.equipedCards.hero?.attributes.attack || 0;
+  return playerStore.value.equipedCards.hero
+    ? playerStore.value.experience[playerStore.value.equipedCards.hero].attack
+    : 0;
 });
 
 const weaponAttack = computed(() => {
-  return playerStore.value.equipedCards.weapon?.attributes.attack || 0;
+  return playerStore.value.equipedCards.weapon
+    ? toWeaponCard(playerStore.value.equipedCards.weapon).attributes.attack
+    : 0;
 });
 
 const minAttack = computed(() => {

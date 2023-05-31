@@ -1,19 +1,23 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { attackCards, heroCards, weaponCards } from '../scripts/main';
-import { playerStore } from '../scripts/store';
+import { findCardKey, playerStore } from '../scripts/store';
 import Card from './cards/Card.vue';
 
 const druid = {
-  heroCard: heroCards[0],
-  weaponCard: weaponCards[0],
-  attackCard: attackCards[6],
+  heroCard: heroCards.ayla,
+  weaponCard: weaponCards.snowflakeWand,
+  attackCard: attackCards.snowball,
 };
 
 const selectCards = async (chosenCategory: any) => {
-  playerStore.value.equipedCards.hero = chosenCategory.heroCard;
-  playerStore.value.equipedCards.weapon = chosenCategory.weaponCard;
-  playerStore.value.equipedCards.attacks.push(chosenCategory.attackCard);
+  playerStore.value.equipedCards.hero = findCardKey(chosenCategory.heroCard);
+  playerStore.value.equipedCards.weapon = findCardKey(
+    chosenCategory.weaponCard
+  );
+  playerStore.value.equipedCards.attacks.push(
+    findCardKey(chosenCategory.attackCard)
+  );
 };
 
 const isHeroCardFlipped = ref<boolean>(false);
@@ -23,7 +27,9 @@ const isHeroCardFlipped = ref<boolean>(false);
   <div class="flex justify-center items-center w-full h-full">
     <div class="flex flex-col gap-10 w-full">
       <div class="text-center flex flex-col gap-2">
-        <h3 class="text-xl">Welcome, these are your starting cards. click on them to proceed.</h3>
+        <h3 class="text-xl">
+          Welcome, these are your starting cards. click on them to proceed.
+        </h3>
       </div>
       <div class="flex w-full justify-around">
         <div

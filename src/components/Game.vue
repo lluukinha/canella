@@ -24,7 +24,7 @@ import SaveIcon from './icons/SaveIcon.vue';
 
 const playerHasNoCards = computed(
   () =>
-    playerStore.value.cards.length === 0 &&
+    playerStore.value.cards.heroes.length === 0 &&
     playerStore.value.equipedCards.hero === null
 );
 
@@ -58,7 +58,6 @@ const continueGame = () => {
 };
 
 const newGame = () => {
-  removeSave();
   showContinueInfo.value = false;
 };
 

@@ -5,23 +5,17 @@ import {
   removeCardFromDeck,
   equipNewCard,
 } from '../../../scripts/store';
-import {
-  CardTypes,
-  ICard,
-  IHeroCard,
-  IWeaponCard,
-} from '../../../scripts/main';
+import { CardTypes } from '../../../scripts/main';
 import EquipCard from '../EquipCard.vue';
 import BattleDetails from './BattleDetails.vue';
 import HeroDetails from './HeroDetails.vue';
 
 const cardTypetoInclude = ref<CardTypes | null>(null);
-
 const heroCard = computed(
-  (): IHeroCard | null => playerStore.value.equipedCards.hero
+  (): string | null => playerStore.value.equipedCards.hero
 );
 const weaponCard = computed(
-  (): IWeaponCard | null => playerStore.value.equipedCards.weapon
+  (): string | null => playerStore.value.equipedCards.weapon
 );
 
 const equipCard = (cardType: CardTypes) => {
@@ -30,10 +24,10 @@ const equipCard = (cardType: CardTypes) => {
   cardTypetoInclude.value = cardType;
 };
 
-const confirmEquip = async (card: ICard) => {
+const confirmEquip = async (cardInfo: { cardKey: string; type: CardTypes }) => {
   cardTypetoInclude.value = null;
-  removeCardFromDeck(card);
-  equipNewCard(card);
+  removeCardFromDeck(cardInfo);
+  equipNewCard(cardInfo);
 };
 </script>
 
