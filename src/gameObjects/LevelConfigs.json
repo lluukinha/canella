@@ -2,24 +2,24 @@
   "first": {
     "name": "Forest",
     "background": "forest.jpeg",
-    "easy": ["snake", "wasp"],
-    "medium": ["poisonSpider", "salamander", "centipede"],
-    "hard": ["slime", "tarantula"],
-    "veryHard": ["crocodile", "lizardSentinel"],
+    "easy": ["snake", "wasp",  "larva", "bug"],
+    "medium": ["spider", "salamander", "centipede", "toad", "slug"],
+    "hard": ["slime", "tarantula", "babyLion", "poisonSpider"],
+    "veryHard": ["crocodile", "lizardSentinel", "bear", "troll", "orc"],
     "boss": ["minotaur"]
   },
   "second": {
     "name": "Dark Forest",
     "background": "darkforest.jpeg",
-    "easy": ["bug", "spider"],
-    "medium": ["wolf", "scarab"],
-    "hard": ["scorpion", "troll"],
-    "veryHard": ["bear"],
-    "boss": ["eagle"]
+    "easy": ["bug", "spider", "cockroach"],
+    "medium": ["tarantula", "scarab", "leopard", "fox"],
+    "hard": ["scorpion", "troll", "ghost", "leprechaun"],
+    "veryHard": ["eagle", "vampire", "sharkSoldier"],
+    "boss": ["giantSpider"]
   },
   "third": {
     "name": "Castle",
-    "background": "castle.jpg",
+    "background": "castle.jpeg",
     "easy": ["bug", "spider"],
     "medium": ["wolf", "scarab"],
     "hard": ["scorpion", "troll"],

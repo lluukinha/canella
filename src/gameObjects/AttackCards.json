@@ -3,7 +3,7 @@
         "id": 7,
         "name": "Snowball",
         "type": "Attack",
-        "image": "attacks/snowball.jpg",
+        "image": "attacks/snowball.jpeg",
         "price": 10,
         "attributes": {
             "attackType": "Ice",

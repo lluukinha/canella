@@ -9,8 +9,11 @@ onMounted(() => {
 </script>
 
 <template>
+  <div class="w-screen h-screen flex justify-center items-center landscape:hidden text-2xl font-bold bg-gradient-to-tr from-slate-700 to-slate-900 text-white">
+    ROTATE YOUR DEVICE
+  </div>
   <div
-    class="flex justify-around items-center w-screen h-screen bg-gradient-to-tr from-slate-700 to-slate-900 text-white select-none"
+    class="flex justify-around items-center w-screen h-screen bg-gradient-to-tr from-slate-700 to-slate-900 text-white select-none portrait:hidden"
   >
     <Transition name="fade" mode="out-in">
       <div

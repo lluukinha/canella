@@ -3,7 +3,31 @@
         "id": 1,
         "type": "Monster",
         "name": "Snake",
-        "image": "monsters/snake.png",
+        "image": "monsters/snake.jpeg",
+        "price": 0,
+        "attributes": {
+            "attackType": "Poison",
+            "experience": 10,
+            "attack": 10,
+            "attackCards": [
+                "bite",
+                "simple"
+            ],
+            "healthPoints": 20,
+            "loot": {
+                "gold": {
+                    "min": 0,
+                    "max": 5
+                },
+                "card": null
+            }
+        }
+    },
+    "cockroach": {
+        "id": 2,
+        "type": "Monster",
+        "name": "Cockroach",
+        "image": "monsters/cockroach.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -24,10 +48,10 @@
         }
     },
     "wasp": {
-        "id": 2,
+        "id": 3,
         "type": "Monster",
         "name": "Wasp",
-        "image": "monsters/wasp.png",
+        "image": "monsters/wasp.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -47,10 +71,10 @@
         }
     },
     "poisonSpider": {
-        "id": 11,
+        "id": 4,
         "type": "Monster",
         "name": "Poison Spider",
-        "image": "monsters/poison_spider.png",
+        "image": "monsters/poison_spider.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -71,10 +95,10 @@
         }
     },
     "salamander": {
-        "id": 3,
+        "id": 5,
         "type": "Monster",
         "name": "Salamander",
-        "image": "monsters/salamander.png",
+        "image": "monsters/salamander.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -95,10 +119,10 @@
         }
     },
     "centipede": {
-        "id": 4,
+        "id": 6,
         "type": "Monster",
         "name": "Centipede",
-        "image": "monsters/centipede.png",
+        "image": "monsters/centipede.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -119,10 +143,10 @@
         }
     },
     "slime": {
-        "id": 14,
+        "id": 7,
         "type": "Monster",
         "name": "Slime",
-        "image": "monsters/slime.png",
+        "image": "monsters/slime.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -142,10 +166,10 @@
         }
     },
     "tarantula": {
-        "id": 23,
+        "id": 8,
         "type": "Monster",
         "name": "Tarantula",
-        "image": "monsters/tarantula.png",
+        "image": "monsters/tarantula.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Meelee",
@@ -166,10 +190,10 @@
         }
     },
     "crocodile": {
-        "id": 22,
+        "id": 9,
         "type": "Monster",
         "name": "Crocodile",
-        "image": "monsters/crocodile.png",
+        "image": "monsters/crocodile.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Meelee",
@@ -190,10 +214,10 @@
         }
     },
     "lizardSentinel": {
-        "id": 20,
+        "id": 10,
         "type": "Monster",
         "name": "Lizard Sentinel",
-        "image": "monsters/lizard_sentinel.png",
+        "image": "monsters/lizard_sentinel.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Meelee",
@@ -215,10 +239,10 @@
         }
     },
     "bug": {
-        "id": 10,
+        "id": 11,
         "type": "Monster",
         "name": "Bug",
-        "image": "monsters/bug.png",
+        "image": "monsters/bug.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -238,10 +262,10 @@
         }
     },
     "spider": {
-        "id": 8,
+        "id": 12,
         "type": "Monster",
         "name": "Spider",
-        "image": "monsters/spider.png",
+        "image": "monsters/spider.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -262,10 +286,10 @@
         }
     },
     "wolf": {
-        "id": 15,
+        "id": 13,
         "type": "Monster",
         "name": "Wolf",
-        "image": "monsters/wolf.png",
+        "image": "monsters/wolf.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Meelee",
@@ -286,10 +310,10 @@
         }
     },
     "scarab": {
-        "id": 19,
+        "id": 14,
         "type": "Monster",
         "name": "Scarab",
-        "image": "monsters/scarab.png",
+        "image": "monsters/scarab.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -310,10 +334,10 @@
         }
     },
     "scorpion": {
-        "id": 5,
+        "id": 15,
         "type": "Monster",
         "name": "Scorpion",
-        "image": "monsters/scorpion.png",
+        "image": "monsters/scorpion.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -333,10 +357,10 @@
         }
     },
     "troll": {
-        "id": 17,
+        "id": 16,
         "type": "Monster",
         "name": "Troll",
-        "image": "monsters/troll.png",
+        "image": "monsters/troll.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Meelee",
@@ -358,10 +382,10 @@
         }
     },
     "bear": {
-        "id": 21,
+        "id": 17,
         "type": "Monster",
         "name": "Bear",
-        "image": "monsters/bear.png",
+        "image": "monsters/bear.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Meelee",
@@ -382,10 +406,10 @@
         }
     },
     "toad": {
-        "id": 6,
+        "id": 18,
         "type": "Monster",
         "name": "Toad",
-        "image": "monsters/toad.png",
+        "image": "monsters/toad.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -405,10 +429,10 @@
         }
     },
     "slug": {
-        "id": 7,
+        "id": 19,
         "type": "Monster",
         "name": "Slug",
-        "image": "monsters/slug.png",
+        "image": "monsters/slug.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -428,10 +452,10 @@
         }
     },
     "larva": {
-        "id": 9,
+        "id": 20,
         "type": "Monster",
         "name": "Larva",
-        "image": "monsters/larva.png",
+        "image": "monsters/larva.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Poison",
@@ -451,10 +475,10 @@
         }
     },
     "babyLion": {
-        "id": 12,
+        "id": 21,
         "type": "Monster",
         "name": "Baby Lion",
-        "image": "monsters/baby_lion.png",
+        "image": "monsters/baby_lion.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Meelee",
@@ -475,10 +499,10 @@
         }
     },
     "leopard": {
-        "id": 13,
+        "id": 22,
         "type": "Monster",
         "name": "Leopard",
-        "image": "monsters/leopard.png",
+        "image": "monsters/leopard.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Meelee",
@@ -499,10 +523,10 @@
         }
     },
     "fox": {
-        "id": 16,
+        "id": 23,
         "type": "Monster",
         "name": "Fox",
-        "image": "monsters/fox.png",
+        "image": "monsters/fox.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Meelee",
@@ -526,7 +550,7 @@
         "id": 24,
         "type": "Monster",
         "name": "Minotaur",
-        "image": "monsters/minotaur.png",
+        "image": "monsters/minotaur.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Meelee",
@@ -548,10 +572,10 @@
         }
     },
     "eagle": {
-        "id": 18,
+        "id": 25,
         "type": "Monster",
         "name": "Eagle",
-        "image": "monsters/eagle.png",
+        "image": "monsters/eagle.jpeg",
         "price": 0,
         "attributes": {
             "attackType": "Meelee",
@@ -572,7 +596,7 @@
         }
     },
     "dragon": {
-        "id": 41,
+        "id": 26,
         "type": "Monster",
         "name": "Dragon",
         "image": "monsters/dragon.gif",
@@ -589,6 +613,199 @@
                 "gold": {
                     "min": 3,
                     "max": 15
+                },
+                "card": null
+            }
+        }
+    },
+    "giantSpider": {
+        "id": 27,
+        "type": "Monster",
+        "name": "Giant Spider",
+        "image": "monsters/giant_spider.jpeg",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 60,
+            "attack": 20,
+            "attackCards": [
+                "bite",
+                "super"
+            ],
+            "healthPoints": 70,
+            "loot": {
+                "gold": {
+                    "min": 5,
+                    "max": 20
+                },
+                "card": null
+            }
+        }
+    },
+    "vampire": {
+        "id": 28,
+        "type": "Monster",
+        "name": "Vampire",
+        "image": "monsters/vampire.jpeg",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 60,
+            "attack": 20,
+            "attackCards": [
+                "bite",
+                "super"
+            ],
+            "healthPoints": 70,
+            "loot": {
+                "gold": {
+                    "min": 5,
+                    "max": 20
+                },
+                "card": null
+            }
+        }
+    },
+    "babyDragon": {
+        "id": 29,
+        "type": "Monster",
+        "name": "Baby Dragon",
+        "image": "monsters/baby_dragon.jpeg",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 40,
+            "attack": 18,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 60,
+            "loot": {
+                "gold": {
+                    "min": 8,
+                    "max": 18
+                },
+                "card": null
+            }
+        }
+    },
+    "woodSentinel": {
+        "id": 30,
+        "type": "Monster",
+        "name": "Wood Sentinel",
+        "image": "monsters/wooden_monster.jpeg",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 40,
+            "attack": 18,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 60,
+            "loot": {
+                "gold": {
+                    "min": 8,
+                    "max": 18
+                },
+                "card": null
+            }
+        }
+    },
+    "sharkSoldier": {
+        "id": 31,
+        "type": "Monster",
+        "name": "Shark Soldier",
+        "image": "monsters/shark1.jpeg",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 40,
+            "attack": 18,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 60,
+            "loot": {
+                "gold": {
+                    "min": 8,
+                    "max": 18
+                },
+                "card": null
+            }
+        }
+    },
+    "leprechaun": {
+        "id": 32,
+        "type": "Monster",
+        "name": "Leprechaun",
+        "image": "monsters/leprechaun.jpeg",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 40,
+            "attack": 18,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 60,
+            "loot": {
+                "gold": {
+                    "min": 8,
+                    "max": 18
+                },
+                "card": null
+            }
+        }
+    },
+    "ghost": {
+        "id": 33,
+        "type": "Monster",
+        "name": "Ghost",
+        "image": "monsters/ghost.jpeg",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 40,
+            "attack": 18,
+            "attackCards": [
+                "bite",
+                "scratch"
+            ],
+            "healthPoints": 60,
+            "loot": {
+                "gold": {
+                    "min": 8,
+                    "max": 18
+                },
+                "card": null
+            }
+        }
+    },
+    "orc": {
+        "id": 34,
+        "type": "Monster",
+        "name": "Orc",
+        "image": "monsters/orc.jpeg",
+        "price": 0,
+        "attributes": {
+            "attackType": "Meelee",
+            "experience": 80,
+            "attack": 25,
+            "attackCards": [
+                "bite",
+                "simple",
+                "scratch"
+            ],
+            "healthPoints": 90,
+            "loot": {
+                "gold": {
+                    "min": 8,
+                    "max": 14
                 },
                 "card": null
             }
